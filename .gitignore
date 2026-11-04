@@ -1,0 +1,35 @@
+# Dependencies and build/cache
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+.cache/
+__pycache__/
+*.pyc
+# Secrets
+.env
+.env.*
+!.env.example
+# Logs
+*.log
+logs/
+# Database runtime and backups
+volumes/
+database/volumes/
+.mysql/
+.mongodb/
+backups/
+dumps/
+*.dump
+*.bson
+*.archive
+*.sql.gz
+*.sql.zip
+# Large raw evidence; keep scripts, schema and small report results
+experiments/**/artifacts/
+experiments/**/raw-data/
+*.zip
+*.tar
+*.tar.gz
+.DS_Store
