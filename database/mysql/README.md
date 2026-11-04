@@ -1,6 +1,8 @@
 # MySQL
 
-Chưa có schema/migration hoặc lệnh chạy. App dùng MySQL; phiên bản và cấu hình chưa chốt.
+Chưa có schema/migration nghiệp vụ. Có môi trường local MySQL app/lab riêng theo
+[hướng dẫn](../../setup-local-docker.md); MySQL 8.4.13 đã chạy và kiểm tra hạ tầng trên một máy.
+Image đề xuất được cố định theo digest trong `.env.docker.example`, chờ nhóm review cấu hình.
 Nhóm cần thiết kế danh mục, thương hiệu, sản phẩm/thông số, nhà cung cấp, chứng từ/dòng nhập,
 đơn bán/dòng bán, tồn và biến động kho. Đây là miền dữ liệu dự kiến, chưa là schema được duyệt.
 Cần ràng buộc khóa/tham chiếu, tiền/số lượng, trạng thái, giá lịch sử và chiến lược transaction/khóa.
