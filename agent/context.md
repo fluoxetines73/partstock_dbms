@@ -3,7 +3,9 @@
 PartStock, BTL DBMS HCMUT, 5 sinh viên A–E; A trưởng nhóm. Deadline 30/11/2026, giờ LMS.
 Kế hoạch gốc bắt đầu 04/11/2026; không tự đánh dấu mốc xong khi ngày thay đổi.
 Ứng dụng MySQL cho một cửa hàng/một kho, MongoDB cho thực nghiệm. Stack định hướng:
-React/Vite, Express/TypeScript, Docker Compose. Hiện chỉ scaffold tài liệu, chưa có lệnh chạy/test.
+React/Vite, Express/TypeScript, Docker Compose. Đã có bộ Docker local và script kiểm tra hạ tầng:
+xem [setup](../setup-local-docker.md), [kết quả](../KIEM-TRA.md). Đã chạy trên một máy, chờ review
+và máy thành viên khác xác minh. Chưa có app/schema/seed nghiệp vụ hoặc lệnh test ứng dụng.
 
 [Requirements](../docs/requirements.md) là nguồn nghiệp vụ/rubric; [ownership](../docs/ownership.md)
 là nguồn phân công; [plan](../docs/plan.md) là nguồn sprint. [Decisions](decisions.md) tách đã chốt/đề xuất/còn mở.

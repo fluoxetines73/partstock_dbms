@@ -7,10 +7,19 @@ Bài tập lớn Database Management Systems, HCMUT, Học kỳ 261.
 
 ## Trạng thái
 
-Đây là scaffold tài liệu: đã tạo cấu trúc cộng tác, kế hoạch và hướng dẫn agent.
-Chưa có ứng dụng, dependency, schema, script thực nghiệm hay môi trường chạy.
-Chưa thiết lập lệnh cài đặt, chạy, test hoặc demo; chưa có kết quả thực nghiệm.
+Đã có bộ môi trường Docker local cho MySQL app, MySQL lab và MongoDB lab, kèm script tạo
+credential riêng và kiểm tra hạ tầng. Trên một máy đã kiểm chứng container healthy,
+commit/rollback, giữ dữ liệu qua tạo lại container và kết nối DBeaver; xem [kết quả](KIEM-TRA.md).
+Bộ cấu hình đang chờ review và tái tạo trên máy thành viên khác, chưa là nghiệm thu toàn nhóm.
+Chưa có ứng dụng, schema/migration/seed nghiệp vụ, năm bài thực nghiệm đầy đủ hoặc benchmark.
 Không suy ra tiến độ triển khai từ sự tồn tại của các thư mục.
+
+## Chạy môi trường database local
+
+Làm theo [hướng dẫn setup cho thành viên](setup-local-docker.md), từ clone repo, bật Docker,
+tạo `.env.docker`/keyfile riêng, khởi động, kiểm tra đến kết nối DBeaver.
+Mỗi người có dữ liệu local riêng; không đồng bộ database giữa các máy.
+Chỉ commit `.env.docker.example`, không commit `.env.docker`, `.mongodb/`, volume hoặc backup.
 
 ## Mục tiêu
 
@@ -27,8 +36,8 @@ Backup/restore bổ sung trên hai hệ, không thay thế năm chủ đề và 
 - [Thực nghiệm](experiments/README.md), [kiến trúc](docs/architecture/README.md), [báo cáo](docs/report/outline.md).
 - [Ngữ cảnh agent](agent/context.md), [quyết định](agent/decisions.md).
 
-Bước tiếp theo: A tổ chức chốt schema/API và quy tắc kho; B triển khai môi trường sau khi nhóm
-chọn phiên bản/cấu hình; cả nhóm làm theo Sprint 1. Stack định hướng React + Vite,
+Bước tiếp theo: review và tái tạo môi trường trên máy thứ hai; A tổ chức chốt schema/API,
+quy tắc kho và cấu hình chung theo sổ quyết định; cả nhóm làm theo Sprint 1. Stack định hướng React + Vite,
 Node.js + Express + TypeScript, MySQL, MongoDB và Docker Compose; chưa chọn UI library hay ORM.
 
 Sản phẩm nộp: PDF báo cáo, mã nguồn/ứng dụng chạy được, script/demo hai hệ, hướng dẫn chạy,

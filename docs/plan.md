@@ -1,7 +1,8 @@
 # Kế hoạch Agile
 
 Kế hoạch gốc bắt đầu **04/11/2026**; hạn nộp **30/11/2026**, giờ theo LMS.
-Đây là kế hoạch, không ghi nhận các mốc đã hoàn thành; hiện chỉ có scaffold tài liệu.
+Đây là kế hoạch, không tự ghi nhận các mốc đã hoàn thành. Tiến độ môi trường local và
+phạm vi kiểm chứng thực tế được ghi riêng trong [KIEM-TRA.md](../KIEM-TRA.md).
 Không tự đổi deadline khi cập nhật ngày, không có ước lượng giờ chưa được nhóm xác nhận.
 
 ## Nhiệm vụ theo sprint

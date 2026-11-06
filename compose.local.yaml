@@ -1,0 +1,102 @@
+name: partstock-local
+
+x-logging: &local-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-mysql-health: &mysql-health
+  test:
+    - CMD-SHELL
+    - >-
+      MYSQL_PWD="$${MYSQL_PASSWORD}" mysql --protocol=TCP
+      -h127.0.0.1 -u"$${MYSQL_USER}" "$${MYSQL_DATABASE}"
+      -Nse 'SELECT 1' >/dev/null
+  interval: 5s
+  timeout: 5s
+  retries: 30
+  start_period: 30s
+
+services:
+  mysql-app:
+    image: ${PARTSTOCK_MYSQL_IMAGE:?Run prepare.ps1 first}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${APP_MYSQL_ROOT_PASSWORD:?Missing app root password}
+      MYSQL_DATABASE: ${APP_MYSQL_DATABASE:?Missing app database}
+      MYSQL_USER: ${APP_MYSQL_USER:?Missing app user}
+      MYSQL_PASSWORD: ${APP_MYSQL_PASSWORD:?Missing app password}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - "127.0.0.1:${APP_MYSQL_PORT:?Missing app port}:3306"
+    volumes:
+      - mysql-app-data:/var/lib/mysql
+    networks: [app]
+    healthcheck: *mysql-health
+    logging: *local-logging
+
+  mysql-lab:
+    image: ${PARTSTOCK_MYSQL_IMAGE:?Run prepare.ps1 first}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${LAB_MYSQL_ROOT_PASSWORD:?Missing lab root password}
+      MYSQL_DATABASE: ${LAB_MYSQL_DATABASE:?Missing lab database}
+      MYSQL_USER: ${LAB_MYSQL_USER:?Missing lab user}
+      MYSQL_PASSWORD: ${LAB_MYSQL_PASSWORD:?Missing lab password}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - "127.0.0.1:${LAB_MYSQL_PORT:?Missing lab port}:3306"
+    volumes:
+      - mysql-lab-data:/var/lib/mysql
+      - ./database/local/check-mysql.sql:/opt/partstock/check-mysql.sql:ro
+    networks: [lab]
+    healthcheck: *mysql-health
+    logging: *local-logging
+
+  mongo-lab:
+    image: ${PARTSTOCK_MONGO_IMAGE:?Run prepare.ps1 first}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:?Missing MongoDB admin user}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Missing MongoDB admin password}
+      MONGO_LAB_DATABASE: ${MONGO_LAB_DATABASE:?Missing MongoDB lab database}
+      MONGO_LAB_USERNAME: ${MONGO_LAB_USERNAME:?Missing MongoDB lab user}
+      MONGO_LAB_PASSWORD: ${MONGO_LAB_PASSWORD:?Missing MongoDB lab password}
+    entrypoint: ["/bin/bash", "-ec"]
+    command:
+      - |
+        cp /run/secrets/mongo-keyfile /tmp/partstock-mongo-keyfile
+        chown mongodb:mongodb /tmp/partstock-mongo-keyfile
+        chmod 400 /tmp/partstock-mongo-keyfile
+        exec /usr/local/bin/docker-entrypoint.sh mongod --replSet rs0 --bind_ip_all --keyFile /tmp/partstock-mongo-keyfile
+    ports:
+      - "127.0.0.1:27018:27017"
+    volumes:
+      - mongo-lab-data:/data/db
+      - mongo-lab-config:/data/configdb
+      - ./.mongodb/keyfile:/run/secrets/mongo-keyfile:ro
+      - ./database/local/init-mongo.js:/opt/partstock/init-mongo.js:ro
+      - ./database/local/check-mongo.js:/opt/partstock/check-mongo.js:ro
+    networks: [lab]
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          mongosh --quiet --host 127.0.0.1
+          --username "$${MONGO_INITDB_ROOT_USERNAME}"
+          --password "$${MONGO_INITDB_ROOT_PASSWORD}"
+          --authenticationDatabase admin
+          --eval 'const r = db.adminCommand({getCmdLineOpts:1}); const replication = r.parsed.replication || {}; quit((replication.replSetName || replication.replSet) === "rs0" ? 0 : 1)' >/dev/null
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+    logging: *local-logging
+
+volumes:
+  mysql-app-data:
+  mysql-lab-data:
+  mongo-lab-data:
+  mongo-lab-config:
+
+networks:
+  app:
+  lab:
