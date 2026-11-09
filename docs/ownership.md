@@ -1,14 +1,19 @@
 # Phân công A–E
 
-Ký hiệu tạm để tự nhận tên; năng lực tương đương, chưa ghi nhận thành viên đã nhận/xong việc.
+Phân công kế hoạch; năng lực tương đương, chưa ghi nhận thành viên đã nhận/xong việc.
 
 | Người     | Chủ đề trên cả MySQL và MongoDB | Ứng dụng xuyên suốt UI–API–DB | Trách nhiệm chung                                                          |
 | --------- | ------------------------------- | ----------------------------- | -------------------------------------------------------------------------- |
-| A — Đạt   | Storage & management            | UC01                          | Chốt phạm vi/thiết kế, backlog/sprint, tích hợp, báo cáo tổng thể, nộp ZIP |
-| B — Tuấn  | Indexing                        | UC02–03                       | Môi trường, seed, backup/restore cả hai hệ                                 |
-| C — Khánh | Query processing                | UC05–06–11                    | Khung UI, đối chiếu 8 dạng thao tác                                        |
+| A — Đạt   | Storage & management            | UC01                          | Chốt phạm vi/thiết kế, hợp nhất ERD, khung backend, backlog/sprint, tích hợp, báo cáo tổng thể, nộp ZIP |
+| B — Tuấn  | Indexing                        | UC02–03                       | Môi trường; hợp nhất migration/model lab; seed, cơ chế chạy lab, backup/restore cả hai hệ |
+| C — Khánh | Query processing                | UC05–06–11                    | Khung UI/mock, hợp nhất tài liệu API, đối chiếu 8 dạng thao tác |
 | D — Nam   | Transaction                     | UC04–07–08                    | Giao dịch chứng từ/tồn và lỗi giữa chừng                                   |
-| E — Hải   | Concurrency control             | UC09–10–12                    | Kiểm thử tích hợp/đồng thời, kiểm chứng restore cùng B                     |
+| E — Hải   | Concurrency control             | UC09–10–12                    | Ma trận kiểm thử/tích hợp/đồng thời; xác minh máy thứ hai và restore; kiểm tra ZIP độc lập với A |
+
+Chi tiết bổ sung theo kế hoạch cập nhật 09/11 được người dùng duyệt trong phiên làm việc;
+chưa phải biên bản xác nhận nhận việc của toàn nhóm. Mỗi owner viết thiết kế/migration/API
+miền mình; đầu mối hợp nhất không nhận làm thay tất cả. Mã task, phụ thuộc, reviewer và hạn
+ở [plan](plan.md); việc thay đổi phân công được ghi trong [sổ quyết định](../agent/decisions.md).
 
 A khởi động repo và quy ước Git; B triển khai môi trường, A kiểm tra cả nhóm chạy được.
 A hỗ trợ bootstrap không đồng nghĩa nhận hết việc B. A chủ trì quyết định chung, ưu tiên,

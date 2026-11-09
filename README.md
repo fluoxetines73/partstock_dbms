@@ -37,7 +37,8 @@ Backup/restore bổ sung trên hai hệ, không thay thế năm chủ đề và 
 - [Ngữ cảnh agent](agent/context.md), [quyết định](agent/decisions.md).
 
 Bước tiếp theo: review và tái tạo môi trường trên máy thứ hai; A tổ chức chốt schema/API,
-quy tắc kho và cấu hình chung theo sổ quyết định; cả nhóm làm theo Sprint 1. Stack định hướng React + Vite,
+quy tắc kho và cấu hình chung theo sổ quyết định; cả nhóm theo [kế hoạch cập nhật 09/11](docs/plan.md),
+ưu tiên nền tảng 09–12/11. Stack định hướng React + Vite,
 Node.js + Express + TypeScript, MySQL, MongoDB và Docker Compose; chưa chọn UI library hay ORM.
 
 Sản phẩm nộp: PDF báo cáo, mã nguồn/ứng dụng chạy được, script/demo hai hệ, hướng dẫn chạy,
