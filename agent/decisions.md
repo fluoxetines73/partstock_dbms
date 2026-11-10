@@ -67,3 +67,16 @@ Việc điều chỉnh lịch không tự chốt nội dung các quyết định
 
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.
+
+
+## Phương án actor và phân quyền F02 — A duyệt ngày 10/11/2026
+
+- Nguồn: A duyệt các use case trong phiên làm việc, yêu cầu sửa F02 theo hai actor Quản lý và Nhân viên.
+- Nhân viên: UC04 (tạo/xác nhận nhập), UC05–06 (tra cứu/lọc), UC07 (tạo/xác nhận bán), UC09–10 (lịch sử/cảnh báo).
+- Quản lý: toàn bộ quyền Nhân viên, thêm UC01–03 (quản lý dữ liệu), UC08 (hủy), UC11 (doanh thu), UC12 (kiểm kê/điều chỉnh tồn).
+- Phương án này không tách bước duyệt nhập hoặc duyệt kiểm kê sang người khác; không bổ sung actor Admin.
+- Lý do: phân biệt công việc hằng ngày và quyền quản lý các thay đổi nhạy cảm trong phạm vi 12 UC hiện có.
+- Ảnh hưởng: cập nhật actor từng đặc tả và sơ đồ; các task thiết kế/API/UI sau đó cần áp dụng cùng ma trận quyền.
+- Trạng thái: A đã duyệt phương án F02; chưa có biên bản đồng thuận toàn nhóm, C review hoặc code phân quyền.
+- Chi tiết trạng thái/hủy/doanh thu/kiểm kê còn theo dõi tại F03; không mặc định các lựa chọn kỹ thuật đã chốt.
+- Tài liệu: [F02](../docs/architecture/use-cases.md), [sơ đồ](../docs/architecture/use-case-diagram.svg).

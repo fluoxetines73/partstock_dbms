@@ -1,0 +1,42 @@
+digraph UseCases {
+  graph [rankdir=LR, bgcolor="white", fontname="DejaVu Sans", nodesep=0.32, ranksep=1.0, pad=0.3];
+  node [fontname="DejaVu Sans", fontsize=12];
+  edge [dir=none, color="#526477"];
+  staff [shape=box, label="«actor»\nNhân viên", style="rounded,filled", fillcolor="#E7F3FF"];
+  manager [shape=box, label="«actor»\nQuản lý", style="rounded,filled", fillcolor="#FFF1D6"];
+  subgraph cluster_system {
+    label="PartStock — Ứng dụng nội bộ (MySQL)";
+    fontname="DejaVu Sans"; fontsize=18; color="#284B63";
+    node [shape=ellipse, style=filled, fillcolor="#EDF5FA", color="#284B63"];
+    UC01 [label="UC01\nQuản lý danh mục và thương hiệu"];
+    UC02 [label="UC02\nQuản lý linh kiện, thông số, giá\nbán"];
+    UC03 [label="UC03\nQuản lý nhà cung cấp"];
+    UC04 [label="UC04\nTạo/xác nhận phiếu nhập và tăng\ntồn kho"];
+    UC05 [label="UC05\nTra cứu sản phẩm theo mã/tên"];
+    UC06 [label="UC06\nLọc sản phẩm theo loại, hãng, giá,\ntồn kho"];
+    UC07 [label="UC07\nTạo/xác nhận đơn bán và trừ tồn\nkho"];
+    UC08 [label="UC08\nHủy đơn theo quy tắc và hoàn tồn\nkho"];
+    UC09 [label="UC09\nTra cứu lịch sử nhập/xuất/tồn"];
+    UC10 [label="UC10\nCảnh báo tồn kho dưới ngưỡng"];
+    UC11 [label="UC11\nBáo cáo doanh thu theo thời gian"];
+    UC12 [label="UC12\nKiểm kê và điều chỉnh tồn kho có\nlý do"];
+  }
+  staff -> UC04;
+  staff -> UC05;
+  staff -> UC06;
+  staff -> UC07;
+  staff -> UC09;
+  staff -> UC10;
+  manager -> UC01;
+  manager -> UC02;
+  manager -> UC03;
+  manager -> UC04;
+  manager -> UC05;
+  manager -> UC06;
+  manager -> UC07;
+  manager -> UC08;
+  manager -> UC09;
+  manager -> UC10;
+  manager -> UC11;
+  manager -> UC12;
+}
