@@ -1,6 +1,7 @@
 # Kế hoạch thực hiện và bàn giao PartStock
 
-Cập nhật **09/11/2026** theo phương án được người dùng duyệt trong phiên làm việc.
+Cập nhật **10/11/2026** theo yêu cầu rà lại kế hoạch của người dùng; kế thừa phương án
+ngày 09/11. Giữ các mốc bàn giao từ 12/11 trở đi và phân công trong ownership.
 Hạn nộp cố định: **30/11/2026, giờ cụ thể theo LMS**. A xác nhận giờ LMS và thông báo
 cho nhóm khi rà kế hoạch; không mặc định hạn là cuối ngày.
 
@@ -21,7 +22,29 @@ thành viên xác nhận. Chưa có biên bản đồng thuận toàn nhóm.
   chưa có app/schema/seed nghiệp vụ hoặc lệnh test ứng dụng. Xem [KIEM-TRA.md](../KIEM-TRA.md).
 - Kế hoạch gốc bắt đầu 04/11, dự kiến chốt thiết kế 06/11 và review 08/11. Chưa có bằng chứng
   hoàn thành các mốc đó trong tài liệu; không ghi hồi tố đã xong. Phần nền tảng chưa hoàn thành
-  được bố trí lại vào 09–12/11.
+  được bố trí lại vào 09–12/11. Phần chưa có bằng chứng tại lần rà 10/11 được ưu tiên
+  theo bảng dưới, không tự coi đã hoàn thành vì hết ngày dự kiến.
+
+### Ưu tiên tại lần cập nhật 10/11
+
+Đối chiếu file trong repo và bản ghi kiểm chứng hiện có: frontend/backend vẫn chỉ có README;
+chưa có sơ đồ thiết kế, schema/migration/seed nghiệp vụ hoặc kịch bản thực nghiệm chuyên đề.
+Kiểm tra commit/rollback hạ tầng trong KIEM-TRA.md không thay nghiệm thu LAB-D/LAB-E.
+Chưa có bằng chứng mới về review môi trường hoặc chạy lại trên máy thứ hai. Đây là trạng thái
+ghi nhận trong repo, không kết luận về phần việc thành viên có thể đang làm ngoài repo.
+
+| Ưu tiên / mã task | Đầu ra cần bàn giao tiếp theo | Phụ trách | Hạn mục tiêu |
+|---|---|---|---|
+| 1 — F01 | Rà phần việc thực tế và khả năng tham gia; bổ sung liên kết bằng chứng; xác nhận giờ LMS, thời lượng trình bày và task đang chặn | A tổng hợp; mỗi người cập nhật; E rà bằng chứng | 10/11 (mốc cũ 09/11 chưa có bằng chứng hoàn thành) |
+| 2 — F02–F06 | Chốt use case, quy tắc kho/hủy/doanh thu, ERD/từ điển dữ liệu, công nghệ và API; ghi nội dung đã thống nhất cùng người review | A điều phối; B–E theo backlog bên dưới | 10/11 |
+| 3 — F07–F11 | Bàn giao migration, model lab, khung app, seed/mock có thể chạy theo hướng dẫn; triển khai theo từng đầu ra thiết kế đã review | Owner từng miền; A/B/C hợp nhất theo backlog | 12/11 |
+| 4 — F12–F14 | Xác minh máy thứ hai; ma trận kiểm thử và quy ước lab đủ để bắt đầu tích hợp/thực nghiệm | E phụ trách F12–F13; B/A phụ trách F14; phối hợp theo backlog | 12/11 |
+
+F01 được điều chỉnh hạn mục tiêu từ 09/11 sang 10/11 để rà ngay trong đợt này; các hạn khác
+giữ theo bản 09/11. Nếu thiết kế chưa qua review trong ngày 10/11, A và owner ghi cụ thể
+đầu ra còn thiếu, người nhận bị chặn và hạn xử lý vào task; đánh giá ngay rủi ro mốc 12/11
+và demo 15/11. Phần độc lập tiếp tục theo hợp đồng đã review; không tự chốt thay quy tắc
+chung hoặc dời các mốc sau. Việc chưa ghi nhận bằng chứng không tự chuyển thành Done.
 
 Tổ chức theo Agile, tham khảo Scrum: mục tiêu tuần, backlog có thứ tự, review bản chạy được
 và điều chỉnh theo bằng chứng; không tuyên bố thực hiện đầy đủ Scrum. Nhịp còn lại: S2 09–15/11,
@@ -35,7 +58,7 @@ trước khi đưa Ready, giữ liên kết với mã nhóm công việc ở đ�
 
 | Thời gian | Mục tiêu | Đầu ra cần kiểm tra |
 |---|---|---|
-| 09–10/11 | Chốt thiết kế nền tảng | Use case, quy tắc kho/hủy/doanh thu, ERD và từ điển dữ liệu, API bản đầu; lựa chọn công nghệ được ghi nhận |
+| 10/11 (tiếp phần 09/11 chưa có bằng chứng) | Rà hiện trạng và chốt thiết kế nền tảng | Xác nhận giờ LMS/khả năng tham gia; use case, quy tắc kho/hủy/doanh thu, ERD và từ điển dữ liệu, API bản đầu; lựa chọn công nghệ được ghi nhận |
 | 11–12/11 | Có nền để triển khai song song | Migration MySQL, model MongoDB lab, seed nhỏ, khung frontend/backend, kết nối DB; môi trường được tái tạo trên máy thứ hai |
 | 13–15/11 | Một luồng nghiệp vụ xuyên suốt | Bản chung chạy sản phẩm → nhập → bán → xem tồn/lịch sử; từng chủ đề có kịch bản bước đầu chạy trên hai hệ |
 | 16–19/11 | Hoàn thiện chức năng | Hủy đơn, tìm/lọc, cảnh báo, kiểm kê, doanh thu; lỗi giữa chừng và thao tác lặp |
@@ -56,7 +79,7 @@ Nếu reviewer cùng viết một phần, cần người khác review phần đ�
 
 | Mã | Công việc và đầu ra | Thực hiện | Review/phối hợp | Phụ thuộc | Hạn |
 |---|---|---|---|---|---|
-| F01 | Rà việc đã làm, khả năng tham gia, backlog; xác nhận giờ LMS và thời lượng trình bày | A; mỗi người báo khả năng thực tế | E rà bằng chứng | Hiện trạng repo, yêu cầu môn | 09/11 |
+| F01 | Rà việc đã làm, khả năng tham gia, backlog; xác nhận giờ LMS và thời lượng trình bày | A; mỗi người báo khả năng thực tế | E rà bằng chứng | Hiện trạng repo, yêu cầu môn | 10/11 (điều chỉnh từ 09/11; chưa có bằng chứng hoàn thành) |
 | F02 | Sơ đồ đủ 12 UC, actor, luồng chính và ngoại lệ cốt lõi | A; owner góp UC của mình | C | Requirements | 10/11 |
 | F03 | Quy tắc trạng thái, hủy/doanh thu, cập nhật kho, chống lặp và kiểm kê khi có giao dịch | D soạn cùng E | C rà doanh thu; A điều phối nhóm chốt | Requirements | 10/11 |
 | F04 | ERD MySQL và từ điển dữ liệu: quan hệ, khóa, kiểu dữ liệu, tiền/số lượng, giá lịch sử, trạng thái | A hợp nhất; B/D/E thiết kế miền phụ trách | C rà truy vấn; B rà tổng thể, phần B do D review | F02, F03 | 10/11 |
@@ -209,6 +232,7 @@ Hiện chưa thiết lập lệnh test ứng dụng; chỉ bổ sung lệnh và 
 
 | Mốc | Câu hỏi kiểm soát | Nếu chưa đạt |
 |---|---|---|
+| 10/11 | Đã rà hiện trạng, khả năng tham gia và review quyết định thiết kế F02–F06 chưa? | A cùng owner ghi đầu ra còn thiếu, phụ thuộc bị chặn và hạn xử lý; đánh giá ảnh hưởng mốc 12/11 và 15/11, không tự coi thiết kế đã chốt |
 | 12/11 | Schema/API, khung app và dữ liệu đủ để làm song song chưa? | A và owner ưu tiên phần chặn; dùng hợp đồng/mock đã review cho phần độc lập; ghi task/hạn điều chỉnh |
 | 15/11 | Luồng nghiệp vụ chạy xuyên suốt trên bản chung chưa? | D–E ưu tiên nhất quán kho; B/C/A hỗ trợ dữ liệu/UI/tích hợp, không chỉ demo module rời |
 | 22/11 | Đủ 12 UC, 8 thao tác, 5 chủ đề hai hệ và bằng chứng chưa? | Liệt kê phần thiếu, owner/reviewer/hạn sửa; báo rủi ro ảnh hưởng dợt, không tự đánh dấu đạt |

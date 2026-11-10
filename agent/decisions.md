@@ -65,5 +65,36 @@ Việc điều chỉnh lịch không tự chốt nội dung các quyết định
 - Theo dõi: [kế hoạch](../docs/plan.md), [ownership](../docs/ownership.md).
   Chưa có PR/biên bản để liên kết; từng thành viên cần xác nhận khả năng tham gia khi nhận task.
 
+## Rà kế hoạch theo hiện trạng repo — 10/11/2026
+
+- Nguồn: người dùng yêu cầu cập nhật kế hoạch trong phiên làm việc; chưa có xác nhận
+  nhận việc, khả năng tham gia hoặc biên bản đồng thuận toàn nhóm mới.
+- Vấn đề: bản 09/11 đã có backlog chi tiết; đến lần rà này repo vẫn chưa có thiết kế,
+  app/schema/seed nghiệp vụ hay bằng chứng hoàn thành F01 và các quyết định nền tảng.
+  Không suy ra thành viên chưa làm việc ngoài repo.
+- Điều chỉnh: thêm ưu tiên ngày 10–12/11 và điểm kiểm soát thiết kế 10/11; chuyển hạn mục tiêu
+  F01 từ 09/11 sang 10/11 để rà hiện trạng, khả năng tham gia, giờ LMS và phần việc đang chặn.
+  Giữ hạn F02–F06 là 10/11, nền tảng 12/11 và các mốc tích hợp/dợt/đóng gói/nộp đã đặt.
+- Ảnh hưởng: cập nhật [plan](../docs/plan.md) và [context](context.md); giữ phân công ownership,
+  phạm vi 12 UC, 8 thao tác, 5 chủ đề trên hai hệ và deadline 30/11 theo giờ LMS.
+  Không chốt schema/API/công nghệ hoặc ghi nhận hoàn thành thay cho owner/reviewer.
+- Theo dõi: A và owner cập nhật bằng chứng, đầu ra còn thiếu và ảnh hưởng phụ thuộc khi nhận task;
+  nếu thiết kế trễ, đánh giá rủi ro mốc 12/11 và 15/11, không mặc định dời các mốc tiếp theo.
+  Đây là cập nhật tài liệu kế hoạch theo yêu cầu, chưa là nghiệm thu hay đồng thuận toàn nhóm;
+  chưa tạo PR/biên bản trong phiên này.
+
+## Đề xuất F03/F04 miền nhập–bán–kho — 10/11/2026
+
+- Nguồn: D (Nam) yêu cầu soạn bản nháp trong phiên làm việc; chưa có E đồng soạn, review hoặc họp nhóm.
+- Vấn đề: F03 và phần ERD miền D trong F04 hạn 10/11, đang chặn F04 chung, F06, F08, F13, LAB-D/E.
+- Phương án đề xuất: [F03](../docs/architecture/f03-quy-tac-chung-tu-kho.md) — trạng thái
+  DRAFT/CONFIRMED(/CANCELLED), chốt giá khi xác nhận, trừ tồn bằng UPDATE có điều kiện trong một
+  transaction, sổ biến động chỉ thêm với UNIQUE chống ghi lặp, kiểm kê áp delta;
+  [F04](../docs/architecture/f04-erd-mien-d.md) — bảng phiếu nhập, đơn bán, dòng, `inventory`, `stock_movements`.
+- Còn mở: câu hỏi Q1–Q8 ở mục 8 của F03 (hủy phiếu nhập, hạn hủy, doanh thu sau hủy, chiết khấu,
+  kiểm kê, dòng tồn khi tạo sản phẩm, thông tin khách, người dùng). Giả định cột của `products`/`suppliers`
+  chờ B đối chiếu khi có thiết kế.
+- Trạng thái: bản nháp, chưa review, chưa có migration/code/kết quả chạy. Chưa có PR/biên bản.
+
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.
