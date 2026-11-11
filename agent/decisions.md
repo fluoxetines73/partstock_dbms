@@ -86,5 +86,44 @@ Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
 - Trạng thái: người dùng đã duyệt kế hoạch; chưa có review nhóm/biên bản nghiệm thu trong phiên này.
   Xem [plan](../docs/plan.md), [ownership](../docs/ownership.md).
 
+## Đề xuất nền UC01 của A — 11/11/2026
+
+- Nguồn: người dùng yêu cầu lập todo và bắt đầu hoàn thiện nền Sprint 1 trên nhánh riêng.
+- Đã soạn [todo A](../docs/tasks/a-sprint1-todo.md) và
+  [thiết kế UC01](../docs/architecture/uc01-catalog-brand-design.md).
+- Đề xuất: danh mục/thương hiệu phẳng, id ổn định; tên duy nhất trong từng bảng;
+  xóa mục chưa tham chiếu, giữ FK khi đã có sản phẩm; API quản lý dành cho Quản lý.
+- Bổ sung [ERD miền A](../docs/architecture/erd-mien-a.md): hai bảng danh mục/thương hiệu
+  và liên kết dự kiến với sản phẩm; quan hệ bắt buộc một danh mục/một thương hiệu là đề xuất
+  chờ B/A xác nhận, chưa thay thiết kế miền B.
+- Còn mở: so sánh tên có dấu, trạng thái ngừng dùng, tính bắt buộc của quan hệ sản phẩm,
+  route đọc cho Nhân viên, hợp đồng API chung, nhận diện vai trò và công cụ backend/migration.
+- Ảnh hưởng: B đối chiếu miền sản phẩm và hợp nhất schema; C rà/hợp nhất API;
+  A hợp nhất ERD và làm khung backend sau lựa chọn kỹ thuật được xác nhận.
+- Trạng thái: bản nháp để review, chưa có xác nhận B/C hoặc đồng thuận nhóm; chưa cài
+  dependency, tạo migration/backend hay chạy test ứng dụng. Không thay plan chung.
+
+## Đề xuất công cụ backend tối giản — 11/11/2026
+
+- A yêu cầu tiếp tục chuẩn bị khung backend; đã có [bản đề xuất](../docs/architecture/backend-foundation.md).
+- Trợ lý đề xuất Express 5 + TypeScript + mysql2/promise, SQL trực tiếp, tsc và node:test.
+- Máy hiện có Node v26.13.0/npm 12.2.2; phiên bản dùng chung chưa chốt.
+- Người dùng đã tự cài dependency theo hướng dẫn. Đã viết khung backend dùng lại
+  APP_MYSQL_* từ .env.docker; build và 6 test đạt. Kết nối thật chưa đạt (ECONNREFUSED),
+  docker ps không có container chạy. Chưa nghiệm thu hoặc có review nhóm.
+
+## Triển khai bản đầu UC01 — 11/11/2026
+
+- Nguồn: A yêu cầu tiếp tục schema và API UC01; giữ nhánh docs/a-sprint1-foundation.
+- Đã thêm migration/seed và CRUD categories/brands; BIGINT UNSIGNED, tên VARCHAR(100),
+  UNIQUE utf8mb4_0900_as_ci, DATETIME(3); API trim/NFC và id chuỗi.
+- Token manager local qua APP_MANAGER_TOKEN là lựa chọn tạm của trợ lý để API không mở
+  quyền ghi khi chưa có nhận diện chung; chưa là hệ thống hai vai trò được nhóm chốt.
+- Kiểm chứng: 11 test đạt; schema tạm trên lab kiểm tra CRUD, trùng đồng thời, dấu, FK fixture
+  và HTTP thật đạt; đã tạo hai bảng trong MySQL app, không nạp seed hoặc chạy test phá dữ liệu app.
+- Phụ thuộc: B ghép migration/FK products thật; C ghép UI; cần thiết kế danh tính chung.
+  Review kỹ thuật bằng trợ lý không thấy lỗi quan trọng, không thay review B hoặc nghiệm thu nhóm.
+- Chưa Done UC01; chưa push/merge. Chi tiết cách chạy và giới hạn ở backend/README.md.
+
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.

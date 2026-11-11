@@ -13,3 +13,15 @@ Hiện có [cấu hình Docker local](../../setup-local-docker.md) với hai MyS
 MongoDB lab rs0 một node, tách credential/network/volume; đã kiểm chứng trên một máy,
 chờ review và tái tạo trên máy khác. Đây chưa là schema/API hoặc kiến trúc app được duyệt.
 Xem [quyết định](../../agent/decisions.md) và [yêu cầu](../requirements.md).
+
+## Bản nháp miền A — 11/11/2026
+
+[Thiết kế UC01](uc01-catalog-brand-design.md) gồm dữ liệu danh mục/thương hiệu,
+API, phụ thuộc B/C và ca nghiệm thu. Đã có migration/code UC01, 11 test và kiểm tra lab đạt;
+còn review nhóm, UI, phân quyền chung và FK sản phẩm thật.
+Tiến độ thực hiện nền A: [todo Sprint 1](../tasks/a-sprint1-todo.md).
+
+[ERD miền A](erd-mien-a.md): danh mục, thương hiệu và liên kết dự kiến với sản phẩm của B;
+bản nháp để review và ghép ERD chung.
+
+[Đề xuất khung backend](backend-foundation.md): công cụ, cấu trúc và kiểm tra kết nối tối thiểu.

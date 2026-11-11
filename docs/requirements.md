@@ -6,11 +6,12 @@ Một cửa hàng, một kho linh kiện; nhân viên/quản lý nội bộ. Lu�
 Không gồm cửa hàng online, thanh toán trực tuyến, giao hàng, nhiều chi nhánh, bảo hành,
 hóa đơn điện tử hay hệ phân tán phức tạp. MySQL chạy ứng dụng; MongoDB cho thực nghiệm.
 Ít nhất 10 use case nghiệp vụ cho 5 người, dự kiến 12 bên dưới; login/logout/quên mật khẩu không tính.
-Cần bổ sung sơ đồ use case khi thiết kế. Hiện chưa có code/demo, mọi bằng chứng còn thiếu.
+Sơ đồ use case ở nhánh F02 chờ tích hợp. Bản đầu backend UC01 và bằng chứng kiểm tra
+ở nhánh `docs/a-sprint1-foundation`; chưa nghiệm thu app/demo đầy đủ.
 
 | ID | Chức năng | Owner | Trạng thái / bằng chứng |
 |---|---|---|---|
-| UC01 | Quản lý danh mục và thương hiệu | A | Chưa triển khai / chưa có |
+| UC01 | Quản lý danh mục và thương hiệu | A | Đang làm: API/schema, 11 test và kiểm tra lab đạt; còn UI/phân quyền/tích hợp/review — [bằng chứng](../backend/README.md) |
 | UC02 | Quản lý linh kiện, thông số, giá bán | B | Chưa triển khai / chưa có |
 | UC03 | Quản lý nhà cung cấp | B | Chưa triển khai / chưa có |
 | UC04 | Tạo/xác nhận phiếu nhập và tăng tồn kho | D | Chưa triển khai / chưa có |

@@ -1,0 +1,25 @@
+{
+  "name": "partstock-backend",
+  "version": "1.0.0",
+  "description": "PartStock MySQL application backend",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node --env-file=../.env.docker dist/server.js",
+    "test": "npm run build && node --test tests/*.test.cjs",
+    "db:setup": "npm run build && node --env-file=../.env.docker scripts/setup-catalog.cjs",
+    "test:db": "npm run build && node --env-file=../.env.docker tests-db/catalog.cjs"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}

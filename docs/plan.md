@@ -18,8 +18,15 @@ Rà repo ngày 11/11:
   `docs/f03-f04-inventory-transactions`. Hai file `docs/architecture/f03-quy-tac-chung-tu-kho.md`
   và `docs/architecture/f04-erd-mien-d.md` chưa nằm trên main tại lần rà này, chưa được chốt.
   D cung cấp bản nháp để kế thừa khi hợp nhất thiết kế; không tự coi đã review hoặc merge.
-- Frontend/backend, schema/model/seed nghiệp vụ và thực nghiệm chuyên đề chưa có triển khai
-  trong bản đang rà; chưa có lệnh test ứng dụng. Kiểm tra transaction hạ tầng không thay kết quả lab chuyên đề.
+- Trên nhánh `docs/a-sprint1-foundation`, A đã có khung Express/TypeScript, API CRUD UC01,
+  migration/seed danh mục–thương hiệu, ERD miền A và hướng dẫn chạy. Hai bảng đã được tạo
+  trong MySQL app local; seed chỉ chạy trong kiểm thử lab. `npm test --prefix backend`
+  build thành công và đạt 11/11 test; kiểm tra MySQL lab riêng đạt CRUD, tên trùng đồng thời,
+  dấu và FK fixture. Chi tiết ở [todo A](tasks/a-sprint1-todo.md) và [backend](../backend/README.md).
+- Gói A đang làm, chưa nghiệm thu: còn UI, nhận diện/phân quyền chung, FK sản phẩm thật,
+  hợp nhất ERD/migration/API và review B. Chưa có kết quả lab Storage của A; integration test
+  UC01 không thay lab chuyên đề. Các miền khác chưa có bằng chứng triển khai trong bản đang rà.
+  Nhánh riêng chưa được merge vào main, không coi phần tồn Sprint 1 hoặc Sprint 2 đã Done.
 - Đây là bằng chứng trong repo, không kết luận về công việc đang làm ngoài repo.
 
 Lịch dưới là mục tiêu đã được người dùng duyệt, không phải xác nhận nhận việc hoặc nghiệm thu

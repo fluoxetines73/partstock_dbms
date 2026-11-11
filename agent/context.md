@@ -12,7 +12,10 @@ nhánh docs/f03-f04-inventory-transactions, chưa có trên main tại lần rà
 Ứng dụng MySQL cho một cửa hàng/một kho, MongoDB cho thực nghiệm. Stack định hướng:
 React/Vite, Express/TypeScript, Docker Compose. Đã có bộ Docker local và script kiểm tra hạ tầng:
 xem [setup](../setup-local-docker.md), [kết quả](../KIEM-TRA.md). Đã chạy trên một máy, chờ review
-và máy thành viên khác xác minh. Chưa có app/schema/seed nghiệp vụ hoặc lệnh test ứng dụng.
+và máy thành viên khác xác minh. Nhánh docs/a-sprint1-foundation đã có khung backend,
+API/schema/seed UC01 và ERD miền A; build và 11 test đạt, kiểm tra CRUD/FK fixture trên lab đạt.
+Hai bảng đã tạo trên app local, không nạp seed. Còn UI, phân quyền chung, FK sản phẩm thật,
+review B, hợp nhất ERD và lab Storage; chưa nghiệm thu/merge. Xem todo A và backend/README.md.
 
 [Requirements](../docs/requirements.md) là nguồn nghiệp vụ/rubric; [ownership](../docs/ownership.md)
 là nguồn phân công; [plan](../docs/plan.md) là nguồn sprint. [Decisions](decisions.md) tách đã chốt/đề xuất/còn mở.
