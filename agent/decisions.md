@@ -16,10 +16,10 @@
 
 ## Còn mở — cần nhóm chốt
 
-Các mốc 06/11 và Sprint 1 trong bảng dưới là **mốc dự kiến ban đầu**, chưa có bằng chứng
-đã hoàn thành. Kế hoạch cập nhật 09/11 bố trí lại quyết định nghiệp vụ/schema/API/công nghệ
-vào 10/11, kiểm chứng nền tảng vào 12/11; xem [F01–F14 trong kế hoạch](../docs/plan.md).
-Việc điều chỉnh lịch không tự chốt nội dung các quyết định này.
+Các mốc 06/11 và Sprint 1 trong bảng dưới là mốc dự kiến ban đầu, chưa có bằng chứng
+hoàn thành. Lịch hiện hành ngày 11/11: quyết định chung 11/11, nền 12/11, hoàn tất phần tồn
+Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
+Điều chỉnh lịch không tự chốt nội dung quyết định. Các bản ghi bên dưới giữ lịch sử tại thời điểm ghi.
 
 | Quyết định | Điều phối/đóng góp | Mốc dự kiến | Trạng thái |
 |---|---|---|---|
@@ -64,6 +64,27 @@ Việc điều chỉnh lịch không tự chốt nội dung các quyết định
   hoặc schema/API; không ghi nhận đã triển khai, review, họp hay thống nhất toàn nhóm.
 - Theo dõi: [kế hoạch](../docs/plan.md), [ownership](../docs/ownership.md).
   Chưa có PR/biên bản để liên kết; từng thành viên cần xác nhận khả năng tham gia khi nhận task.
+
+## Gom gói công việc và rút hạn Sprint 1–2 — 11/11/2026
+
+- Nguồn: người dùng duyệt bản nháp trong chat và yêu cầu sửa trực tiếp trên main.
+- Vấn đề: backlog nhỏ và phối hợp đan xen không phù hợp cách làm độc lập của nhóm;
+  hiện đã là Sprint 2, cần hoàn tất Sprint 1–2 trước thứ Hai 16/11.
+- Quyết định kế hoạch: giữ nguyên chủ đề DBMS, UC và trách nhiệm A–E; gom thành năm gói
+  xuyên suốt, ghi rõ đầu vào/phụ thuộc và dùng seed/mock để triển khai song song.
+- Mốc mới: thiết kế chung 11/11; nền 12/11; bản đầu 13/11; gói đầy đủ 14/11;
+  nghiệm thu đủ app/lab/backup-restore và báo cáo bản đầu 15/11. Thay các hạn 19–22/11 cũ.
+  Sprint 3 là 16–22/11, Sprint 4 là 23–29/11; nộp 30/11 theo giờ LMS.
+- Review chính: B review A, C review B, A review C, D/E review chéo; E vẫn xác minh restore/ZIP.
+  Không đặt lịch họp; báo ngay khi có phụ thuộc chặn người khác. Không đổi cơ chế kho ngầm.
+- Tiến độ: hạ tầng đã có bằng chứng một máy; chưa có app/schema/seed/lab chuyên đề.
+  F03/F04 miền D là nháp trên nhánh docs/f03-f04-inventory-transactions, commit daf1f1e,
+  chưa có trên main tại lần rà; không tự merge hoặc ghi nhận đã chốt.
+- Ảnh hưởng: cập nhật plan, ownership, context và nhịp cộng tác trong CONTRIBUTING;
+  không đổi yêu cầu, tự chọn công nghệ/schema/API hoặc ghi nhận thành viên đã nhận/xong việc.
+  Lịch rất gấp; trễ nền/bản đầu phải báo ảnh hưởng hạn 15/11, không tự coi là đạt.
+- Trạng thái: người dùng đã duyệt kế hoạch; chưa có review nhóm/biên bản nghiệm thu trong phiên này.
+  Xem [plan](../docs/plan.md), [ownership](../docs/ownership.md).
 
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.
