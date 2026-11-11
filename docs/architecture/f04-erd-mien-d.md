@@ -4,6 +4,12 @@
 `stock_movements` dùng chung với E. Chờ E duyệt phần kho, C rà truy vấn, A hợp nhất vào ERD chung.
 Chưa có migration hay DDL đã chạy. Quy tắc nghiệp vụ đi kèm: [F03](f03-quy-tac-chung-tu-kho.md).
 
+Theo [plan ngày 11/11](../plan.md), F04 là mã tham chiếu lịch sử cho thiết kế trong gói D.
+D bàn giao cấu trúc miền mình để A hợp nhất ngày 11/11, tự viết migration/API/UI và dữ liệu
+tình huống; B hợp nhất migration/model/seed, E review gói D. D dùng sản phẩm/nhà cung cấp mẫu
+theo cấu trúc thống nhất, không chờ CRUD của B. Phần kho dùng chung vẫn cần D–E thống nhất
+giao diện và người hiện thực; bản nháp này chưa chốt thay E hoặc nhóm.
+
 Quy ước tạm cho đến khi A chốt khi hợp nhất: tên bảng/cột tiếng Anh `snake_case`, số nhiều cho bảng;
 khóa chính `id BIGINT UNSIGNED AUTO_INCREMENT`; tiền `DECIMAL(15,0)` VND; thời gian `DATETIME(3)`;
 InnoDB, `utf8mb4`.

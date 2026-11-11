@@ -67,7 +67,9 @@ digest trong `.env.docker.example` (MySQL 8.4.13, MongoDB 8.0.34). Bên trong co
 từ Windows/DBeaver dùng 27018 với `directConnection=true`. Backend chạy trong container sau này sẽ dùng
 tên service, không dùng `127.0.0.1:3307`.
 
-Mối phụ thuộc giữa các phần: schema/API → sản phẩm/nhà cung cấp → nhập/bán → lịch sử kho/doanh thu.
+Theo plan 11/11, năm gói cá nhân giữ nguyên ownership; cấu trúc/schema/API và quy tắc chung
+→ seed/mock → triển khai module độc lập. C/D/E không chờ CRUD người trước; nghiệm thu vẫn cần
+bản tích hợp thật. Thiết kế 11/11, nền 12/11, bản đầu 13/11, gói đầy đủ 14/11, nghiệm thu 15/11.
 Schema/migration/seed dùng chung đặt trong `database/` (không nhân bản trong module API);
 `database/local/` chỉ chứa script hạ tầng. `.env.example` là định hướng biến môi trường cho app tương lai,
 chưa có code đọc nó.

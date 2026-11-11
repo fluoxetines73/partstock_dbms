@@ -16,10 +16,10 @@
 
 ## Còn mở — cần nhóm chốt
 
-Các mốc 06/11 và Sprint 1 trong bảng dưới là **mốc dự kiến ban đầu**, chưa có bằng chứng
-đã hoàn thành. Kế hoạch cập nhật 09/11 bố trí lại quyết định nghiệp vụ/schema/API/công nghệ
-vào 10/11, kiểm chứng nền tảng vào 12/11; xem [F01–F14 trong kế hoạch](../docs/plan.md).
-Việc điều chỉnh lịch không tự chốt nội dung các quyết định này.
+Các mốc 06/11 và Sprint 1 trong bảng dưới là mốc dự kiến ban đầu, chưa có bằng chứng
+hoàn thành. Lịch hiện hành ngày 11/11: quyết định chung 11/11, nền 12/11, hoàn tất phần tồn
+Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
+Điều chỉnh lịch không tự chốt nội dung quyết định. Các bản ghi bên dưới giữ lịch sử tại thời điểm ghi.
 
 | Quyết định | Điều phối/đóng góp | Mốc dự kiến | Trạng thái |
 |---|---|---|---|
@@ -95,6 +95,44 @@ Việc điều chỉnh lịch không tự chốt nội dung các quyết định
   kiểm kê, dòng tồn khi tạo sản phẩm, thông tin khách, người dùng). Giả định cột của `products`/`suppliers`
   chờ B đối chiếu khi có thiết kế.
 - Trạng thái: bản nháp, chưa review, chưa có migration/code/kết quả chạy. Chưa có PR/biên bản.
+
+## Gom gói công việc và rút hạn Sprint 1–2 — 11/11/2026
+
+- Nguồn: người dùng duyệt bản nháp trong chat và yêu cầu sửa trực tiếp trên main.
+- Vấn đề: backlog nhỏ và phối hợp đan xen không phù hợp cách làm độc lập của nhóm;
+  hiện đã là Sprint 2, cần hoàn tất Sprint 1–2 trước thứ Hai 16/11.
+- Quyết định kế hoạch: giữ nguyên chủ đề DBMS, UC và trách nhiệm A–E; gom thành năm gói
+  xuyên suốt, ghi rõ đầu vào/phụ thuộc và dùng seed/mock để triển khai song song.
+- Mốc mới: thiết kế chung 11/11; nền 12/11; bản đầu 13/11; gói đầy đủ 14/11;
+  nghiệm thu đủ app/lab/backup-restore và báo cáo bản đầu 15/11. Thay các hạn 19–22/11 cũ.
+  Sprint 3 là 16–22/11, Sprint 4 là 23–29/11; nộp 30/11 theo giờ LMS.
+- Review chính: B review A, C review B, A review C, D/E review chéo; E vẫn xác minh restore/ZIP.
+  Không đặt lịch họp; báo ngay khi có phụ thuộc chặn người khác. Không đổi cơ chế kho ngầm.
+- Tiến độ: hạ tầng đã có bằng chứng một máy; chưa có app/schema/seed/lab chuyên đề.
+  F03/F04 miền D là nháp trên nhánh docs/f03-f04-inventory-transactions, commit daf1f1e,
+  chưa có trên main tại lần rà; không tự merge hoặc ghi nhận đã chốt.
+- Ảnh hưởng: cập nhật plan, ownership, context và nhịp cộng tác trong CONTRIBUTING;
+  không đổi yêu cầu, tự chọn công nghệ/schema/API hoặc ghi nhận thành viên đã nhận/xong việc.
+  Lịch rất gấp; trễ nền/bản đầu phải báo ảnh hưởng hạn 15/11, không tự coi là đạt.
+- Trạng thái: người dùng đã duyệt kế hoạch; chưa có review nhóm/biên bản nghiệm thu trong phiên này.
+  Xem [plan](../docs/plan.md), [ownership](../docs/ownership.md).
+
+## Đối chiếu nhánh F03/F04 với plan mới — 11/11/2026
+
+- Nguồn: người dùng yêu cầu merge main về nhánh thiết kế và kiểm tra commit vừa rồi.
+- Kế thừa plan từ commit `dbc806f`: năm gói cá nhân, giữ UC/chủ đề/ownership; thiết kế 11/11,
+  nền 12/11, bản đầu 13/11, gói cá nhân 14/11, nghiệm thu tích hợp 15/11.
+- Xử lý xung đột: dùng lịch hiện hành từ main trong plan/context; giữ các bản ghi ngày 10/11
+  như lịch sử, không áp lại hạn 19–22/11. F03/F04 tiếp tục là nháp trong gói D, chờ E review,
+  C đối chiếu doanh thu và A điều phối chốt. Không đổi schema/API/quy tắc nghiệp vụ thay nhóm.
+- Chỉnh bản nháp: ghi rõ D dùng dữ liệu mẫu và tự triển khai miền mình, phối hợp giao diện kho
+  với E; sửa truy vấn kiểm tra I4 để coi số biến động vắng mặt là 0, tránh bỏ sót dòng đã xác nhận
+  thiếu biến động; làm rõ rollback toàn bộ transaction khi hết thời gian chờ khóa.
+- Kiểm tra I4: chạy truy vấn từ tài liệu trên SQLite in-memory với 9 tình huống; kết quả đúng
+  danh sách vi phạm mong đợi. Truy vấn cũ bỏ sót hai ca CONFIRMED/CANCELLED không có biến động.
+  Đây là kiểm tra logic truy vấn, không phải kiểm chứng schema/transaction trên MySQL.
+- Chưa có migration/code nghiệp vụ hay kết quả MySQL/MongoDB cho bản thiết kế; merge local
+  không đồng nghĩa thiết kế được duyệt hoặc gói D đã nghiệm thu. Commit `daf1f1e` được giữ nguyên.
 
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.

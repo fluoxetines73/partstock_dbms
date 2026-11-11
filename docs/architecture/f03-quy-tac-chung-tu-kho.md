@@ -4,6 +4,12 @@
 C rà phần doanh thu, A điều phối nhóm chốt. Chưa phải quyết định nhóm, chưa có code hay
 kết quả chạy nào kiểm chứng nội dung dưới đây. Khi chốt, ghi vào [sổ quyết định](../../agent/decisions.md).
 
+Đối chiếu [plan ngày 11/11](../plan.md): F03/F04 là mã tham chiếu lịch sử trong gói D,
+không còn là chuỗi task nhỏ bắt buộc. Quy tắc chung cần thống nhất ngày 11/11; nền ngày 12/11,
+bản đầu ngày 13/11, gói D đủ UC04–07–08 và lab Transaction hai hệ ngày 14/11,
+review/tích hợp và nghiệm thu ngày 15/11. D dùng dữ liệu mẫu theo cấu trúc đã thống nhất,
+không chờ B hoàn thành CRUD; E review gói D, C đối chiếu doanh thu, A điều phối chốt.
+
 Phạm vi: UC04 (nhập), UC07 (bán), UC08 (hủy) và các quy tắc ảnh hưởng UC09 (lịch sử),
 UC11 (doanh thu), UC12 (kiểm kê). Tên bảng/cột tham chiếu [F04 — ERD miền D](f04-erd-mien-d.md).
 Các ràng buộc đã chốt theo [yêu cầu](../requirements.md) được giữ nguyên: nháp không đổi kho,
@@ -103,7 +109,8 @@ Bất kỳ lỗi nào ở giữa → ROLLBACK toàn bộ; không có trạng th�
 - `SELECT ... FOR UPDATE` rồi `UPDATE` cũng đúng; app dùng phương án câu điều kiện vì ngắn hơn.
   LAB-E có thể so sánh cả ba cách (đọc rồi ghi ngây thơ, `FOR UPDATE`, câu điều kiện).
 - Deadlock (MySQL 1213): backend chạy lại toàn bộ transaction tối đa 3 lần rồi báo lỗi.
-  Hết thời gian chờ khóa (1205): báo lỗi để người dùng thử lại. Thuộc phần xử lý lỗi chung F09 (A).
+  Hết thời gian chờ khóa (1205): rollback toàn bộ transaction trước khi báo lỗi để người dùng thử lại.
+  D xử lý transaction miền mình và thống nhất giao diện lỗi với khung backend của A (F09 cũ).
 
 ### Xác nhận phiếu nhập
 
@@ -168,7 +175,8 @@ HAVING i.quantity_on_hand <> ledger_sum;
 
 -- I4: dòng đơn có số biến động sai so với trạng thái đơn (kết quả đúng là rỗng)
 SELECT l.id, o.status,
-       SUM(m.movement_type = 'SALE') AS sale_cnt, SUM(m.movement_type = 'SALE_CANCEL') AS cancel_cnt
+       COALESCE(SUM(m.movement_type = 'SALE'), 0) AS sale_cnt,
+       COALESCE(SUM(m.movement_type = 'SALE_CANCEL'), 0) AS cancel_cnt
 FROM sales_order_lines l
 JOIN sales_orders o ON o.id = l.order_id
 LEFT JOIN stock_movements m ON m.sales_order_line_id = l.id
@@ -202,7 +210,7 @@ Sau mỗi ca: kiểm tra I1–I5 và trạng thái chứng từ trước/sau.
 - Khác biệt cần ghi trong báo cáo: MongoDB không có FK/CHECK tương đương; ràng buộc dựa vào
   schema validation, unique index và logic ứng dụng.
 
-## 8. Câu hỏi cần nhóm chốt hôm nay
+## 8. Câu hỏi còn mở — cần nhóm chốt theo mốc thiết kế 11/11/2026
 
 | # | Câu hỏi | Đề xuất của D | Người chốt |
 |---|---|---|---|

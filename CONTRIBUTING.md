@@ -18,9 +18,11 @@ không push thẳng main hoặc tự coi PR đã được review. Thành viên t
 
 ## Nhịp nhóm
 
-Đầu sprint 30 phút; cập nhật hằng ngày bằng tin nhắn: đã làm, tiếp theo, vướng mắc.
-Giữa sprint 15 phút rà rủi ro; cuối sprint 45–60 phút demo/review, dùng mẫu biên bản.
-Bị chặn quá một ngày báo A. Dùng seed/mock theo hợp đồng chung để làm song song.
+Sprint theo tuần, theo dõi năm gói cá nhân và mốc bàn giao trong [plan](docs/plan.md).
+Không bắt buộc lịch họp hoặc chia nhỏ mọi bước thành task phối hợp. Mỗi người tự triển khai
+phần mình; cập nhật khi bàn giao, có review hoặc bị chặn. Báo ngay A và người nhận khi đầu vào trễ.
+Review theo gói; người viết tiếp tục phần độc lập trong lúc chờ review. Dùng seed/mock theo
+cấu trúc chung để làm song song; nghiệm thu vẫn cần bản tích hợp thật.
 A chủ trì phạm vi/thiết kế/ưu tiên; B–E đóng góp chuyên môn. Ghi thay đổi chung vào agent/decisions.md.
 
 ## Definition of Done
