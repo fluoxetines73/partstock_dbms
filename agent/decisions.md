@@ -65,6 +65,37 @@ Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
 - Theo dõi: [kế hoạch](../docs/plan.md), [ownership](../docs/ownership.md).
   Chưa có PR/biên bản để liên kết; từng thành viên cần xác nhận khả năng tham gia khi nhận task.
 
+## Rà kế hoạch theo hiện trạng repo — 10/11/2026
+
+- Nguồn: người dùng yêu cầu cập nhật kế hoạch trong phiên làm việc; chưa có xác nhận
+  nhận việc, khả năng tham gia hoặc biên bản đồng thuận toàn nhóm mới.
+- Vấn đề: bản 09/11 đã có backlog chi tiết; đến lần rà này repo vẫn chưa có thiết kế,
+  app/schema/seed nghiệp vụ hay bằng chứng hoàn thành F01 và các quyết định nền tảng.
+  Không suy ra thành viên chưa làm việc ngoài repo.
+- Điều chỉnh: thêm ưu tiên ngày 10–12/11 và điểm kiểm soát thiết kế 10/11; chuyển hạn mục tiêu
+  F01 từ 09/11 sang 10/11 để rà hiện trạng, khả năng tham gia, giờ LMS và phần việc đang chặn.
+  Giữ hạn F02–F06 là 10/11, nền tảng 12/11 và các mốc tích hợp/dợt/đóng gói/nộp đã đặt.
+- Ảnh hưởng: cập nhật [plan](../docs/plan.md) và [context](context.md); giữ phân công ownership,
+  phạm vi 12 UC, 8 thao tác, 5 chủ đề trên hai hệ và deadline 30/11 theo giờ LMS.
+  Không chốt schema/API/công nghệ hoặc ghi nhận hoàn thành thay cho owner/reviewer.
+- Theo dõi: A và owner cập nhật bằng chứng, đầu ra còn thiếu và ảnh hưởng phụ thuộc khi nhận task;
+  nếu thiết kế trễ, đánh giá rủi ro mốc 12/11 và 15/11, không mặc định dời các mốc tiếp theo.
+  Đây là cập nhật tài liệu kế hoạch theo yêu cầu, chưa là nghiệm thu hay đồng thuận toàn nhóm;
+  chưa tạo PR/biên bản trong phiên này.
+
+## Đề xuất F03/F04 miền nhập–bán–kho — 10/11/2026
+
+- Nguồn: D (Nam) yêu cầu soạn bản nháp trong phiên làm việc; chưa có E đồng soạn, review hoặc họp nhóm.
+- Vấn đề: F03 và phần ERD miền D trong F04 hạn 10/11, đang chặn F04 chung, F06, F08, F13, LAB-D/E.
+- Phương án đề xuất: [F03](../docs/architecture/f03-quy-tac-chung-tu-kho.md) — trạng thái
+  DRAFT/CONFIRMED(/CANCELLED), chốt giá khi xác nhận, trừ tồn bằng UPDATE có điều kiện trong một
+  transaction, sổ biến động chỉ thêm với UNIQUE chống ghi lặp, kiểm kê áp delta;
+  [F04](../docs/architecture/f04-erd-mien-d.md) — bảng phiếu nhập, đơn bán, dòng, `inventory`, `stock_movements`.
+- Còn mở: câu hỏi Q1–Q8 ở mục 8 của F03 (hủy phiếu nhập, hạn hủy, doanh thu sau hủy, chiết khấu,
+  kiểm kê, dòng tồn khi tạo sản phẩm, thông tin khách, người dùng). Giả định cột của `products`/`suppliers`
+  chờ B đối chiếu khi có thiết kế.
+- Trạng thái: bản nháp, chưa review, chưa có migration/code/kết quả chạy. Chưa có PR/biên bản.
+
 ## Gom gói công việc và rút hạn Sprint 1–2 — 11/11/2026
 
 - Nguồn: người dùng duyệt bản nháp trong chat và yêu cầu sửa trực tiếp trên main.
@@ -85,6 +116,23 @@ Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
   Lịch rất gấp; trễ nền/bản đầu phải báo ảnh hưởng hạn 15/11, không tự coi là đạt.
 - Trạng thái: người dùng đã duyệt kế hoạch; chưa có review nhóm/biên bản nghiệm thu trong phiên này.
   Xem [plan](../docs/plan.md), [ownership](../docs/ownership.md).
+
+## Đối chiếu nhánh F03/F04 với plan mới — 11/11/2026
+
+- Nguồn: người dùng yêu cầu merge main về nhánh thiết kế và kiểm tra commit vừa rồi.
+- Kế thừa plan từ commit `dbc806f`: năm gói cá nhân, giữ UC/chủ đề/ownership; thiết kế 11/11,
+  nền 12/11, bản đầu 13/11, gói cá nhân 14/11, nghiệm thu tích hợp 15/11.
+- Xử lý xung đột: dùng lịch hiện hành từ main trong plan/context; giữ các bản ghi ngày 10/11
+  như lịch sử, không áp lại hạn 19–22/11. F03/F04 tiếp tục là nháp trong gói D, chờ E review,
+  C đối chiếu doanh thu và A điều phối chốt. Không đổi schema/API/quy tắc nghiệp vụ thay nhóm.
+- Chỉnh bản nháp: ghi rõ D dùng dữ liệu mẫu và tự triển khai miền mình, phối hợp giao diện kho
+  với E; sửa truy vấn kiểm tra I4 để coi số biến động vắng mặt là 0, tránh bỏ sót dòng đã xác nhận
+  thiếu biến động; làm rõ rollback toàn bộ transaction khi hết thời gian chờ khóa.
+- Kiểm tra I4: chạy truy vấn từ tài liệu trên SQLite in-memory với 9 tình huống; kết quả đúng
+  danh sách vi phạm mong đợi. Truy vấn cũ bỏ sót hai ca CONFIRMED/CANCELLED không có biến động.
+  Đây là kiểm tra logic truy vấn, không phải kiểm chứng schema/transaction trên MySQL.
+- Chưa có migration/code nghiệp vụ hay kết quả MySQL/MongoDB cho bản thiết kế; merge local
+  không đồng nghĩa thiết kế được duyệt hoặc gói D đã nghiệm thu. Commit `daf1f1e` được giữ nguyên.
 
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.

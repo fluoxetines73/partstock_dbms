@@ -13,3 +13,8 @@ Hiện có [cấu hình Docker local](../../setup-local-docker.md) với hai MyS
 MongoDB lab rs0 một node, tách credential/network/volume; đã kiểm chứng trên một máy,
 chờ review và tái tạo trên máy khác. Đây chưa là schema/API hoặc kiến trúc app được duyệt.
 Xem [quyết định](../../agent/decisions.md) và [yêu cầu](../requirements.md).
+
+Bản nháp thiết kế đang chờ review (chưa chốt):
+
+- [F03 — Quy tắc chứng từ, hủy/doanh thu và cập nhật kho](f03-quy-tac-chung-tu-kho.md) — D soạn, chờ E/C/A.
+- [F04 — ERD và từ điển dữ liệu miền D](f04-erd-mien-d.md) — phiếu nhập, đơn bán, tồn và biến động kho; chờ E/C, A hợp nhất.
