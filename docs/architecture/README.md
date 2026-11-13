@@ -25,3 +25,9 @@ Tiến độ thực hiện nền A: [todo Sprint 1](../tasks/a-sprint1-todo.md).
 bản nháp để review và ghép ERD chung.
 
 [Đề xuất khung backend](backend-foundation.md): công cụ, cấu trúc và kiểm tra kết nối tối thiểu.
+
+## Bản nháp miền B — 13/11/2026
+
+[erd-mien-b.md](erd-mien-b.md) mô tả linh kiện, nhà cung cấp và hai liên kết với UC01.
+Bản nháp chờ C review và A ghép ERD chung. Đã kiểm tra DDL nháp và seed trên MySQL lab.
+Hướng dẫn nạp seed nằm trong [database/seed/README.md](../../database/seed/README.md#dữ-liệu-mẫu-uc0203).
