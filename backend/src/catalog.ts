@@ -1,6 +1,6 @@
-import { timingSafeEqual } from 'node:crypto';
 import { Router, json, type ErrorRequestHandler } from 'express';
 import type { Pool, RowDataPacket, ResultSetHeader } from 'mysql2/promise';
+import { isId, requireManager } from './management.js';
 
 export type CatalogTable = 'categories' | 'brands';
 export interface CatalogItem { id: string; name: string }
@@ -42,22 +42,7 @@ export function createCatalogStore(pool: Pool): CatalogStore {
 }
 export function catalogRouter(store: CatalogStore, managerToken?: string) {
   const router = Router();
-  router.use((request, response, next) => {
-    response.set('Cache-Control', 'no-store');
-    if (!managerToken || managerToken.trim() === '') {
-      response.status(503).json({ error: { code: 'AUTH_NOT_CONFIGURED', message: 'Manager access is not configured' } }); return;
-    }
-    const header = request.get('authorization');
-    if (!header?.startsWith('Bearer ')) {
-      response.status(401).json({ error: { code: 'UNAUTHENTICATED', message: 'Manager token required' } }); return;
-    }
-    const supplied = Buffer.from(header.slice(7));
-    const expected = Buffer.from(managerToken);
-    if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) {
-      response.status(403).json({ error: { code: 'FORBIDDEN', message: 'Access denied' } }); return;
-    }
-    next();
-  });
+  router.use(requireManager(managerToken));
   router.use(json({ limit: '8kb' }));
   const validName = (body: unknown): string | null => {
     if (!body || typeof body !== 'object' || Array.isArray(body)) return null;
@@ -76,7 +61,7 @@ export function catalogRouter(store: CatalogStore, managerToken?: string) {
     });
     router.route(`/${table}/:id`).all((req, res, next) => {
       const id = req.params.id as string;
-      if (!/^[1-9]\d{0,19}$/.test(id) || BigInt(id) > 18446744073709551615n) {
+      if (!isId(id)) {
         res.status(400).json({ error: { code: 'VALIDATION_ERROR' } }); return;
       }
       next();

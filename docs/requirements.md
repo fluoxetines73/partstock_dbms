@@ -12,8 +12,8 @@ Sơ đồ use case ở nhánh F02 chờ tích hợp. Bản đầu backend UC01 v
 | ID | Chức năng | Owner | Trạng thái / bằng chứng |
 |---|---|---|---|
 | UC01 | Quản lý danh mục và thương hiệu | A | Đang làm: API/schema, 11 test và kiểm tra lab đạt; còn UI/phân quyền/tích hợp/review — [bằng chứng](../backend/README.md) |
-| UC02 | Quản lý linh kiện, thông số, giá bán | B | Chưa triển khai / chưa có |
-| UC03 | Quản lý nhà cung cấp | B | Chưa triển khai / chưa có |
+| UC02 | Quản lý linh kiện, thông số, giá bán | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI, ngừng kinh doanh và tích hợp tồn — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
+| UC03 | Quản lý nhà cung cấp | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI và quy tắc xóa/ngừng sử dụng — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
 | UC04 | Tạo/xác nhận phiếu nhập và tăng tồn kho | D | Chưa triển khai / chưa có |
 | UC05 | Tra cứu sản phẩm theo mã/tên | C | Chưa triển khai / chưa có |
 | UC06 | Lọc sản phẩm theo loại, hãng, giá, tồn kho | C | Chưa triển khai / chưa có |

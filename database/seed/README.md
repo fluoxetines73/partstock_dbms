@@ -20,7 +20,7 @@ Seed có 5 linh kiện và 2 nhà cung cấp giả lập. Nạp một lần trê
 `mysql-lab` (cổng `3308`), theo thứ tự sau.
 
 1. [database/mysql/migrations/001_catalogs.sql](../mysql/migrations/001_catalogs.sql)
-2. [database/mysql/drafts/002_products_suppliers.sql](../mysql/drafts/002_products_suppliers.sql)
+2. [database/mysql/migrations/002_products_suppliers.sql](../mysql/migrations/002_products_suppliers.sql)
 3. [database/seed/001_catalogs.sql](001_catalogs.sql)
 4. [database/seed/002_products_suppliers.sql](002_products_suppliers.sql)
 

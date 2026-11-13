@@ -1,4 +1,4 @@
--- Run once on a clean lab schema after the UC01 seed and the UC02-03 draft DDL.
+-- Run once on a clean lab schema after both migrations and the UC01 seed.
 START TRANSACTION;
 
 -- Resolve catalog IDs from their unique names. Missing entries fail the NOT NULL constraint.

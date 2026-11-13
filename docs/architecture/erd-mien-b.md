@@ -1,7 +1,7 @@
 # ERD miền B — Linh kiện và nhà cung cấp
 
 Bản nháp 13/11/2026, B soạn trên nhánh `feat/uc02-03`, chờ C review và A ghép ERD chung.
-Đã kiểm tra DDL nháp và seed trên MySQL lab. Migration ứng dụng và API còn ở bước tiếp theo.
+Đã có migration, seed và API xem, thêm, sửa. Xem [backend/README.md](../../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp).
 Xem [requirements.md](../requirements.md) và [erd-mien-a.md](erd-mien-a.md).
 
 ```mermaid
@@ -67,7 +67,7 @@ hai FK chặn xóa bằng `ON DELETE RESTRICT`. Đổi tên danh mục hoặc th
 
 Hai bảng dùng InnoDB và collation `utf8mb4_0900_as_ci` như UC01. Mock và API dùng chuỗi
 thập phân cho ID. Giá trên dòng bán đã xác nhận được lưu riêng theo thiết kế miền D.
-DDL nháp nằm ở [database/mysql/drafts/002_products_suppliers.sql](../../database/mysql/drafts/002_products_suppliers.sql).
+DDL nằm ở [database/mysql/migrations/002_products_suppliers.sql](../../database/mysql/migrations/002_products_suppliers.sql).
 
 ## Phụ thuộc cần xác nhận
 
@@ -77,7 +77,7 @@ DDL nháp nằm ở [database/mysql/drafts/002_products_suppliers.sql](../../dat
 - F03 Q6 đề xuất B gọi cơ chế kho D–E để tạo dòng `inventory` với `quantity_on_hand = 0`
   trong cùng giao dịch tạo sản phẩm. Nam và Hải cần xác nhận người hiện thực và cách gọi.
   Hải có thể thêm fixture tồn khi schema kho được thống nhất.
-- Nhóm còn cần chốt chính sách ngừng sử dụng nhà cung cấp và hợp đồng API.
+- Nhóm còn cần chốt chính sách ngừng sử dụng nhà cung cấp và review hợp đồng API bản đầu.
   Xem [decisions.md](../../agent/decisions.md).
 
 ## Bàn giao
@@ -117,3 +117,10 @@ hai ca. Sản phẩm ngừng kinh doanh vẫn chặn xóa danh mục và hãng �
 giữ nguyên liên kết. Schema kiểm thử tự động đã được dọn sau khi chạy.
 
 MongoDB lab 8.0.34 trên máy Tuấn đã lên `PRIMARY` với replica set `rs0` một node.
+
+### Kiểm tra migration 002
+
+Đã chạy lại hai migration và hai seed theo thứ tự trong [database/seed/README.md](../../database/seed/README.md#dữ-liệu-mẫu-uc0203)
+trên schema mới thuộc MySQL lab 8.4.13. Kết quả đếm, trạng thái, lọc giá và 9 mã lỗi
+khớp bảng trên. Kiểm tra bổ sung xác nhận sản phẩm ngừng kinh doanh vẫn chặn xóa hãng
+được tham chiếu và đổi tên hãng giữ nguyên liên kết. Đã dọn schema mới sau khi chạy.

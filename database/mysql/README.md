@@ -14,7 +14,7 @@ không chạy script reset lab bằng credential ứng dụng.
 Đã có [migration danh mục/thương hiệu](migrations/001_catalogs.sql), thêm hai bảng,
 không sửa dữ liệu cũ. Chạy từ backend bằng `npm run db:setup` trên schema chưa có hai bảng;
 không tự chạy lại nếu có lỗi một phần (DDL không rollback cả file). Chưa có migration tracker;
-B cần hợp nhất cách đánh số/theo dõi với các miền khác. Chưa có migration sản phẩm/kho/chứng từ.
+B cần hợp nhất cách đánh số/theo dõi với các miền khác. Migration sản phẩm và nhà cung cấp ở mục dưới.
 
 Tên VARCHAR(100), UNIQUE, utf8mb4_0900_as_ci: phân biệt dấu, không phân biệt hoa/thường.
 Khóa BIGINT UNSIGNED; created_at/updated_at DATETIME(3) dùng giờ session MySQL.
@@ -26,10 +26,10 @@ kể cả FK fixture; chưa nghiệm thu tích hợp sản phẩm thật hoặc 
 
 ## Miền B — UC02–03, 13/11/2026
 
-DDL nháp [drafts/002_products_suppliers.sql](drafts/002_products_suppliers.sql) tạo bảng `products` và `suppliers`.
-Chạy sau migration UC01 trên schema kiểm thử rỗng. Hai FK sang danh mục và thương hiệu
-dùng `BIGINT UNSIGNED NOT NULL` và `ON DELETE RESTRICT`.
+Migration tạo bảng `products` và `suppliers`. Chạy một lần sau `001_catalogs.sql` trên schema
+chưa có hai bảng này. Hai FK sang danh mục và thương hiệu dùng `BIGINT UNSIGNED NOT NULL`
+và `ON DELETE RESTRICT`. [migrations/002_products_suppliers.sql](migrations/002_products_suppliers.sql)
 
-DDL nháp và seed đã kiểm tra trên MySQL lab 8.4.13. Migration app chờ bước triển khai
-UC02–03. Xem thứ tự nạp seed trong [database/seed/README.md](../seed/README.md#dữ-liệu-mẫu-uc0203)
-và kết quả kiểm chứng thủ công trong [erd-mien-b.md](../../docs/architecture/erd-mien-b.md#kiểm-chứng-thủ-công-của-tuấn).
+Chạy migration 002 trực tiếp bằng SQL client. Lệnh `npm run db:setup` hiện chỉ áp dụng UC01.
+Nếu DDL lỗi giữa chừng, kiểm tra bảng đã tạo trước khi chạy lại. Nạp seed theo thứ tự trong
+[database/seed/README.md](../seed/README.md#dữ-liệu-mẫu-uc0203).

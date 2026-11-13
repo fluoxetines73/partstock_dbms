@@ -138,5 +138,13 @@ Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
   D/E rà phần chứng từ, tồn kho. Xem [erd-mien-b.md](../docs/architecture/erd-mien-b.md)
   và [database/seed/README.md](../database/seed/README.md#dữ-liệu-mẫu-uc0203).
 
+## API UC02–03 bản đầu — 13/11/2026
+
+- Dùng quy ước UC01 cho ID chuỗi, quyền Quản lý local và phản hồi lỗi. PATCH chỉ thay
+  các trường được gửi. Giá VND dùng số nguyên theo phạm vi schema. FK thiếu đích trả
+  `400 INVALID_REFERENCE`, SKU trùng trả `409 SKU_CONFLICT`.
+- Hợp đồng bản đầu chờ C review. Quy tắc ngừng kinh doanh, ngừng sử dụng nhà cung cấp và
+  tích hợp tạo dòng tồn ban đầu vẫn còn mở. [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp)
+
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.

@@ -1,4 +1,4 @@
--- Draft for the isolated MySQL lab. Apply after 001_catalogs.sql.
+-- B / UC02-03. Apply once after 001_catalogs.sql on a schema without products or suppliers.
 CREATE TABLE products (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     sku VARCHAR(64) NOT NULL,
