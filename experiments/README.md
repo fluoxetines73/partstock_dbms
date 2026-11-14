@@ -1,6 +1,6 @@
 # Thực nghiệm hai DBMS
 
-Indexing đã có script và kết quả lượt đầu trên cả hai lab. Các chủ đề còn lại có kịch bản dự kiến.
+Indexing và backup/restore đã có script và kết quả trên cả hai lab. Các chủ đề còn lại có kịch bản dự kiến.
 Schema/seed dùng chung ở [database](../database/README.md); kịch bản và kết quả ở đây.
 
 | Chủ đề | Owner | Kế hoạch |
