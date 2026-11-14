@@ -50,10 +50,9 @@ chứng từ/tồn/biến động trước khi triển khai các giao dịch đ�
 ## UC01 — API danh mục và thương hiệu
 
 Đã có hai bảng `categories`, `brands` trên MySQL app ở lần triển khai 11/11; chưa nạp seed.
-Trên máy mới, sau khi build, chạy `npm run db:setup` một lần để tạo hai bảng.
-Lệnh dừng nếu bảng đã tồn tại; không tự bỏ qua schema khác hoặc xóa bảng để tạo lại.
-MySQL DDL không rollback cả file: nếu lỗi giữa chừng, kiểm tra schema trước khi sửa/chạy lại.
-B cần hợp nhất file `database/mysql/migrations/001_catalogs.sql` vào migration chung.
+Chạy `npm run db:setup` từ thư mục `backend` để build và áp dụng các migration MySQL còn thiếu.
+Schema mới chạy `001` rồi `002`. Schema đã có đủ hai bảng UC01 chỉ chạy `002`.
+Xem điều kiện chạy lại và cách xử lý lỗi giữa chừng trong [database/mysql/README.md](../database/mysql/README.md).
 
 Quyền quản lý local tạm thời dùng `APP_MANAGER_TOKEN`. Tạo token bằng:
 
@@ -95,8 +94,8 @@ Chưa có giao diện, liên kết sản phẩm thật hoặc review B; UC01 ch�
 ## UC02–03 — API linh kiện và nhà cung cấp
 
 Bản đầu dùng cùng `APP_MANAGER_TOKEN` và header `Authorization: Bearer <token>` như UC01.
-MySQL cần migration `001` rồi `002`. Với app local đã có UC01, áp dụng riêng migration 002
-bằng SQL client. [database/mysql/README.md](../database/mysql/README.md#miền-b--uc0203-13112026)
+MySQL cần migration `001` rồi `002`. Chạy `npm run db:setup` từ `backend` để áp dụng
+migration còn thiếu. [database/mysql/README.md](../database/mysql/README.md#chạy-migration)
 
 | Thao tác | Linh kiện | Nhà cung cấp |
 |---|---|---|
@@ -138,7 +137,8 @@ các trường vắng mặt. Gửi `null` để xóa thông số hoặc trườn
 | 415 | `UNSUPPORTED_MEDIA_TYPE` | Request ghi thiếu kiểu JSON |
 | 413 | `PAYLOAD_TOO_LARGE` | Body JSON vượt 8 KiB |
 
-Kiểm tra với MySQL lab từ thư mục gốc. Script tự nạp hai migration và hai seed vào schema riêng.
+Kiểm tra với MySQL lab từ thư mục gốc. Script dùng cùng migration runner với `db:setup`
+trên schema riêng, nạp hai seed rồi kiểm tra chạy lại trước khi gọi API.
 
 ```powershell
 npm.cmd --prefix backend test

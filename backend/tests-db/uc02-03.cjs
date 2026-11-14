@@ -6,6 +6,7 @@ const { resolve } = require('node:path');
 const mysql = require('mysql2/promise');
 const { createApp } = require('../dist/app.js');
 const { createDatabase } = require('../dist/db.js');
+const { applyMigrations } = require('../scripts/setup-catalog.cjs');
 
 async function main() {
   const env = process.env;
@@ -34,14 +35,12 @@ async function main() {
     await admin.query(`CREATE DATABASE ${schema}`);
     created = true;
     await admin.query(`USE ${schema}`);
-    for (const file of [
-      'mysql/migrations/001_catalogs.sql',
-      'mysql/migrations/002_products_suppliers.sql',
-      'seed/001_catalogs.sql',
-      'seed/002_products_suppliers.sql',
-    ]) {
-      await admin.query(readFileSync(resolve(__dirname, '../../database', file), 'utf8'));
+    assert.deepEqual(await applyMigrations(admin), ['001_catalogs.sql', '002_products_suppliers.sql']);
+    for (const file of ['001_catalogs.sql', '002_products_suppliers.sql']) {
+      await admin.query(readFileSync(resolve(__dirname, '../../database/seed', file), 'utf8'));
     }
+    assert.deepEqual(await applyMigrations(admin), []);
+    console.log('PASS: setup applied 001 then 002 on a fresh schema and skipped both on rerun.');
 
     database = createDatabase({ ...options, database: schema });
     const token = randomBytes(24).toString('hex');
