@@ -1,0 +1,2276 @@
+{
+  "rows": 10000,
+  "warmupRuns": 1,
+  "measuredRuns": 5,
+  "cacheFlushed": false,
+  "mysql": {
+    "version": "8.4.13",
+    "database": "partstock_lab",
+    "innodb_buffer_pool_size": 134217728,
+    "indexes_before": "indexing_products\t0\tPRIMARY\t1\tid\tA\t10161\tNULL\tNULL\t\tBTREE\t\t\tYES\tNULL",
+    "rows": 10000,
+    "sku_before": {
+      "medianMs": 1.68,
+      "samples": [
+        {
+          "completionTimeMs": 1.86,
+          "nReturned": 1,
+          "plan": "-> Filter: (indexing_products.sku = 'IDX-0004201')  (cost=1113 rows=1016) (actual time=0.856..1.86 rows=1 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0299..1.22 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.51,
+          "nReturned": 1,
+          "plan": "-> Filter: (indexing_products.sku = 'IDX-0004201')  (cost=1113 rows=1016) (actual time=0.679..1.51 rows=1 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.045..0.995 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.49,
+          "nReturned": 1,
+          "plan": "-> Filter: (indexing_products.sku = 'IDX-0004201')  (cost=1113 rows=1016) (actual time=0.628..1.49 rows=1 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0182..0.985 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.88,
+          "nReturned": 1,
+          "plan": "-> Filter: (indexing_products.sku = 'IDX-0004201')  (cost=1113 rows=1016) (actual time=0.686..1.88 rows=1 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0324..1.3 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.68,
+          "nReturned": 1,
+          "plan": "-> Filter: (indexing_products.sku = 'IDX-0004201')  (cost=1113 rows=1016) (actual time=0.82..1.68 rows=1 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0362..1.16 rows=10000 loops=1)"
+        }
+      ]
+    },
+    "brand_price_before": {
+      "medianMs": 1.26,
+      "samples": [
+        {
+          "completionTimeMs": 1.38,
+          "nReturned": 11,
+          "plan": "-> Filter: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=1113 rows=113) (actual time=0.699..1.38 rows=11 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.026..1.08 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.21,
+          "nReturned": 11,
+          "plan": "-> Filter: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=1113 rows=113) (actual time=0.516..1.21 rows=11 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0174..0.911 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.17,
+          "nReturned": 11,
+          "plan": "-> Filter: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=1113 rows=113) (actual time=0.469..1.17 rows=11 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0177..0.917 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.6,
+          "nReturned": 11,
+          "plan": "-> Filter: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=1113 rows=113) (actual time=0.669..1.6 rows=11 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0191..1.25 rows=10000 loops=1)"
+        },
+        {
+          "completionTimeMs": 1.26,
+          "nReturned": 11,
+          "plan": "-> Filter: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=1113 rows=113) (actual time=0.556..1.26 rows=11 loops=1)\n    -> Table scan on indexing_products  (cost=1113 rows=10161) (actual time=0.0215..1.01 rows=10000 loops=1)"
+        }
+      ]
+    },
+    "indexes_after": "indexing_products\t0\tPRIMARY\t1\tid\tA\t9301\tNULL\tNULL\t\tBTREE\t\t\tYES\tNULL\nindexing_products\t1\tidx_sku\t1\tsku\tA\t9301\tNULL\tNULL\t\tBTREE\t\t\tYES\tNULL\nindexing_products\t1\tidx_brand_price\t1\tbrand_id\tA\t9301\tNULL\tNULL\t\tBTREE\t\t\tYES\tNULL\nindexing_products\t1\tidx_brand_price\t2\tselling_price\tA\t9301\tNULL\tNULL\t\tBTREE\t\t\tYES\tNULL",
+    "sku_after": {
+      "medianMs": 0.00527,
+      "samples": [
+        {
+          "completionTimeMs": 0.0081,
+          "nReturned": 1,
+          "plan": "-> Index lookup on indexing_products using idx_sku (sku='IDX-0004201')  (cost=1.1 rows=1) (actual time=0.00758..0.0081 rows=1 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.00505,
+          "nReturned": 1,
+          "plan": "-> Index lookup on indexing_products using idx_sku (sku='IDX-0004201')  (cost=1.1 rows=1) (actual time=0.00471..0.00505 rows=1 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.00491,
+          "nReturned": 1,
+          "plan": "-> Index lookup on indexing_products using idx_sku (sku='IDX-0004201')  (cost=1.1 rows=1) (actual time=0.0044..0.00491 rows=1 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.00527,
+          "nReturned": 1,
+          "plan": "-> Index lookup on indexing_products using idx_sku (sku='IDX-0004201')  (cost=1.1 rows=1) (actual time=0.0049..0.00527 rows=1 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.00557,
+          "nReturned": 1,
+          "plan": "-> Index lookup on indexing_products using idx_sku (sku='IDX-0004201')  (cost=1.1 rows=1) (actual time=0.00521..0.00557 rows=1 loops=1)"
+        }
+      ]
+    },
+    "brand_price_after": {
+      "medianMs": 0.0118,
+      "samples": [
+        {
+          "completionTimeMs": 0.0122,
+          "nReturned": 11,
+          "plan": "-> Index range scan on indexing_products using idx_brand_price over (brand_id = 7 AND 500000 <= selling_price <= 520000), with index condition: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=14.2 rows=11) (actual time=0.0095..0.0122 rows=11 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.0118,
+          "nReturned": 11,
+          "plan": "-> Index range scan on indexing_products using idx_brand_price over (brand_id = 7 AND 500000 <= selling_price <= 520000), with index condition: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=14.2 rows=11) (actual time=0.00903..0.0118 rows=11 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.0118,
+          "nReturned": 11,
+          "plan": "-> Index range scan on indexing_products using idx_brand_price over (brand_id = 7 AND 500000 <= selling_price <= 520000), with index condition: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=14.2 rows=11) (actual time=0.00902..0.0118 rows=11 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.0113,
+          "nReturned": 11,
+          "plan": "-> Index range scan on indexing_products using idx_brand_price over (brand_id = 7 AND 500000 <= selling_price <= 520000), with index condition: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=14.2 rows=11) (actual time=0.00862..0.0113 rows=11 loops=1)"
+        },
+        {
+          "completionTimeMs": 0.0107,
+          "nReturned": 11,
+          "plan": "-> Index range scan on indexing_products using idx_brand_price over (brand_id = 7 AND 500000 <= selling_price <= 520000), with index condition: ((indexing_products.brand_id = 7) and (indexing_products.selling_price between 500000 and 520000))  (cost=14.2 rows=11) (actual time=0.008..0.0107 rows=11 loops=1)"
+        }
+      ]
+    },
+    "sku_result": [
+      [
+        "IDX-0004201",
+        "Part 4201",
+        1,
+        520000
+      ]
+    ],
+    "brand_price_result": [
+      [
+        "IDX-0004007",
+        "Part 4007",
+        7,
+        500000
+      ],
+      [
+        "IDX-0004027",
+        "Part 4027",
+        7,
+        502000
+      ],
+      [
+        "IDX-0004047",
+        "Part 4047",
+        7,
+        504000
+      ],
+      [
+        "IDX-0004067",
+        "Part 4067",
+        7,
+        506000
+      ],
+      [
+        "IDX-0004087",
+        "Part 4087",
+        7,
+        508000
+      ],
+      [
+        "IDX-0004107",
+        "Part 4107",
+        7,
+        510000
+      ],
+      [
+        "IDX-0004127",
+        "Part 4127",
+        7,
+        512000
+      ],
+      [
+        "IDX-0004147",
+        "Part 4147",
+        7,
+        514000
+      ],
+      [
+        "IDX-0004167",
+        "Part 4167",
+        7,
+        516000
+      ],
+      [
+        "IDX-0004187",
+        "Part 4187",
+        7,
+        518000
+      ],
+      [
+        "IDX-0004207",
+        "Part 4207",
+        7,
+        520000
+      ]
+    ]
+  },
+  "mongodb": {
+    "version": "8.0.34",
+    "database": "partstock_lab",
+    "replicaSet": "rs0",
+    "members": 1,
+    "rows": 10000,
+    "indexes_before": [
+      {
+        "v": 2,
+        "key": {
+          "_id": 1
+        },
+        "name": "_id_"
+      }
+    ],
+    "sku_before": {
+      "medianMs": 2,
+      "samples": [
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 1,
+            "needTime": 9999,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 1,
+              "needTime": 9999,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 1,
+            "needTime": 9999,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 1,
+              "needTime": 9999,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 1,
+            "needTime": 9999,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 1,
+              "needTime": 9999,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 1,
+            "needTime": 9999,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 1,
+              "needTime": 9999,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 1,
+            "needTime": 9999,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "sku": {
+                  "$eq": "IDX-0004201"
+                }
+              },
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 1,
+              "needTime": 9999,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        }
+      ]
+    },
+    "brand_price_before": {
+      "medianMs": 2,
+      "samples": [
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 11,
+            "needTime": 9989,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 11,
+              "needTime": 9989,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 2,
+            "works": 10001,
+            "advanced": 11,
+            "needTime": 9989,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 2,
+              "works": 10001,
+              "advanced": 11,
+              "needTime": 9989,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 11,
+            "needTime": 9989,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 11,
+              "needTime": 9989,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 10001,
+            "advanced": 11,
+            "needTime": 9989,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 10001,
+              "advanced": 11,
+              "needTime": 9989,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "direction": "forward"
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 0,
+          "totalDocsExamined": 10000,
+          "executionTimeMillis": 2,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 1,
+            "works": 10001,
+            "advanced": 11,
+            "needTime": 9989,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "$and": [
+                  {
+                    "brand_id": {
+                      "$eq": 7
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$lte": 520000
+                    }
+                  },
+                  {
+                    "selling_price": {
+                      "$gte": 500000
+                    }
+                  }
+                ]
+              },
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 1,
+              "works": 10001,
+              "advanced": 11,
+              "needTime": 9989,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "direction": "forward",
+              "docsExamined": 10000
+            }
+          }
+        }
+      ]
+    },
+    "indexes_after": [
+      {
+        "v": 2,
+        "key": {
+          "_id": 1
+        },
+        "name": "_id_"
+      },
+      {
+        "v": 2,
+        "key": {
+          "sku": 1
+        },
+        "name": "idx_sku"
+      },
+      {
+        "v": 2,
+        "key": {
+          "brand_id": 1,
+          "selling_price": 1
+        },
+        "name": "idx_brand_price"
+      }
+    ],
+    "sku_after": {
+      "medianMs": 0,
+      "samples": [
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 1,
+          "totalDocsExamined": 1,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 2,
+            "advanced": 1,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 2,
+              "advanced": 1,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 1,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 1,
+                "executionTimeMillisEstimate": 0,
+                "works": 2,
+                "advanced": 1,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                },
+                "keysExamined": 1,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 1,
+          "totalDocsExamined": 1,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 2,
+            "advanced": 1,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 2,
+              "advanced": 1,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 1,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 1,
+                "executionTimeMillisEstimate": 0,
+                "works": 2,
+                "advanced": 1,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                },
+                "keysExamined": 1,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 1,
+          "totalDocsExamined": 1,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 2,
+            "advanced": 1,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 2,
+              "advanced": 1,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 1,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 1,
+                "executionTimeMillisEstimate": 0,
+                "works": 2,
+                "advanced": 1,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                },
+                "keysExamined": 1,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 1,
+          "totalDocsExamined": 1,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 2,
+            "advanced": 1,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 2,
+              "advanced": 1,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 1,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 1,
+                "executionTimeMillisEstimate": 0,
+                "works": 2,
+                "advanced": 1,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                },
+                "keysExamined": 1,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 1,
+          "totalKeysExamined": 1,
+          "totalDocsExamined": 1,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 1,
+            "executionTimeMillisEstimate": 0,
+            "works": 2,
+            "advanced": 1,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 1,
+              "executionTimeMillisEstimate": 0,
+              "works": 2,
+              "advanced": 1,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 1,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 1,
+                "executionTimeMillisEstimate": 0,
+                "works": 2,
+                "advanced": 1,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "sku": 1
+                },
+                "indexName": "idx_sku",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "sku": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "sku": [
+                    "[\"IDX-0004201\", \"IDX-0004201\"]"
+                  ]
+                },
+                "keysExamined": 1,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "brand_price_after": {
+      "medianMs": 0,
+      "samples": [
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 11,
+          "totalDocsExamined": 11,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 12,
+            "advanced": 11,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 12,
+              "advanced": 11,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 11,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 11,
+                "executionTimeMillisEstimate": 0,
+                "works": 12,
+                "advanced": 11,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                },
+                "keysExamined": 11,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 11,
+          "totalDocsExamined": 11,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 12,
+            "advanced": 11,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 12,
+              "advanced": 11,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 11,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 11,
+                "executionTimeMillisEstimate": 0,
+                "works": 12,
+                "advanced": 11,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                },
+                "keysExamined": 11,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 11,
+          "totalDocsExamined": 11,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 12,
+            "advanced": 11,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 12,
+              "advanced": 11,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 11,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 11,
+                "executionTimeMillisEstimate": 0,
+                "works": 12,
+                "advanced": 11,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                },
+                "keysExamined": 11,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 11,
+          "totalDocsExamined": 11,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 12,
+            "advanced": 11,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 12,
+              "advanced": 11,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 11,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 11,
+                "executionTimeMillisEstimate": 0,
+                "works": 12,
+                "advanced": 11,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                },
+                "keysExamined": 11,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        },
+        {
+          "winningPlan": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "inputStage": {
+                "stage": "IXSCAN",
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                }
+              }
+            }
+          },
+          "nReturned": 11,
+          "totalKeysExamined": 11,
+          "totalDocsExamined": 11,
+          "executionTimeMillis": 0,
+          "executionStages": {
+            "isCached": false,
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": 11,
+            "executionTimeMillisEstimate": 0,
+            "works": 12,
+            "advanced": 11,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "transformBy": {
+              "_id": 0,
+              "sku": 1,
+              "name": 1,
+              "brand_id": 1,
+              "selling_price": 1
+            },
+            "inputStage": {
+              "stage": "FETCH",
+              "nReturned": 11,
+              "executionTimeMillisEstimate": 0,
+              "works": 12,
+              "advanced": 11,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "docsExamined": 11,
+              "alreadyHasObj": 0,
+              "inputStage": {
+                "stage": "IXSCAN",
+                "nReturned": 11,
+                "executionTimeMillisEstimate": 0,
+                "works": 12,
+                "advanced": 11,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 0,
+                "restoreState": 0,
+                "isEOF": 1,
+                "keyPattern": {
+                  "brand_id": 1,
+                  "selling_price": 1
+                },
+                "indexName": "idx_brand_price",
+                "isMultiKey": false,
+                "multiKeyPaths": {
+                  "brand_id": [],
+                  "selling_price": []
+                },
+                "isUnique": false,
+                "isSparse": false,
+                "isPartial": false,
+                "indexVersion": 2,
+                "direction": "forward",
+                "indexBounds": {
+                  "brand_id": [
+                    "[7, 7]"
+                  ],
+                  "selling_price": [
+                    "[500000, 520000]"
+                  ]
+                },
+                "keysExamined": 11,
+                "seeks": 1,
+                "dupsTested": 0,
+                "dupsDropped": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "sku_result": [
+      [
+        "IDX-0004201",
+        "Part 4201",
+        1,
+        520000
+      ]
+    ],
+    "brand_price_result": [
+      [
+        "IDX-0004007",
+        "Part 4007",
+        7,
+        500000
+      ],
+      [
+        "IDX-0004027",
+        "Part 4027",
+        7,
+        502000
+      ],
+      [
+        "IDX-0004047",
+        "Part 4047",
+        7,
+        504000
+      ],
+      [
+        "IDX-0004067",
+        "Part 4067",
+        7,
+        506000
+      ],
+      [
+        "IDX-0004087",
+        "Part 4087",
+        7,
+        508000
+      ],
+      [
+        "IDX-0004107",
+        "Part 4107",
+        7,
+        510000
+      ],
+      [
+        "IDX-0004127",
+        "Part 4127",
+        7,
+        512000
+      ],
+      [
+        "IDX-0004147",
+        "Part 4147",
+        7,
+        514000
+      ],
+      [
+        "IDX-0004167",
+        "Part 4167",
+        7,
+        516000
+      ],
+      [
+        "IDX-0004187",
+        "Part 4187",
+        7,
+        518000
+      ],
+      [
+        "IDX-0004207",
+        "Part 4207",
+        7,
+        520000
+      ]
+    ]
+  }
+}

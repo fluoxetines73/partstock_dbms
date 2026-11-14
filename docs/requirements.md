@@ -12,8 +12,8 @@ Sơ đồ use case ở nhánh F02 chờ tích hợp. Bản đầu backend UC01 v
 | ID | Chức năng | Owner | Trạng thái / bằng chứng |
 |---|---|---|---|
 | UC01 | Quản lý danh mục và thương hiệu | A | Đang làm: API/schema, 11 test và kiểm tra lab đạt; còn UI/phân quyền/tích hợp/review — [bằng chứng](../backend/README.md) |
-| UC02 | Quản lý linh kiện, thông số, giá bán | B | Chưa triển khai / chưa có |
-| UC03 | Quản lý nhà cung cấp | B | Chưa triển khai / chưa có |
+| UC02 | Quản lý linh kiện, thông số, giá bán | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI, ngừng kinh doanh và tích hợp tồn — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
+| UC03 | Quản lý nhà cung cấp | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI và quy tắc xóa/ngừng sử dụng — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
 | UC04 | Tạo/xác nhận phiếu nhập và tăng tồn kho | D | Chưa triển khai / chưa có |
 | UC05 | Tra cứu sản phẩm theo mã/tên | C | Chưa triển khai / chưa có |
 | UC06 | Lọc sản phẩm theo loại, hãng, giá, tồn kho | C | Chưa triển khai / chưa có |
@@ -41,9 +41,9 @@ owner bổ sung đường dẫn code, script/query, dữ liệu đầu vào, k�
 
 | Dạng | Kịch bản dự kiến | Owner | Code/script/demo | Trạng thái |
 |---|---|---|---|---|
-| insert | Thêm sản phẩm/nhà cung cấp | B | Chưa có | Chưa triển khai |
+| insert | Thêm sản phẩm/nhà cung cấp | B | `POST /api/products` tạo `RAM-TEST-01` giá 450.000 VND, `POST /api/suppliers` tạo nhà cung cấp mẫu. Cả hai trả `201` và xuất hiện trong GET cuối. [Integration test](../backend/tests-db/uc02-03.cjs#L75) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
 | delete | Xóa chứng từ nháp chưa ảnh hưởng kho | D | Chưa có | Chưa triển khai |
-| update | Đổi giá/thông số sản phẩm | B | Chưa có | Chưa triển khai |
+| update | Đổi giá/thông số sản phẩm | B | `PATCH /api/products/:id` trả `200` khi đổi giá từ 450.000 lên 470.000 VND và khi xóa thông số bằng `null`. GET cuối đọc lại đúng hai giá trị. [Integration test](../backend/tests-db/uc02-03.cjs#L82) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
 | Điều kiện đơn | Tra cứu mã sản phẩm | C | Chưa có | Chưa triển khai |
 | Điều kiện kết hợp | Loại + hãng + giá + tồn | C | Chưa có | Chưa triển khai |
 | join | Đơn bán, dòng bán và sản phẩm | D / C | Chưa có | Chưa triển khai |

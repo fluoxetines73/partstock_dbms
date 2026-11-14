@@ -125,5 +125,26 @@ Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
   Review kỹ thuật bằng trợ lý không thấy lỗi quan trọng, không thay review B hoặc nghiệm thu nhóm.
 - Chưa Done UC01; chưa push/merge. Chi tiết cách chạy và giới hạn ở backend/README.md.
 
+## Đề xuất nền UC02–03 của B — 13/11/2026
+
+- B soạn ERD linh kiện và nhà cung cấp để A ghép ERD chung và C/D/E dùng dữ liệu mẫu.
+- Đề xuất theo ERD UC01. Mỗi sản phẩm có một danh mục và một thương hiệu. Hai FK dùng
+  `BIGINT UNSIGNED NOT NULL` để khớp PK của UC01 và `ON DELETE RESTRICT` để giữ liên kết.
+  Bản nháp khớp F04 về ID, SKU, giá VND `DECIMAL(15,0)` và trạng thái sản phẩm.
+  B đề xuất JSON object cho thông số và trường liên hệ tùy chọn cho nhà cung cấp.
+- Còn mở gồm giá bán bằng 0, cách ngừng sử dụng nhà cung cấp và hợp đồng API.
+  D/E cần xác nhận ai viết và cách gọi cơ chế tạo dòng tồn bằng 0 theo F03 Q6.
+- Trạng thái bản nháp đã kiểm tra trên MySQL lab 8.4.13, chờ C review, A ghép ERD và
+  D/E rà phần chứng từ, tồn kho. Xem [erd-mien-b.md](../docs/architecture/erd-mien-b.md)
+  và [database/seed/README.md](../database/seed/README.md#dữ-liệu-mẫu-uc0203).
+
+## API UC02–03 bản đầu — 13/11/2026
+
+- Dùng quy ước UC01 cho ID chuỗi, quyền Quản lý local và phản hồi lỗi. PATCH chỉ thay
+  các trường được gửi. Giá VND dùng số nguyên theo phạm vi schema. FK thiếu đích trả
+  `400 INVALID_REFERENCE`, SKU trùng trả `409 SKU_CONFLICT`.
+- Hợp đồng bản đầu chờ C review. Quy tắc ngừng kinh doanh, ngừng sử dụng nhà cung cấp và
+  tích hợp tạo dòng tồn ban đầu vẫn còn mở. [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp)
+
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.
