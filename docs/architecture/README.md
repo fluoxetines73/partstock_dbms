@@ -1,7 +1,10 @@
 # Kiến trúc dự kiến
 
-Chưa có sơ đồ/schema/API đã chốt. Cần lưu sơ đồ use case (12 UC), ERD MySQL,
-model MongoDB và hợp đồng API sau khi nhóm review, kèm ngày/phiên bản và liên kết quyết định.
+Đã có [bản nháp F02: 12 use case](use-cases.md), [sơ đồ](use-case-diagram.svg)
+và [nguồn Graphviz](use-case-diagram.dot), ngày 10/11/2026; chờ C review và owner góp ý.
+Xem [bàn giao và kiểm tra F02](f02-handoff.md). A đã duyệt hai actor Nhân viên/Quản lý ngày 10/11/2026; chưa nghiệm thu F02 hoặc triển khai phân quyền.
+Chưa có ERD MySQL, model MongoDB và hợp đồng API đã chốt; bổ sung sau review,
+kèm ngày/phiên bản và liên kết quyết định.
 
 Luồng ứng dụng dự kiến: React/Vite → Express/TypeScript → MySQL app.
 Luồng thực nghiệm riêng: script lab → MySQL lab hoặc MongoDB lab; không đồng bộ app–MongoDB.
