@@ -36,6 +36,7 @@ for (const [tab, noun] of [['Danh mục', 'danh mục'], ['Thương hiệu', 'th
     await row.getByRole('button', { name: 'Xóa', exact: true }).click();
     await dialog.getByRole('button', { name: 'Xóa', exact: true }).click();
     await expect(row).toHaveCount(0);
+    await expect(page.getByRole('button', { name: `Thêm ${noun}` })).toBeFocused();
     await page.getByRole('row').nth(1).getByRole('button', { name: 'Xóa', exact: true }).click();
     await dialog.getByRole('button', { name: 'Xóa', exact: true }).click();
     await expect(dialog.getByRole('alert')).toContainText('đang được sản phẩm sử dụng');
@@ -76,6 +77,7 @@ test('slow writes disable duplicate submission; keyboard and narrow layout work'
   await expect(dialog.getByLabel('Tên')).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
+  await expect(page.getByRole('button', { name: 'Thêm danh mục' })).toBeFocused();
   await page.getByRole('button', { name: 'Thêm danh mục' }).click();
   await dialog.getByLabel('Tên').fill('Slow save');
   let release;

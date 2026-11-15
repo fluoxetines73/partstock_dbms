@@ -31,6 +31,7 @@ function CatalogList({ table, token }) {
   const [notice, setNotice] = useState('');
   const [reload, setReload] = useState(0);
   const [editor, setEditor] = useState(null);
+  const addButton = useRef(null);
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true); setError('');
@@ -49,29 +50,36 @@ function CatalogList({ table, token }) {
     <div className="table-toolbar"><div><h2>{table === 'categories' ? 'Danh mục linh kiện' : 'Thương hiệu linh kiện'}</h2>
       <p>{loading ? 'Đang tải danh sách…' : error ? 'Chưa tải được danh sách' : `${items.length} ${noun}`}</p></div>
       <div className="actions"><button onClick={() => { setNotice(''); setReload(n => n + 1); }} disabled={loading}>Tải lại</button>
-        <button className="primary" onClick={() => { setNotice(''); setEditor({ mode: 'add' }); }} disabled={loading || Boolean(error)}>Thêm {noun}</button></div></div>
+        <button ref={addButton} className="primary" onClick={event => { setNotice(''); setEditor({ mode: 'add', opener: event.currentTarget }); }} disabled={loading || Boolean(error)}>Thêm {noun}</button></div></div>
     {error && <p className="error" role="alert">{error}</p>}
     {notice && <p className="success" role="status">{notice}</p>}
     <div className="table-wrap" aria-busy={loading}>
       <table><caption className="sr-only">Danh sách {noun}</caption><thead><tr><th scope="col">Tên {noun}</th><th scope="col" className="right">Thao tác</th></tr></thead>
         <tbody>{!loading && items.map(item => <tr key={item.id}><td><span className="item-name">{item.name}</span></td><td className="row-actions">
-          <button onClick={() => { setNotice(''); setEditor({ mode: 'edit', item }); }}>Sửa</button>
-          <button className="danger-text" onClick={() => { setNotice(''); setEditor({ mode: 'delete', item }); }}>Xóa</button>
+          <button onClick={event => { setNotice(''); setEditor({ mode: 'edit', item, opener: event.currentTarget }); }}>Sửa</button>
+          <button className="danger-text" onClick={event => { setNotice(''); setEditor({ mode: 'delete', item, opener: event.currentTarget }); }}>Xóa</button>
         </td></tr>)}</tbody></table>
       {loading ? <p className="empty" role="status">Đang tải…</p> : !error && items.length === 0 && <div className="empty"><strong>Chưa có {noun}</strong><p>Thêm mục đầu tiên để bắt đầu phân loại linh kiện.</p></div>}
     </div>
     <p className="hint">Chỉ xóa được mục chưa có sản phẩm sử dụng. Đổi tên không làm mất liên kết sản phẩm.</p>
-    {editor && <CatalogEditor {...editor} noun={noun} token={token} table={table} onClose={() => setEditor(null)} onSaved={saved} />}
+    {editor && <CatalogEditor {...editor} fallbackFocus={addButton} noun={noun} token={token} table={table} onClose={() => setEditor(null)} onSaved={saved} />}
   </section>;
 }
 
-function CatalogEditor({ mode, item, noun, token, table, onClose, onSaved }) {
+function CatalogEditor({ mode, item, noun, token, table, onClose, onSaved, opener, fallbackFocus }) {
   const dialog = useRef(null);
   const pending = useRef(false);
   const [name, setName] = useState(item?.name || '');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  useEffect(() => { dialog.current.showModal(); }, []);
+  useEffect(() => {
+    const modal = dialog.current;
+    modal.showModal();
+    return () => {
+      modal.close();
+      (opener?.isConnected ? opener : fallbackFocus.current)?.focus();
+    };
+  }, [opener, fallbackFocus]);
   async function submit(event) {
     event.preventDefault();
     if (pending.current) return;

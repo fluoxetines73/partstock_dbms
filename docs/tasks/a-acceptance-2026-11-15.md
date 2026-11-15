@@ -52,3 +52,7 @@ Tài liệu: kiểm tra diff, đường dẫn tương đối, nguồn branch/com
 - UI: build đạt, 5/5 browser test đạt với MySQL lab thật. Đã xem ảnh desktop/mobile;
   không tràn ngang ở 390 px. Bản đầu test thất bại do chưa có giao diện, đạt sau triển khai.
 - Backend: 11/11 test đạt; integration UC01 và UC02–03 đạt. Token local chưa là hai vai trò.
+- Review kỹ thuật độc lập bằng trợ lý: phát hiện mất focus khi đóng modal, test tái hiện
+  trước sửa; bổ sung trả focus về nút mở/nút Thêm sau xóa. Không thay review B/C/E.
+- Giới hạn nhỏ còn lại: dừng fixture ngay lúc khởi tạo có thể để sót schema lab ngẫu nhiên;
+  đã ghi cách nhận diện/dọn trong frontend/README.md. Không ảnh hưởng dữ liệu app.
