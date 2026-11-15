@@ -3,7 +3,8 @@
 Bản nháp của A ngày 11/11/2026, chờ B review dữ liệu và C rà API.
 Theo [yêu cầu](../requirements.md), [plan](../plan.md) và hai actor trong F02
 trên nhánh `docs/f02-use-case-plan`. Đã triển khai bản đầu: migration và API CRUD, 11 test đạt và kiểm tra MySQL lab đạt.
-Chưa có UI, phân quyền chung hoặc review B/C.
+Ngày 15/11 đã có UI và 5 test trình duyệt qua MySQL lab, cùng kiểm thử FK sản phẩm thật của B.
+Còn phân quyền chung và review B/C; xem [frontend](../../frontend/README.md).
 
 Quản lý có thể xem, thêm, sửa tên và xóa danh mục/thương hiệu chưa được sản phẩm sử dụng.
 Tên không được rỗng hoặc trùng trong cùng danh sách. Mục đã được sản phẩm sử dụng thì

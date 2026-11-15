@@ -76,7 +76,7 @@ Body thêm/sửa: `{"name":"RAM"}`. Tên được trim, chuẩn hóa Unicode NFC
 không phân biệt hoa/thường nhưng phân biệt dấu. POST trả 201 với `{id,name}`; GET trả mảng;
 PATCH trả item; DELETE trả 204. id luôn là chuỗi. Tên trùng trả 409 NAME_CONFLICT;
 không tìm thấy khi sửa/xóa trả 404. Mục bị FK tham chiếu trả 409 RESOURCE_IN_USE.
-B phải thêm FK RESTRICT từ products; chưa có bảng products trong migration này.
+Migration 002 của B đã có FK RESTRICT từ products; migration 001 chỉ tạo hai bảng UC01.
 
 Kiểm tra bổ sung:
 
@@ -89,7 +89,12 @@ npm run test:db
 gồm migration/seed, CRUD hai bảng, tên trùng đồng thời, phân biệt dấu và FK bằng fixture.
 Test DB dùng LAB_MYSQL_* và LAB_MYSQL_ROOT_PASSWORD, tạo/dọn schema test riêng;
 không reset partstock/partstock_lab. Fixture sản phẩm không phải schema thật của B.
-Chưa có giao diện, liên kết sản phẩm thật hoặc review B; UC01 chưa Done.
+Đây là kết quả lịch sử 11/11. Cập nhật 15/11: test DB đã dùng migration products thật
+của B, xác minh CRUD qua HTTP, tên trùng đồng thời, quyền và đổi tên giữ FK/xóa bị chặn.
+Sửa thứ tự GET theo cột BIGINT thay alias chuỗi: ID 2 đứng trước ID 10; test tái hiện lỗi
+trước sửa rồi đạt sau sửa. Bộ test backend 11/11 và integration UC01/UC02–03 đều chạy lại đạt.
+Đã có [UI UC01 và 5 test trình duyệt qua MySQL lab](../frontend/README.md).
+Còn review B/C, phân quyền hai actor chung và nghiệm thu trên bản nhóm; UC01 chưa Done.
 
 ## UC02–03 — API linh kiện và nhà cung cấp
 
