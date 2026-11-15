@@ -18,7 +18,7 @@ function tableName(table: CatalogTable): string {
 export function createCatalogStore(pool: Pool): CatalogStore {
   return {
     async list(table) {
-      const [rows] = await pool.execute<RowDataPacket[]>(`SELECT CAST(id AS CHAR) AS id, name FROM ${tableName(table)} ORDER BY id`);
+      const [rows] = await pool.execute<RowDataPacket[]>(`SELECT CAST(id AS CHAR) AS id, name FROM ${tableName(table)} ORDER BY ${tableName(table)}.id`);
       return rows.map(row => ({ id: row.id as string, name: row.name as string }));
     },
     async create(table, name) {

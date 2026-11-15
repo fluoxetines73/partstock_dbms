@@ -29,6 +29,7 @@ async function main() {
       finally { conn.release(); }
     }
     await sqlFile('mysql/migrations/001_catalogs.sql');
+    await sqlFile('mysql/migrations/002_products_suppliers.sql');
     await sqlFile('seed/001_catalogs.sql');
     const store = createCatalogStore(pool);
     assert.equal((await store.list('categories')).length, 2);
@@ -49,9 +50,8 @@ async function main() {
     }
     const cat = await store.create('categories', 'Referenced');
     const brand = await store.create('brands', 'Referenced');
-    // Test fixture only; not the products schema owned by B.
-    await pool.query('CREATE TABLE product_reference_fixture (category_id BIGINT UNSIGNED, brand_id BIGINT UNSIGNED, FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT, FOREIGN KEY (brand_id) REFERENCES brands(id) ON DELETE RESTRICT) ENGINE=InnoDB');
-    await pool.execute('INSERT INTO product_reference_fixture VALUES (?, ?)', [cat.id, brand.id]);
+    // Use B's real product migration to verify the integration boundary.
+    await pool.execute('INSERT INTO products (sku, name, category_id, brand_id, selling_price) VALUES (?, ?, ?, ?, ?)', ['UC01-FK', 'UC01 fixture', cat.id, brand.id, 100000]);
     await assert.rejects(store.remove('categories', cat.id), { code: 'ER_ROW_IS_REFERENCED_2' });
     await assert.rejects(store.remove('brands', brand.id), { code: 'ER_ROW_IS_REFERENCED_2' });
     const token = randomBytes(24).toString('hex');
@@ -59,9 +59,34 @@ async function main() {
     await once(server, 'listening');
     const base = `http://127.0.0.1:${server.address().port}`;
     assert.equal((await fetch(`${base}/ready`)).status, 200);
-    const response = await fetch(`${base}/api/categories/${cat.id}`, { method: 'DELETE', headers: { authorization: `Bearer ${token}` } });
-    assert.equal(response.status, 409);
-    console.log('PASS: lab migration/seed, CRUD, concurrent duplicates, accents, FK restriction and HTTP with real MySQL');
+    const headers = { authorization: `Bearer ${token}`, 'content-type': 'application/json' };
+    async function request(resource, status, method = 'GET', body) {
+      const response = await fetch(`${base}/api/${resource}`, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
+      assert.equal(response.status, status, `${method} ${resource}`);
+      return response.status === 204 ? null : response.json();
+    }
+    for (const [table, referenced] of [['categories', cat], ['brands', brand]]) {
+      const item = await request(table, 201, 'POST', { name: '  UI demo  ' });
+      assert.equal(item.name, 'UI demo');
+      assert.equal((await request(`${table}/${item.id}`, 200, 'PATCH', { name: 'Đã đổi' })).name, 'Đã đổi');
+      assert.ok((await request(table, 200)).some(row => row.id === item.id && row.name === 'Đã đổi'));
+      await request(`${table}/${item.id}`, 204, 'DELETE');
+      assert.equal((await request(`${table}/${item.id}`, 404, 'DELETE')).error.code, 'NOT_FOUND');
+      assert.equal((await request(`${table}/${referenced.id}`, 409, 'DELETE')).error.code, 'RESOURCE_IN_USE');
+      await request(`${table}/${referenced.id}`, 200, 'PATCH', { name: 'Linked renamed' });
+      assert.equal((await request(table, 400, 'POST', { name: ' ' })).error.code, 'VALIDATION_ERROR');
+      const race = await Promise.all(['HTTP race', 'http RACE'].map(name => fetch(`${base}/api/${table}`, {
+        method: 'POST', headers, body: JSON.stringify({ name }),
+      })));
+      assert.deepEqual(race.map(response => response.status).sort(), [201, 409]);
+      assert.equal((await fetch(`${base}/api/${table}`)).status, 401);
+      assert.equal((await fetch(`${base}/api/${table}`, { headers: { authorization: 'Bearer invalid' } })).status, 403);
+      const ids = (await request(table, 200)).map(item => BigInt(item.id));
+      assert.deepEqual(ids, [...ids].sort((a, b) => a < b ? -1 : a > b ? 1 : 0), 'List orders numeric BIGINT IDs, including IDs >= 10');
+    }
+    const [linked] = await pool.query('SELECT CAST(p.category_id AS CHAR) AS category_id, CAST(p.brand_id AS CHAR) AS brand_id, c.name AS category_name, b.name AS brand_name FROM products p JOIN categories c ON c.id=p.category_id JOIN brands b ON b.id=p.brand_id WHERE p.sku="UC01-FK"');
+    assert.deepEqual({ ...linked[0] }, { category_id: cat.id, brand_id: brand.id, category_name: 'Linked renamed', brand_name: 'Linked renamed' });
+    console.log('PASS: real migrations 001/002, UC01 HTTP CRUD, concurrent duplicates, accents, authorization, products FK RESTRICT and rename preserving references');
   } finally {
     if (server) await new Promise(resolve => server.close(resolve));
     if (pool) await pool.end();
@@ -69,4 +94,4 @@ async function main() {
     await admin.end();
   }
 }
-main().catch(error => { console.error('FAIL: lab integration', error.code || error.name); process.exitCode = 1; });
+main().catch(error => { console.error('FAIL: lab integration', error instanceof assert.AssertionError ? error.message : error.code || error.name); process.exitCode = 1; });
