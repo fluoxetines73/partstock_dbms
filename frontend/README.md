@@ -40,7 +40,8 @@ Nếu đã có Chromium tương thích, đặt `PLAYWRIGHT_CHROMIUM_EXECUTABLE_P
 thay bước tải trình duyệt. Cần OS có các thư viện chạy Chromium. Test tự mở localhost
 3101/5174 (phải đang rảnh), không dùng lại server sẵn có. Tạo schema lab ngẫu nhiên
 `partstock_uc01_ui_*`, nạp migration/seed 001–002 thật, dùng token test ngẫu nhiên và dọn
-schema khi kết thúc. Không ghi/xóa dữ liệu MySQL app hoặc reset lab chung. Hard kill có thể
+schema khi kết thúc. Không ghi/xóa dữ liệu MySQL app hoặc reset lab chung. Hard kill hoặc
+dừng ngay khi fixture còn đang khởi tạo (trước khi server lắng nghe) có thể
 để sót schema của lượt lỗi; chỉ dọn đúng schema đó sau khi kiểm tra.
 
 15/11: **5/5 test trình duyệt đạt**, build đạt. Bao phủ CRUD hai bảng; tên trùng, độ dài,
