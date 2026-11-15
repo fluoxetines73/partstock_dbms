@@ -1,0 +1,284 @@
+{
+  "capturedAt": "2026-11-15T14:28:02.092Z",
+  "seed": "sha256(id), ASCII payload",
+  "measuredRuns": 1,
+  "timingMeasured": false,
+  "mongoFsyncBeforeStats": true,
+  "models": {
+    "mysql": "products + one specification row per product",
+    "mongodb": "product with embedded specification"
+  },
+  "mysql": {
+    "engine": "InnoDB",
+    "version": "8.4.13",
+    "pageSize": 16384,
+    "filePerTable": 1,
+    "bufferPoolSize": 134217728,
+    "phases": [
+      {
+        "phase": "empty",
+        "tables": [
+          {
+            "name": "storage_products",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 16384,
+            "indexLength": 16384,
+            "estimatedRows": 0
+          },
+          {
+            "name": "storage_specifications",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 16384,
+            "indexLength": 0,
+            "estimatedRows": 0
+          }
+        ],
+        "logical": {
+          "count": 0,
+          "idSum": 0,
+          "invalid": 0,
+          "priceSum": 0,
+          "specCount": 0,
+          "payloadBytes": 0
+        }
+      },
+      {
+        "phase": "1000",
+        "tables": [
+          {
+            "name": "storage_products",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 81920,
+            "indexLength": 49152,
+            "estimatedRows": 1000
+          },
+          {
+            "name": "storage_specifications",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 98304,
+            "indexLength": 0,
+            "estimatedRows": 1000
+          }
+        ],
+        "logical": {
+          "count": 1000,
+          "idSum": 500500,
+          "invalid": 0,
+          "priceSum": 105005000,
+          "specCount": 1000,
+          "payloadBytes": 32000
+        }
+      },
+      {
+        "phase": "5000",
+        "tables": [
+          {
+            "name": "storage_products",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 294912,
+            "indexLength": 131072,
+            "estimatedRows": 5000
+          },
+          {
+            "name": "storage_specifications",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 327680,
+            "indexLength": 0,
+            "estimatedRows": 5000
+          }
+        ],
+        "logical": {
+          "count": 5000,
+          "idSum": 12502500,
+          "invalid": 0,
+          "priceSum": 625025000,
+          "specCount": 5000,
+          "payloadBytes": 160000
+        }
+      },
+      {
+        "phase": "expanded",
+        "tables": [
+          {
+            "name": "storage_products",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 294912,
+            "indexLength": 131072,
+            "estimatedRows": 5000
+          },
+          {
+            "name": "storage_specifications",
+            "engine": "InnoDB",
+            "dataFree": 4194304,
+            "rowFormat": "Dynamic",
+            "dataLength": 4734976,
+            "indexLength": 0,
+            "estimatedRows": 4949
+          }
+        ],
+        "logical": {
+          "count": 5000,
+          "idSum": 12502500,
+          "invalid": 0,
+          "priceSum": 625025000,
+          "specCount": 5000,
+          "payloadBytes": 2560000
+        }
+      },
+      {
+        "phase": "deleted_half",
+        "tables": [
+          {
+            "name": "storage_products",
+            "engine": "InnoDB",
+            "dataFree": 0,
+            "rowFormat": "Dynamic",
+            "dataLength": 294912,
+            "indexLength": 131072,
+            "estimatedRows": 2500
+          },
+          {
+            "name": "storage_specifications",
+            "engine": "InnoDB",
+            "dataFree": 4194304,
+            "rowFormat": "Dynamic",
+            "dataLength": 4587520,
+            "indexLength": 0,
+            "estimatedRows": 2340
+          }
+        ],
+        "logical": {
+          "count": 2500,
+          "idSum": 6250000,
+          "invalid": 0,
+          "priceSum": 312500000,
+          "specCount": 2500,
+          "payloadBytes": 1280000
+        }
+      }
+    ]
+  },
+  "mongodb": {
+    "version": "8.0.34",
+    "replicaSet": "rs0",
+    "members": 1,
+    "database": "partstock_lab",
+    "phases": [
+      {
+        "phase": "empty",
+        "logical": {
+          "count": 0,
+          "idSum": 0,
+          "priceSum": 0,
+          "payloadBytes": 0,
+          "invalid": 0
+        },
+        "size": 0,
+        "storageSize": 4096,
+        "freeStorageSize": 0,
+        "totalIndexSize": 8192,
+        "indexSizes": {
+          "_id_": 4096,
+          "sku_1": 4096
+        },
+        "engine": "WiredTiger",
+        "creationString": "access_pattern_hint=none,allocation_size=4KB,app_metadata=(formatVersion=1),assert=(commit_timestamp=none,durable_timestamp=none,read_timestamp=none,write_timestamp=off),block_allocation=best,block_compressor=snappy,cache_resident=false,checksum=on,colgroups=,collator=,columns=,dictionary=0,encryption=(keyid=,name=),exclusive=false,extractor=,format=btree,huffman_key=,huffman_value=,ignore_in_memory_cache_size=false,immutable=false,import=(compare_timestamp=oldest_timestamp,enabled=false,file_metadata=,metadata_file=,panic_corrupt=true,repair=false),internal_item_max=0,internal_key_max=0,internal_key_truncate=true,internal_page_max=4KB,key_format=q,key_gap=10,leaf_item_max=0,leaf_key_max=0,leaf_page_max=32KB,leaf_value_max=64MB,log=(enabled=false),lsm=(auto_throttle=true,bloom=true,bloom_bit_count=16,bloom_config=,bloom_hash_count=8,bloom_oldest=false,chunk_count_limit=0,chunk_max=5GB,chunk_size=10MB,merge_custom=(prefix=,start_generation=0,suffix=),merge_max=15,merge_min=0),memory_page_image_max=0,memory_page_max=10m,os_cache_dirty_max=0,os_cache_max=0,prefix_compression=false,prefix_compression_min=4,source=,split_deepen_min_child=0,split_deepen_per_child=0,split_pct=90,tiered_storage=(auth_token=,bucket=,bucket_prefix=,cache_directory=,local_retention=300,name=,object_target_size=0),type=file,value_format=u,verbose=[],write_timestamp_usage=none"
+      },
+      {
+        "phase": "1000",
+        "logical": {
+          "count": 1000,
+          "idSum": 500500,
+          "priceSum": 105005000,
+          "payloadBytes": 32000,
+          "invalid": 0
+        },
+        "size": 141893,
+        "storageSize": 77824,
+        "freeStorageSize": 0,
+        "totalIndexSize": 110592,
+        "indexSizes": {
+          "_id_": 40960,
+          "sku_1": 69632
+        },
+        "engine": "WiredTiger",
+        "creationString": "access_pattern_hint=none,allocation_size=4KB,app_metadata=(formatVersion=1),assert=(commit_timestamp=none,durable_timestamp=none,read_timestamp=none,write_timestamp=off),block_allocation=best,block_compressor=snappy,cache_resident=false,checksum=on,colgroups=,collator=,columns=,dictionary=0,encryption=(keyid=,name=),exclusive=false,extractor=,format=btree,huffman_key=,huffman_value=,ignore_in_memory_cache_size=false,immutable=false,import=(compare_timestamp=oldest_timestamp,enabled=false,file_metadata=,metadata_file=,panic_corrupt=true,repair=false),internal_item_max=0,internal_key_max=0,internal_key_truncate=true,internal_page_max=4KB,key_format=q,key_gap=10,leaf_item_max=0,leaf_key_max=0,leaf_page_max=32KB,leaf_value_max=64MB,log=(enabled=false),lsm=(auto_throttle=true,bloom=true,bloom_bit_count=16,bloom_config=,bloom_hash_count=8,bloom_oldest=false,chunk_count_limit=0,chunk_max=5GB,chunk_size=10MB,merge_custom=(prefix=,start_generation=0,suffix=),merge_max=15,merge_min=0),memory_page_image_max=0,memory_page_max=10m,os_cache_dirty_max=0,os_cache_max=0,prefix_compression=false,prefix_compression_min=4,source=,split_deepen_min_child=0,split_deepen_per_child=0,split_pct=90,tiered_storage=(auth_token=,bucket=,bucket_prefix=,cache_directory=,local_retention=300,name=,object_target_size=0),type=file,value_format=u,verbose=[],write_timestamp_usage=none"
+      },
+      {
+        "phase": "5000",
+        "logical": {
+          "count": 5000,
+          "idSum": 12502500,
+          "priceSum": 625025000,
+          "payloadBytes": 160000,
+          "invalid": 0
+        },
+        "size": 713893,
+        "storageSize": 380928,
+        "freeStorageSize": 73728,
+        "totalIndexSize": 532480,
+        "indexSizes": {
+          "_id_": 180224,
+          "sku_1": 352256
+        },
+        "engine": "WiredTiger",
+        "creationString": "access_pattern_hint=none,allocation_size=4KB,app_metadata=(formatVersion=1),assert=(commit_timestamp=none,durable_timestamp=none,read_timestamp=none,write_timestamp=off),block_allocation=best,block_compressor=snappy,cache_resident=false,checksum=on,colgroups=,collator=,columns=,dictionary=0,encryption=(keyid=,name=),exclusive=false,extractor=,format=btree,huffman_key=,huffman_value=,ignore_in_memory_cache_size=false,immutable=false,import=(compare_timestamp=oldest_timestamp,enabled=false,file_metadata=,metadata_file=,panic_corrupt=true,repair=false),internal_item_max=0,internal_key_max=0,internal_key_truncate=true,internal_page_max=4KB,key_format=q,key_gap=10,leaf_item_max=0,leaf_key_max=0,leaf_page_max=32KB,leaf_value_max=64MB,log=(enabled=false),lsm=(auto_throttle=true,bloom=true,bloom_bit_count=16,bloom_config=,bloom_hash_count=8,bloom_oldest=false,chunk_count_limit=0,chunk_max=5GB,chunk_size=10MB,merge_custom=(prefix=,start_generation=0,suffix=),merge_max=15,merge_min=0),memory_page_image_max=0,memory_page_max=10m,os_cache_dirty_max=0,os_cache_max=0,prefix_compression=false,prefix_compression_min=4,source=,split_deepen_min_child=0,split_deepen_per_child=0,split_pct=90,tiered_storage=(auth_token=,bucket=,bucket_prefix=,cache_directory=,local_retention=300,name=,object_target_size=0),type=file,value_format=u,verbose=[],write_timestamp_usage=none"
+      },
+      {
+        "phase": "expanded",
+        "logical": {
+          "count": 5000,
+          "idSum": 12502500,
+          "priceSum": 625025000,
+          "payloadBytes": 2560000,
+          "invalid": 0
+        },
+        "size": 3113893,
+        "storageSize": 937984,
+        "freeStorageSize": 303104,
+        "totalIndexSize": 532480,
+        "indexSizes": {
+          "_id_": 180224,
+          "sku_1": 352256
+        },
+        "engine": "WiredTiger",
+        "creationString": "access_pattern_hint=none,allocation_size=4KB,app_metadata=(formatVersion=1),assert=(commit_timestamp=none,durable_timestamp=none,read_timestamp=none,write_timestamp=off),block_allocation=best,block_compressor=snappy,cache_resident=false,checksum=on,colgroups=,collator=,columns=,dictionary=0,encryption=(keyid=,name=),exclusive=false,extractor=,format=btree,huffman_key=,huffman_value=,ignore_in_memory_cache_size=false,immutable=false,import=(compare_timestamp=oldest_timestamp,enabled=false,file_metadata=,metadata_file=,panic_corrupt=true,repair=false),internal_item_max=0,internal_key_max=0,internal_key_truncate=true,internal_page_max=4KB,key_format=q,key_gap=10,leaf_item_max=0,leaf_key_max=0,leaf_page_max=32KB,leaf_value_max=64MB,log=(enabled=false),lsm=(auto_throttle=true,bloom=true,bloom_bit_count=16,bloom_config=,bloom_hash_count=8,bloom_oldest=false,chunk_count_limit=0,chunk_max=5GB,chunk_size=10MB,merge_custom=(prefix=,start_generation=0,suffix=),merge_max=15,merge_min=0),memory_page_image_max=0,memory_page_max=10m,os_cache_dirty_max=0,os_cache_max=0,prefix_compression=false,prefix_compression_min=4,source=,split_deepen_min_child=0,split_deepen_per_child=0,split_pct=90,tiered_storage=(auth_token=,bucket=,bucket_prefix=,cache_directory=,local_retention=300,name=,object_target_size=0),type=file,value_format=u,verbose=[],write_timestamp_usage=none"
+      },
+      {
+        "phase": "deleted_half",
+        "logical": {
+          "count": 2500,
+          "idSum": 6250000,
+          "priceSum": 312500000,
+          "payloadBytes": 1280000,
+          "invalid": 0
+        },
+        "size": 1556945,
+        "storageSize": 1159168,
+        "freeStorageSize": 630784,
+        "totalIndexSize": 872448,
+        "indexSizes": {
+          "_id_": 294912,
+          "sku_1": 577536
+        },
+        "engine": "WiredTiger",
+        "creationString": "access_pattern_hint=none,allocation_size=4KB,app_metadata=(formatVersion=1),assert=(commit_timestamp=none,durable_timestamp=none,read_timestamp=none,write_timestamp=off),block_allocation=best,block_compressor=snappy,cache_resident=false,checksum=on,colgroups=,collator=,columns=,dictionary=0,encryption=(keyid=,name=),exclusive=false,extractor=,format=btree,huffman_key=,huffman_value=,ignore_in_memory_cache_size=false,immutable=false,import=(compare_timestamp=oldest_timestamp,enabled=false,file_metadata=,metadata_file=,panic_corrupt=true,repair=false),internal_item_max=0,internal_key_max=0,internal_key_truncate=true,internal_page_max=4KB,key_format=q,key_gap=10,leaf_item_max=0,leaf_key_max=0,leaf_page_max=32KB,leaf_value_max=64MB,log=(enabled=false),lsm=(auto_throttle=true,bloom=true,bloom_bit_count=16,bloom_config=,bloom_hash_count=8,bloom_oldest=false,chunk_count_limit=0,chunk_max=5GB,chunk_size=10MB,merge_custom=(prefix=,start_generation=0,suffix=),merge_max=15,merge_min=0),memory_page_image_max=0,memory_page_max=10m,os_cache_dirty_max=0,os_cache_max=0,prefix_compression=false,prefix_compression_min=4,source=,split_deepen_min_child=0,split_deepen_per_child=0,split_pct=90,tiered_storage=(auth_token=,bucket=,bucket_prefix=,cache_directory=,local_retention=300,name=,object_target_size=0),type=file,value_format=u,verbose=[],write_timestamp_usage=none"
+      }
+    ]
+  },
+  "validation": "PASS: exact counts, ID/price totals and all fixture values at five phases"
+}

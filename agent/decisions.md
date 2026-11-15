@@ -146,5 +146,17 @@ Sprint 1 và Sprint 2 trước 16/11; xem [kế hoạch](../docs/plan.md).
 - Hợp đồng bản đầu chờ C review. Quy tắc ngừng kinh doanh, ngừng sử dụng nhà cung cấp và
   tích hợp tạo dòng tồn ban đầu vẫn còn mở. [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp)
 
+## Lab Storage của A — 15/11/2026
+
+- Nguồn: A yêu cầu làm lab Storage độc lập; nhánh experiment/a-storage-management kế thừa
+  feat/uc02-03 tại 7038bb6, không đổi lịch sử remote A/B hoặc main.
+- Fixture lab riêng: sản phẩm + thông số 1:1 trên MySQL, nhúng trên MongoDB; không đổi schema app.
+- Đã chạy năm pha rỗng/1000/5000/mở rộng mô tả/xóa nửa dữ liệu; đối chiếu giá trị logic PASS.
+- Lượt đầu stats MongoDB lấy ngay sau ghi chưa phản ánh cấp phát; bản chính thức thêm fsync
+  bằng admin lab trước collStats, ghi điều kiện trong README. Không đo benchmark tốc độ.
+- Bằng chứng: experiments/storage/results-initial.json và docs/report/3-2-storage.md.
+- Trạng thái: bản đầu chạy trên một máy, chờ B review và tái tạo độc lập; không nghiệm thu
+  toàn gói A, không thay test UC01/UI, không push/merge trong lượt này.
+
 Khi bổ sung quyết định: ghi ngày, người tham gia, vấn đề, phương án, lý do, ảnh hưởng,
 trạng thái và liên kết biên bản/PR. Không biến đề xuất thành đồng thuận hoặc bịa lịch sử họp.

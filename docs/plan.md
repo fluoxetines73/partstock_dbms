@@ -29,6 +29,12 @@ Rà repo ngày 11/11:
   Nhánh riêng chưa được merge vào main, không coi phần tồn Sprint 1 hoặc Sprint 2 đã Done.
 - Đây là bằng chứng trong repo, không kết luận về công việc đang làm ngoài repo.
 
+Cập nhật riêng phần A ngày 15/11: đã chạy lab Storage trên MySQL/MongoDB, đối chiếu dữ liệu
+năm pha PASS và có [báo cáo/demo bản đầu](report/3-2-storage.md). Script/kết quả ở
+`experiments/storage/`, nhánh `experiment/a-storage-management`; chưa được B review,
+chưa tái tạo trên máy thứ hai hoặc merge. Đây là đầu ra lab A, không xác nhận app hoặc
+nghiệm thu Sprint 1–2 đã hoàn tất. Các dòng rà 11/11 ở trên giữ mốc thời gian ban đầu.
+
 Lịch dưới là mục tiêu đã được người dùng duyệt, không phải xác nhận nhận việc hoặc nghiệm thu
 của toàn nhóm. Quyết định schema/API/công nghệ/nghiệp vụ còn mở vẫn phải được xác nhận trong
 [sổ quyết định](../agent/decisions.md).

@@ -15,7 +15,8 @@ xem [setup](../setup-local-docker.md), [kết quả](../KIEM-TRA.md). Đã chạ
 và máy thành viên khác xác minh. Nhánh docs/a-sprint1-foundation đã có khung backend,
 API/schema/seed UC01 và ERD miền A; build và 11 test đạt, kiểm tra CRUD/FK fixture trên lab đạt.
 Hai bảng đã tạo trên app local, không nạp seed. Còn UI, phân quyền chung, FK sản phẩm thật,
-review B, hợp nhất ERD và lab Storage; chưa nghiệm thu/merge. Xem todo A và backend/README.md.
+review B và hợp nhất ERD; chưa nghiệm thu/merge. Lab Storage đã có script, kết quả năm pha
+và báo cáo bản đầu ngày 15/11 trên nhánh experiment/a-storage-management; chờ B review/tái tạo. Xem todo A và backend/README.md.
 
 [Requirements](../docs/requirements.md) là nguồn nghiệp vụ/rubric; [ownership](../docs/ownership.md)
 là nguồn phân công; [plan](../docs/plan.md) là nguồn sprint. [Decisions](decisions.md) tách đã chốt/đề xuất/còn mở.

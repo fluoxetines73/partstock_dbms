@@ -1,30 +1,52 @@
-# Storage & management
+# Storage & management — A
 
-## Mục tiêu và owner
-Kiểm chứng cơ chế Storage & management trên cả MySQL và MongoDB theo nghiệp vụ PartStock.
-Owner: **A**. Trạng thái: **chưa triển khai**, chưa có script/lệnh chạy/kết quả.
+Bản đầu đã chạy 15/11/2026 trên MySQL 8.4.13/InnoDB và MongoDB 8.0.34/WiredTiger,
+rs0 một node. [Kết quả](results-initial.json), [báo cáo/demo](../../docs/report/3-2-storage.md).
+Chưa có review B hoặc chạy lại trên máy thứ hai.
 
-## Câu hỏi cần kiểm chứng
-DBMS tổ chức và quản lý dữ liệu vật lý thế nào khi dữ liệu tăng?
+## Chạy
 
-## Kịch bản dự kiến
-- MySQL: Khảo sát metadata bảng/index, dung lượng và cấu trúc lưu trữ của engine được chọn trước/sau nạp dữ liệu.
-- MongoDB: Khảo sát metadata collection/index, thống kê lưu trữ và cơ chế engine theo phiên bản trước/sau nạp.
+Từ gốc repo có .env.docker, Docker và Node.js (không cài dependency mới):
 
-## Đầu vào
-Seed sản phẩm, chứng từ và dòng hàng ở nhiều quy mô đã ghi rõ.
-Schema/seed dùng chung ở database/; ghi model riêng và khác biệt giữa hai hệ.
+```bash
+docker compose --env-file .env.docker -f compose.local.yaml up -d mysql-lab mongo-lab
+node experiments/storage/run.cjs
+```
 
-## Bằng chứng cần thu
-Metadata, kích thước data/index, cấu hình engine và giải thích tổ chức lưu trữ; ERD không đủ.
-Mỗi kết quả đi kèm script, dữ liệu tái tạo, cấu hình và giải thích theo bối cảnh.
+Đợi lab healthy và khởi tạo rs0 theo setup-local-docker.md nếu đây là lần đầu.
+Lệnh trả JSON với validation PASS sau khi kiểm tra dữ liệu ở cả năm pha.
+Muốn lưu lượt riêng: `node experiments/storage/run.cjs > /tmp/storage-result.json`.
+Nếu thất bại, không dùng file output dở làm bằng chứng đạt.
 
-## Điều kiện so sánh
-Cùng nghiệp vụ/dữ liệu logic; ghi phiên bản, topology, tài nguyên/cấu hình, quy mô, index,
-cache, số lần chạy và cách tổng hợp khi đo hiệu năng. Kiểm tra hỗ trợ tính năng trước khi chạy.
-Không coi một lượt đo là kết luận tổng quát; nêu khác biệt model và giới hạn.
+## Dữ liệu và phương pháp
 
-## Reset lab
-Chưa có lệnh reset. Khi triển khai: xác minh đích lab bằng cấu hình/kết nối/quyền riêng,
-kết thúc các phiên thử, tạo lại dữ liệu thử từ seed đã biết và đối chiếu baseline trước lần tiếp.
-Không chạy reset trên database ứng dụng; backup/dump và artifact lớn không commit.
+Fixture nằm trong [database/lab/storage](../../database/lab/storage/). Đây là model lab riêng,
+không thay schema app: MySQL tách sản phẩm/thông số thành hai bảng liên kết 1:1;
+MongoDB nhúng thông số trong sản phẩm. Cùng id, SKU, tên, giá và nội dung thông số.
+Seed xác định: 5.000 id liên tiếp; mô tả là 32 ký tự đầu SHA256(id dạng thập phân).
+Giá = 100000 + id * 10 VND. Không có dữ liệu người thật.
+
+Các pha: rỗng → 1.000 sản phẩm → 5.000 → mô tả từ 32 lên 512 byte → xóa id chẵn.
+Mỗi pha đối chiếu số lượng chính xác, tổng ID/giá/byte và từng giá trị fixture;
+MySQL kiểm tra thêm đủ số dòng thông số. Có PK và unique SKU ngay từ đầu, không đổi index.
+
+MySQL ANALYZE TABLE rồi đọc INFORMATION_SCHEMA.TABLES với stats_expiry=0,
+ghi engine/row format/data_length/index_length/data_free và estimatedRows.
+COUNT(*) riêng là số dòng chính xác, không dùng estimatedRows để kiểm chứng.
+MongoDB gọi fsync không khóa ghi trước collStats, ghi size/storageSize/freeStorageSize,
+indexSizes và cấu hình WiredTiger. Không chạy compact/OPTIMIZE/VACUUM, không đo tốc độ.
+Có một lượt lấy số liệu chính thức, không flush cache cho benchmark.
+
+## Phạm vi và dọn dữ liệu
+
+Runner chỉ exec trong dịch vụ mysql-lab/mongo-lab, kiểm tra các biến môi trường lab.
+Dùng credential admin riêng của lab để đọc metadata/fsync và tạo schema; không dùng secret app.
+MySQL tạo schema `partstock_storage_<random>` rồi trap xóa chính schema đó khi xong.
+MongoDB tạo collection `storage_<random>` trong partstock_lab rồi finally drop collection đó.
+Không reset DB lab chung hoặc MySQL app. Nếu tiến trình/container bị kill cứng, kiểm tra và
+chỉ dọn đúng đối tượng của lượt lỗi; không dùng dropDatabase trên partstock_lab.
+fsync ảnh hưởng pending writes của toàn MongoDB lab: nên chạy khi các lab khác đang dừng.
+
+Hai chỉ số data_length và collStats.size/storageSize có nghĩa khác nhau; không cộng lẫn
+hoặc dùng làm bảng xếp hạng hai DBMS. Mô tả lặp và nén ảnh hưởng mạnh đến số byte.
+Đây là phép quan sát metadata cấp bảng/collection, không đo toàn bộ volume, journal hay backup.

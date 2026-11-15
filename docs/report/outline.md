@@ -14,7 +14,8 @@ Kịch bản UC02–03 qua HTTP và demo hai lab của B trong [demo-mien-b.md](
 ### 3.1. Phương pháp chung
 Dữ liệu logic, mô hình riêng, phiên bản/cấu hình, quy mô/index/cache, số lần chạy, reset và giới hạn so sánh.
 ### 3.2. Storage & management — A
-Tổ chức lưu trữ và bằng chứng cơ chế.
+Đã có bản đầu, script và kết quả năm pha trên hai hệ; chờ review/tái tạo độc lập.
+[3-2-storage.md](3-2-storage.md)
 ### 3.3. Indexing — B
 Bản đầu gồm phương pháp, query plan, số liệu đọc trước/sau, index size, update cost và lệnh demo.
 [3-3-indexing.md](3-3-indexing.md)

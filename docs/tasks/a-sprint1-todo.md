@@ -23,3 +23,9 @@ Sau đó tiếp tục UC01 đầy đủ và lab Storage để bàn giao cùng Sp
 
 Bàn giao 11/11: build và 11/11 test được chạy lại trước commit/push, đạt. Kiểm tra MySQL lab
 đã đạt trong lượt triển khai; chưa chạy lab Storage hoặc nghiệm thu giao diện/phân quyền.
+
+## Lab A — 15/11
+
+- [x] Nhánh experiment/a-storage-management; script/data ở experiments/storage và database/lab/storage.
+- [x] Chạy hai hệ, xác minh năm pha, lưu kết quả và bản báo cáo/demo 3-2-storage.md.
+- [ ] B review và một thành viên chạy lại; cập nhật góp ý trước nghiệm thu.
