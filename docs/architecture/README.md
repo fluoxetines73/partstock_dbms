@@ -1,5 +1,8 @@
 # Kiến trúc dự kiến
 
+[API contract A/B/C](api-contract.md) ghi các route đã có và phần tích hợp
+còn chờ D/E. ERD tích hợp tiếp tục theo bản review của A.
+
 Đã có [bản nháp F02: 12 use case](use-cases.md), [sơ đồ](use-case-diagram.svg)
 và [nguồn Graphviz](use-case-diagram.dot), ngày 10/11/2026; chờ C review và owner góp ý.
 Xem [bàn giao và kiểm tra F02](f02-handoff.md). A đã duyệt hai actor Nhân viên/Quản lý ngày 10/11/2026; chưa nghiệm thu F02 hoặc triển khai phân quyền.

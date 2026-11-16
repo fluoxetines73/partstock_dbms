@@ -2,12 +2,15 @@ import express from 'express';
 import { catalogRouter, type CatalogStore } from './catalog.js';
 import { productRouter, type createProductStore } from './products.js';
 import { supplierRouter, type createSupplierStore } from './suppliers.js';
+import { queryRouter, type createQueryStore } from './queries.js';
 
 interface AppResources {
   store: CatalogStore;
   products?: ReturnType<typeof createProductStore>;
   suppliers?: ReturnType<typeof createSupplierStore>;
   managerToken?: string;
+  staffToken?: string;
+  queries?: ReturnType<typeof createQueryStore>;
 }
 
 export function createApp(checkDatabase: () => Promise<void>, resources?: AppResources) {
@@ -27,6 +30,7 @@ export function createApp(checkDatabase: () => Promise<void>, resources?: AppRes
   });
   if (resources?.products) app.use('/api/products', productRouter(resources.products, resources.managerToken));
   if (resources?.suppliers) app.use('/api/suppliers', supplierRouter(resources.suppliers, resources.managerToken));
+  if (resources?.queries) app.use('/api', queryRouter(resources.queries, resources.managerToken, resources.staffToken));
   if (resources) app.use('/api', catalogRouter(resources.store, resources.managerToken));
   app.use((_request, response) => {
     response.status(404).json({ error: { code: 'NOT_FOUND', message: 'Route not found' } });

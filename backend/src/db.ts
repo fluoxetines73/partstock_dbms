@@ -2,6 +2,7 @@ import { createCatalogStore } from './catalog.js';
 import { createPool, type PoolOptions } from 'mysql2/promise';
 import { createProductStore } from './products.js';
 import { createSupplierStore } from './suppliers.js';
+import { createQueryStore } from './queries.js';
 
 export function createDatabase(options: PoolOptions) {
   const pool = createPool(options);
@@ -9,6 +10,7 @@ export function createDatabase(options: PoolOptions) {
     catalog: createCatalogStore(pool),
     products: createProductStore(pool),
     suppliers: createSupplierStore(pool),
+    queries: createQueryStore(pool),
     async check(): Promise<void> {
       await pool.query('SELECT 1');
     },

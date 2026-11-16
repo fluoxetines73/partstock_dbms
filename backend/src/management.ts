@@ -2,20 +2,26 @@ import { timingSafeEqual } from 'node:crypto';
 import type { RequestHandler } from 'express';
 
 export function requireManager(managerToken?: string): RequestHandler {
+  return requireAccess(managerToken);
+}
+
+export function requireAccess(managerToken?: string, staffToken?: string): RequestHandler {
+  const expectedTokens = [managerToken, staffToken]
+    .filter((token): token is string => Boolean(token?.trim()))
+    .map(token => Buffer.from(token));
   return (request, response, next) => {
     response.set('Cache-Control', 'no-store');
-    if (!managerToken || managerToken.trim() === '') {
+    if (expectedTokens.length === 0) {
       response.status(503).json({ error: { code: 'AUTH_NOT_CONFIGURED', message: 'Manager access is not configured' } });
       return;
     }
     const header = request.get('authorization');
     if (!header?.startsWith('Bearer ')) {
-      response.status(401).json({ error: { code: 'UNAUTHENTICATED', message: 'Manager token required' } });
+      response.status(401).json({ error: { code: 'UNAUTHENTICATED', message: staffToken ? 'Access token required' : 'Manager token required' } });
       return;
     }
     const supplied = Buffer.from(header.slice(7));
-    const expected = Buffer.from(managerToken);
-    if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) {
+    if (!expectedTokens.some(expected => supplied.length === expected.length && timingSafeEqual(supplied, expected))) {
       response.status(403).json({ error: { code: 'FORBIDDEN', message: 'Access denied' } });
       return;
     }

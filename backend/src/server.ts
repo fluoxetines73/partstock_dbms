@@ -4,12 +4,19 @@ import { createDatabase } from './db.js';
 
 function main() {
   const config = loadConfig(process.env);
+  const managerToken = process.env.APP_MANAGER_TOKEN;
+  const staffToken = process.env.APP_STAFF_TOKEN;
+  if (staffToken?.trim() && staffToken === managerToken) {
+    throw new Error('APP_STAFF_TOKEN and APP_MANAGER_TOKEN must differ');
+  }
   const database = createDatabase(config.db);
   const app = createApp(() => database.check(), {
     store: database.catalog,
     products: database.products,
     suppliers: database.suppliers,
-    managerToken: process.env.APP_MANAGER_TOKEN,
+    managerToken,
+    staffToken,
+    queries: database.queries,
   });
   const server = app.listen(config.port, '127.0.0.1', () => {
     console.log(`PartStock backend: http://127.0.0.1:${config.port}`);
