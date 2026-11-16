@@ -12,7 +12,8 @@ Trước sửa đọc AGENTS.md áp dụng, kiểm tra diff và giữ thay đổ
 PR nêu vấn đề, thay đổi, kiểm chứng đã chạy, phần chưa kiểm chứng và tài liệu ảnh hưởng.
 Có ít nhất một người khác review; A điều phối tích hợp và kiểm soát merge, code A cũng được review.
 Không tự push/merge/tạo remote hoặc đổi branch protection khi chưa được yêu cầu.
-Repo đã có Git và remote origin. Làm trên nhánh task, push nhánh và tạo PR khi được yêu cầu;
+Repo đã có Git và remote origin. Dùng mẫu PR trong `.github/pull_request_template.md`.
+Làm trên nhánh task, push nhánh và tạo PR khi được yêu cầu;
 không push thẳng main hoặc tự coi PR đã được review. Thành viên thử môi trường theo
 [hướng dẫn local](setup-local-docker.md) và ghi kết quả thật vào KIEM-TRA.md.
 
@@ -30,5 +31,6 @@ A chủ trì phạm vi/thiết kế/ưu tiên; B–E đóng góp chuyên môn. G
 Chạy trong bản tích hợp, đúng nghiệp vụ, có review và bằng chứng kiểm tra thật.
 Thực nghiệm có script/data/điều kiện/kết quả/giải thích; backup phải restore và đối chiếu.
 Báo cáo có trích dẫn và bằng chứng; có file chưa có nghĩa đã Done. Script kiểm tra hạ tầng ở
-database/local/; ứng dụng chưa có lệnh test. Task môi trường cần reviewer và một thành viên
+database/local/; lệnh test ứng dụng/lab ở README backend/frontend/experiments, ghi đúng phạm vi đã chạy.
+Task môi trường cần reviewer và một thành viên
 khác tái tạo được cấu hình trước khi ghi Done.

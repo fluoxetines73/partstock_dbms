@@ -1,9 +1,60 @@
 # Frontend
 
-Chưa triển khai; chưa có package.json hay lệnh chạy/test. Định hướng React + Vite;
-UI library và phiên bản chưa chốt. C phụ trách khung UI, mỗi owner làm UI use case của mình.
-Màn hình dự kiến: danh mục, sản phẩm/nhà cung cấp, nhập/bán/hủy, tra cứu và lịch sử kho,
-kiểm kê/cảnh báo, doanh thu. Chỉ phục vụ nhân viên/quản lý nội bộ một cửa hàng.
-Đọc [yêu cầu](../docs/requirements.md), [ownership](../docs/ownership.md) và hợp đồng API
-sau khi nhóm chốt; dùng mock theo hợp đồng để làm song song. Phải thể hiện lỗi thiếu tồn,
-trạng thái chứng từ và xác nhận phù hợp quy tắc đã thống nhất.
+Ngày 15/11/2026: A đã triển khai UI UC01 (danh mục/thương hiệu) bằng React + Vite,
+CSS thuần; người dùng cho phép cài nền frontend. Chưa là khung UI chung đã được C review.
+Phiên bản cố định trong package-lock.json; máy kiểm chứng Node v26.13.0, React 19.3.1,
+Vite 8.3.8, Playwright 1.61.1. Không có UI của UC02–12 hoặc đăng nhập hai actor.
+
+## Chạy giao diện local
+
+Từ gốc repo, chuẩn bị `.env.docker`, MySQL app, migration và `APP_MANAGER_TOKEN` riêng
+theo [backend](../backend/README.md). Backend chạy ở `127.0.0.1:3000`.
+
+```bash
+npm ci --prefix frontend
+npm run dev --prefix frontend
+```
+
+Mở URL Vite in ra (thường `http://127.0.0.1:5173`). Nhập token quản lý của máy mình
+vào màn kết nối. Token chỉ ở bộ nhớ trang, không có trong bundle/localStorage/sessionStorage
+hay URL; tải lại trang sẽ phải nhập lại. Đây là cơ chế local tạm, chưa phải login/phân quyền
+hai actor. Không nhập mật khẩu MySQL vào màn này.
+
+Frontend gọi `/api` cùng origin; Vite proxy sang backend. Backend dùng PORT khác thì đặt
+`API_TARGET=http://127.0.0.1:<port>` khi chạy Vite. Không dùng biến `VITE_*` chứa secret.
+Build: `npm run build --prefix frontend`. `dist/` chỉ là artifact tĩnh; deployment cần proxy
+`/api` cùng origin riêng, Vite preview không cấu hình API production thay nhóm.
+
+## Kiểm thử thật qua trình duyệt → HTTP → MySQL lab
+
+MySQL lab healthy ở 127.0.0.1:3308; có `.env.docker` riêng. Từ gốc repo:
+
+```bash
+npm run build --prefix backend
+cd frontend
+npx playwright install chromium
+npm test
+```
+
+Nếu đã có Chromium tương thích, đặt `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` tới executable
+thay bước tải trình duyệt. Cần OS có các thư viện chạy Chromium. Test tự mở localhost
+3101/5174 (phải đang rảnh), không dùng lại server sẵn có. Tạo schema lab ngẫu nhiên
+`partstock_uc01_ui_*`, nạp migration/seed 001–002 thật, dùng token test ngẫu nhiên và dọn
+schema khi kết thúc. Không ghi/xóa dữ liệu MySQL app hoặc reset lab chung. Hard kill hoặc
+dừng ngay khi fixture còn đang khởi tạo (trước khi server lắng nghe) có thể
+để sót schema của lượt lỗi; chỉ dọn đúng schema đó sau khi kiểm tra.
+
+15/11: **5/5 test trình duyệt đạt**, build đạt. Bao phủ CRUD hai bảng; tên trùng, độ dài,
+FK sản phẩm; sai quyền; lỗi mạng không báo thành công; không lưu token; chống gửi lặp;
+Escape/focus; viewport 390 px; bỏ kết quả request cũ khi đổi tab; hồi phục lỗi tải.
+Ảnh desktop/mobile được kiểm tra trực quan trong phiên, không phải nghiệm thu thành viên.
+Test có cảnh báo màu terminal `NO_COLOR/FORCE_COLOR`, không ảnh hưởng kết quả.
+
+## Bàn giao Khánh (C)
+
+- Component [CatalogPage](src/CatalogPage.jsx) nhận `{ token, onDisconnect }`; gọi API UC01
+  đã có. Ghép component vào route/shell chung; màn kết nối ở `main.jsx` chỉ là vỏ demo local.
+- Nhờ C rà navigation, quy ước CSS, cơ chế phiên/quyền chung và tài liệu API. Không nhúng
+  token chung vào frontend hoặc chọn role trong UI để thay kiểm tra quyền backend.
+- Nhờ Tuấn review API/FK và thay đổi thứ tự ID; Hải chạy lại test trên máy thứ hai.
+- C tiếp tục khung chung/UC05–06–11; B/D/E tự làm UI miền mình theo ownership.

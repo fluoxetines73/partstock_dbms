@@ -11,8 +11,11 @@ Bài tập lớn Database Management Systems, HCMUT, Học kỳ 261.
 credential riêng và kiểm tra hạ tầng. Trên một máy đã kiểm chứng container healthy,
 commit/rollback, giữ dữ liệu qua tạo lại container và kết nối DBeaver; xem [kết quả](KIEM-TRA.md).
 Bộ cấu hình đang chờ review và tái tạo trên máy thành viên khác, chưa là nghiệm thu toàn nhóm.
-Chưa có ứng dụng, schema/migration/seed nghiệp vụ, năm bài thực nghiệm đầy đủ hoặc benchmark.
-Không suy ra tiến độ triển khai từ sự tồn tại của các thư mục.
+Ngày 16/11, nhánh review đã có UI/API/schema UC01 của A, API/schema UC02–03 của B,
+lab Storage của A và Indexing/backup-restore của B. Đã ghép F02 và nháp F03/F04 của Nam;
+chưa có đầy đủ 12 UC, năm bài lab, hai actor được thực thi hoặc nghiệm thu nhóm.
+Main chưa nhận bản này. [Bàn giao hiện tại](docs/handoffs/a-acceptance-2026-11-16.md) có
+reviewer, bằng chứng và việc còn lại; [báo cáo bản đầu](docs/report/draft-integrated.md).
 
 ## Chạy môi trường database local
 
@@ -36,10 +39,10 @@ Backup/restore bổ sung trên hai hệ, không thay thế năm chủ đề và 
 - [Thực nghiệm](experiments/README.md), [kiến trúc](docs/architecture/README.md), [báo cáo](docs/report/outline.md).
 - [Ngữ cảnh agent](agent/context.md), [quyết định](agent/decisions.md).
 
-Bước tiếp theo: review và tái tạo môi trường trên máy thứ hai; A tổ chức chốt schema/API,
-quy tắc kho và cấu hình chung theo sổ quyết định; cả nhóm theo [kế hoạch cập nhật 09/11](docs/plan.md),
-ưu tiên nền tảng 09–12/11. Stack định hướng React + Vite,
-Node.js + Express + TypeScript, MySQL, MongoDB và Docker Compose; chưa chọn UI library hay ORM.
+Bước tiếp theo: review phần đã bàn giao, tái tạo máy thứ hai và hoàn thiện phần tồn mốc 15/11
+theo [kế hoạch](docs/plan.md). [Chạy UI UC01](frontend/README.md), [chạy backend](backend/README.md),
+[demo A](docs/report/demo-mien-a.md). Code hiện dùng React/Vite/CSS thuần, Express/TypeScript
+và mysql2/SQL trực tiếp; lựa chọn chung và phân quyền còn cần nhóm review.
 
 Sản phẩm nộp: PDF báo cáo, mã nguồn/ứng dụng chạy được, script/demo hai hệ, hướng dẫn chạy,
 kết quả thực nghiệm, đóng góp từng người và biên bản. Mỗi người trình bày phần mình; slide không bắt buộc.

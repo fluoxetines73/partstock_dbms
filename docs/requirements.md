@@ -6,13 +6,15 @@ Một cửa hàng, một kho linh kiện; nhân viên/quản lý nội bộ. Lu�
 Không gồm cửa hàng online, thanh toán trực tuyến, giao hàng, nhiều chi nhánh, bảo hành,
 hóa đơn điện tử hay hệ phân tán phức tạp. MySQL chạy ứng dụng; MongoDB cho thực nghiệm.
 Ít nhất 10 use case nghiệp vụ cho 5 người, dự kiến 12 bên dưới; login/logout/quên mật khẩu không tính.
-Cần bổ sung sơ đồ use case khi thiết kế. Hiện chưa có code/demo, mọi bằng chứng còn thiếu.
+Ngày 16/11: F02, nháp F03/F04 của Nam và code A/B đã ghép trên nhánh review
+`integration/a-sprint2-review`, chưa vào main hoặc được nghiệm thu toàn nhóm.
+Xem [bàn giao A](handoffs/a-acceptance-2026-11-16.md).
 
 | ID | Chức năng | Owner | Trạng thái / bằng chứng |
 |---|---|---|---|
-| UC01 | Quản lý danh mục và thương hiệu | A | Chưa triển khai / chưa có |
-| UC02 | Quản lý linh kiện, thông số, giá bán | B | Chưa triển khai / chưa có |
-| UC03 | Quản lý nhà cung cấp | B | Chưa triển khai / chưa có |
+| UC01 | Quản lý danh mục và thương hiệu | A | Sẵn sàng review UI–API–DB: 11 test backend, integration FK sản phẩm thật, 5 browser test đạt; còn phân quyền hai actor/review và nghiệm thu bản chung — [bằng chứng](report/demo-mien-a.md) |
+| UC02 | Quản lý linh kiện, thông số, giá bán | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI, ngừng kinh doanh và tích hợp tồn — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
+| UC03 | Quản lý nhà cung cấp | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI và quy tắc xóa/ngừng sử dụng — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
 | UC04 | Tạo/xác nhận phiếu nhập và tăng tồn kho | D | Chưa triển khai / chưa có |
 | UC05 | Tra cứu sản phẩm theo mã/tên | C | Chưa triển khai / chưa có |
 | UC06 | Lọc sản phẩm theo loại, hãng, giá, tồn kho | C | Chưa triển khai / chưa có |
@@ -40,9 +42,9 @@ owner bổ sung đường dẫn code, script/query, dữ liệu đầu vào, k�
 
 | Dạng | Kịch bản dự kiến | Owner | Code/script/demo | Trạng thái |
 |---|---|---|---|---|
-| insert | Thêm sản phẩm/nhà cung cấp | B | Chưa có | Chưa triển khai |
+| insert | Thêm sản phẩm/nhà cung cấp | B | `POST /api/products` tạo `RAM-TEST-01` giá 450.000 VND, `POST /api/suppliers` tạo nhà cung cấp mẫu. Cả hai trả `201` và xuất hiện trong GET cuối. [Integration test](../backend/tests-db/uc02-03.cjs#L75) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
 | delete | Xóa chứng từ nháp chưa ảnh hưởng kho | D | Chưa có | Chưa triển khai |
-| update | Đổi giá/thông số sản phẩm | B | Chưa có | Chưa triển khai |
+| update | Đổi giá/thông số sản phẩm | B | `PATCH /api/products/:id` trả `200` khi đổi giá từ 450.000 lên 470.000 VND và khi xóa thông số bằng `null`. GET cuối đọc lại đúng hai giá trị. [Integration test](../backend/tests-db/uc02-03.cjs#L82) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
 | Điều kiện đơn | Tra cứu mã sản phẩm | C | Chưa có | Chưa triển khai |
 | Điều kiện kết hợp | Loại + hãng + giá + tồn | C | Chưa có | Chưa triển khai |
 | join | Đơn bán, dòng bán và sản phẩm | D / C | Chưa có | Chưa triển khai |

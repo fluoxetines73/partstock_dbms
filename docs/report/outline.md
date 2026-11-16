@@ -1,6 +1,9 @@
 # Dàn ý báo cáo kỹ thuật
 
-Chưa viết báo cáo hoặc có kết quả. Đề tài: **So sánh MySQL và MongoDB trong bài toán quản lý bán hàng và tồn kho linh kiện máy tính**.
+Đề tài: **So sánh MySQL và MongoDB trong bài toán quản lý bán hàng và tồn kho linh kiện máy tính**.
+
+[Báo cáo tổng hợp bản đầu 16/11](draft-integrated.md) ghép phần đã có và chỉ rõ chương
+chưa bàn giao; chưa phải PDF/bản nộp. [Demo A](demo-mien-a.md) gồm UI UC01 và Storage.
 
 ## 1. Giới thiệu
 Bối cảnh, mục tiêu hai phần, phạm vi một cửa hàng/một kho, tiêu chí đánh giá và giới hạn.
@@ -8,14 +11,17 @@ Bối cảnh, mục tiêu hai phần, phạm vi một cửa hàng/một kho, ti�
 ## 2. Ứng dụng và thiết kế
 12 use case và sơ đồ; ERD/model, kiến trúc, quy tắc tồn/chứng từ, API và lựa chọn công nghệ.
 Minh chứng ứng dụng MySQL, 8 dạng thao tác, hướng dẫn chạy/demo và kiểm thử.
+Kịch bản UC02–03 qua HTTP và demo hai lab của B trong [demo-mien-b.md](demo-mien-b.md).
 
 ## 3. Thực nghiệm MySQL và MongoDB
 ### 3.1. Phương pháp chung
 Dữ liệu logic, mô hình riêng, phiên bản/cấu hình, quy mô/index/cache, số lần chạy, reset và giới hạn so sánh.
 ### 3.2. Storage & management — A
-Tổ chức lưu trữ và bằng chứng cơ chế.
+Đã có bản đầu, script và kết quả năm pha trên hai hệ; chờ review/tái tạo độc lập.
+[3-2-storage.md](3-2-storage.md)
 ### 3.3. Indexing — B
-Trước/sau index, tác động và chi phí.
+Bản đầu gồm phương pháp, query plan, số liệu đọc trước/sau, index size, update cost và lệnh demo.
+[3-3-indexing.md](3-3-indexing.md)
 ### 3.4. Query processing — C
 Kế hoạch thực thi, diễn giải và liên hệ số đo.
 ### 3.5. Transaction — D
@@ -23,8 +29,8 @@ Commit/rollback, lỗi giữa chừng, bất biến.
 ### 3.6. Concurrency control — E
 Nhiều phiên tranh chấp tồn cuối, lịch xen kẽ và kết quả.
 ### 3.7. Backup/restore — B, E kiểm chứng
-Điều kiện dữ liệu đứng yên, thời gian/kích thước, restore DB sạch và đối chiếu;
-phân biệt recovery nội bộ, không thay thế năm chủ đề hoặc mặc nhiên có bonus.
+Bản đầu gồm fixture, logical backup, restore vào đích lab sạch, số liệu đối chiếu
+và giới hạn của phép đo. Chờ E kiểm chứng độc lập. [3-7-backup-restore.md](3-7-backup-restore.md)
 
 ## 4. Teamwork và quản lý
 Phân công/đóng góp A–E, sprint, review, biên bản, phụ thuộc và xử lý rủi ro; liên kết bằng chứng.

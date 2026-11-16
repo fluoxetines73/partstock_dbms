@@ -1,0 +1,63 @@
+:root { font-family: Inter, "Segoe UI", system-ui, sans-serif; color: #1d2939; background: #f5f7fa; font-synthesis: none; line-height: 1.5; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input { font: inherit; }
+button { cursor: pointer; border: 1px solid #cbd3dd; background: #fff; color: #344054; padding: .62rem 1rem; border-radius: 8px; font-weight: 600; }
+button:hover:not(:disabled) { background: #eef2f6; }
+button:disabled { opacity: .55; cursor: wait; }
+:focus-visible { outline: 3px solid #3784df; outline-offset: 3px; }
+.primary { color: #fff; background: #175f4f; border-color: #175f4f; }
+.primary:hover:not(:disabled) { background: #104b3d; }
+.danger { background: #b42318; border-color: #b42318; color: white; }
+.danger:hover:not(:disabled) { background: #912018; }
+.danger-text { color: #b42318; }
+.quiet { background: transparent; }
+.topbar { display: flex; justify-content: space-between; align-items: center; min-height: 76px; padding: 0 5%; background: white; border-bottom: 1px solid #e4e7ec; gap: 1rem; }
+.brand { text-decoration: none; color: #175f4f; font-size: 1.35rem; font-weight: 800; letter-spacing: -.04em; }
+.brand span { font-size: .83rem; font-weight: 400; color: #667085; letter-spacing: 0; }
+.badge { border: 1px solid #d4e9df; padding: .3rem .7rem; border-radius: 30px; font-size: .78rem; color: #175f4f; background: #f2faf5; }
+.workspace { max-width: 1120px; margin: 3rem auto; padding: 0 2rem; }
+.page-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+.eyebrow { color: #175f4f; font-size: .73rem; font-weight: 700; letter-spacing: .12em; margin: 0 0 .6rem; }
+h1 { font-size: clamp(1.7rem, 3vw, 2.1rem); letter-spacing: -.04em; line-height: 1.25; margin: 0 0 .8rem; }
+h2 { font-size: 1.1rem; margin: 0 0 .3rem; }
+p { color: #667085; margin: .4rem 0; }
+.tabs { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #d5dce5; }
+.tabs button { background: none; border: 0; border-radius: 0; border-bottom: 3px solid transparent; padding: .8rem .3rem; }
+.tabs button[aria-selected=true] { color: #175f4f; border-bottom-color: #175f4f; }
+.table-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.table-toolbar p { font-size: .85rem; }
+.actions { display: flex; gap: .5rem; }
+.table-wrap { border: 1px solid #dce2ea; border-radius: 12px; background: white; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+th, td { padding: 1rem 1.25rem; text-align: left; border-bottom: 1px solid #edf0f3; overflow-wrap: anywhere; }
+th { background: #f8fafb; font-size: .78rem; font-weight: 600; color: #667085; }
+th:last-child { width: 175px; }
+tbody tr:last-child td { border-bottom: 0; }
+.item-name { font-weight: 600; }
+.right, .row-actions { text-align: right; }
+.row-actions button { font-size: .82rem; border: 0; padding: .4rem .6rem; }
+.empty { padding: 3rem 1rem; text-align: center; color: #667085; }
+.hint { font-size: .8rem; margin-top: 1rem; }
+.error { color: #912018; background: #fff1ef; padding: .8rem; border-radius: 8px; margin: .7rem 0; overflow-wrap: anywhere; }
+.success { color: #175f4f; background: #eaf6ef; padding: .7rem 1rem; border-radius: 8px; margin: .7rem 0; }
+.connect-card { width: min(480px, calc(100% - 2rem)); margin: 5rem auto; background: white; border: 1px solid #e4e7ec; padding: 2.5rem; border-radius: 16px; }
+.connect-card form { margin-top: 2rem; }
+.connect-card button { width: 100%; margin-top: 1rem; }
+label { display: block; font-weight: 600; font-size: .85rem; margin: 1rem 0 .4rem; }
+input { width: 100%; border: 1px solid #b8c3d1; border-radius: 8px; padding: .7rem .8rem; color: #1d2939; background: #fff; }
+dialog { width: min(460px, calc(100% - 2rem)); border: 1px solid #dce2ea; border-radius: 14px; padding: 1.8rem; color: #1d2939; box-shadow: 0 24px 60px #10182833; }
+dialog::backdrop { background: #18243580; }
+dialog strong { overflow-wrap: anywhere; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: .6rem; margin-top: 1.5rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 600px) {
+  .topbar { padding: 1rem; } .brand span, .badge { display: none; }
+  .workspace { padding: 0 1rem; margin: 2rem auto; }
+  .page-heading { align-items: flex-start; flex-direction: column; }
+  .table-toolbar { align-items: flex-start; flex-direction: column; }
+  .actions { width: 100%; } .actions .primary { flex: 1; }
+  th, td { padding: .8rem; } th:last-child { width: 120px; }
+  .row-actions { white-space: nowrap; } .row-actions button { padding: .4rem; }
+  .connect-card { padding: 1.5rem; margin-top: 2rem; }
+}
