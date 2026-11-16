@@ -1,30 +1,55 @@
-# Concurrency control
+# Chạy kiểm thử Concurrency Control của Role E
 
-## Mục tiêu và owner
-Kiểm chứng cơ chế Concurrency control trên cả MySQL và MongoDB theo nghiệp vụ PartStock.
-Owner: **E**. Trạng thái: **chưa triển khai**, chưa có script/lệnh chạy/kết quả.
+Bộ kiểm thử chạy trên MySQL Lab và MongoDB Lab của PartStock. Mỗi ca dùng dữ liệu mẫu riêng có tiền tố `role_e_` và mã lần chạy ngẫu nhiên. [README tiến độ và kết quả](README-Role-E-Progress.md) ghi các lần đã kiểm tra và việc còn phụ thuộc schema chung.
 
-## Câu hỏi cần kiểm chứng
-Nhiều phiên bán lượng tồn cuối có gây bán vượt tồn hoặc mất cập nhật?
+## 1. Chuẩn bị repo và lab
 
-## Kịch bản dự kiến
-- MySQL: Cho ít nhất hai phiên cạnh tranh tồn cuối theo cơ chế transaction/khóa được D–E chốt; ghi lịch xen kẽ và xử lý chờ/lỗi.
-- MongoDB: Cho nhiều phiên cạnh tranh cùng tồn theo thao tác có điều kiện/transaction phù hợp cấu hình đã xác minh.
+Giải nén ZIP vào gốc PartStock để `experiments/concurrency/run-role-e.sh` và `compose.local.yaml` nằm dưới cùng một gốc dự án. Mở Terminal tại gốc dự án. Cần Bash, OpenSSL, Docker Desktop hoặc Docker Engine có Compose v2.
 
-## Đầu vào
-Seed tồn cuối biết trước, đơn cạnh tranh, lịch bắt đầu và số phiên được ghi lại.
-Schema/seed dùng chung ở database/; ghi model riêng và khác biệt giữa hai hệ.
+Chuẩn bị `.env.docker` và MongoDB keyfile theo [hướng dẫn Docker của repo](../../setup-local-docker.md). Sau đó khởi động hai dịch vụ lab.
 
-## Bằng chứng cần thu
-Log từng phiên, lịch xen kẽ, lỗi/chờ/thử lại nếu có, kết quả đơn và tồn; xác minh tồn không âm, bán thành công không vượt tồn, lịch sử khớp.
-Mỗi kết quả đi kèm script, dữ liệu tái tạo, cấu hình và giải thích theo bối cảnh.
+```bash
+export DOCKER_DEFAULT_PLATFORM="${DOCKER_DEFAULT_PLATFORM:-linux/amd64}"
+dc() { docker compose --env-file .env.docker -f compose.local.yaml "$@"; }
+dc up -d mysql-lab mongo-lab
+dc ps mysql-lab mongo-lab
+```
 
-## Điều kiện so sánh
-Cùng nghiệp vụ/dữ liệu logic; ghi phiên bản, topology, tài nguyên/cấu hình, quy mô, index,
-cache, số lần chạy và cách tổng hợp khi đo hiệu năng. Kiểm tra hỗ trợ tính năng trước khi chạy.
-Không coi một lượt đo là kết luận tổng quát; nêu khác biệt model và giới hạn.
+Hoàn tất bước khởi tạo `rs0` và tài khoản lab theo hướng dẫn repo. Kiểm tra vai trò MongoDB trước khi chạy.
 
-## Reset lab
-Chưa có lệnh reset. Khi triển khai: xác minh đích lab bằng cấu hình/kết nối/quyền riêng,
-kết thúc các phiên thử, tạo lại dữ liệu thử từ seed đã biết và đối chiếu baseline trước lần tiếp.
-Không chạy reset trên database ứng dụng; backup/dump và artifact lớn không commit.
+```bash
+dc exec -T mongo-lab mongosh --quiet 'mongodb://127.0.0.1:27017/?directConnection=true' \
+  --eval 'const h = db.hello(); printjson({setName: h.setName, primary: h.isWritablePrimary});'
+```
+
+Kết quả cần thấy là `setName: 'rs0'` và `primary: true`. Có thể chạy hai chế độ MySQL trong lúc chuẩn bị MongoDB.
+
+## 2. Chạy và lưu log
+
+Chạy các lệnh sau từ gốc PartStock bằng Bash. `pipefail` giữ mã thoát của bộ kiểm thử khi ghi log qua `tee`.
+
+```bash
+mkdir -p role-e-results
+set -o pipefail
+bash experiments/concurrency/run-role-e.sh mysql   2>&1 | tee role-e-results/mysql.log
+bash experiments/concurrency/run-role-e.sh mongodb 2>&1 | tee role-e-results/mongodb.log
+bash experiments/concurrency/run-role-e.sh uc      2>&1 | tee role-e-results/mysql-uc.log
+```
+
+| Chế độ | Kiểm tra đạt khi |
+|---|---|
+| `mysql`, `mongodb` | Hai đơn nháp tranh mua 1 GPU. Một đơn trả `CONFIRMED`, đơn kia trả `OUT_OF_STOCK` và vẫn là `DRAFT`. Xác nhận lại đơn thắng trả `ALREADY_CONFIRMED`. Tồn cuối bằng `0`, phiên bản tồn tăng đúng một lần và có đúng một biến động xuất kho gắn với đơn thắng. Cuối log in `PASS`. |
+| `uc` | UC10 chỉ trả SKU dưới ngưỡng. UC12 xử lý số đếm bằng tồn, điều chỉnh hợp lệ và số đếm cũ. UC09 đọc đúng biến động điều chỉnh. Ca riêng chụp tồn trước khi bán rồi xác nhận kiểm kê sau khi bán phải trả `STALE_COUNT`, giữ tồn `0` và chỉ có biến động bán hàng. Cuối log in `PASS`. |
+
+Thứ tự log A rồi B do script in theo tên đơn. Đơn thắng tùy lần chạy. MySQL giữ giao tác mở khoảng 3 giây để hai phiên có cơ hội tranh cùng dòng tồn. MongoDB giữ giao tác khoảng 3 giây và in số lần callback chạy lại. Đây là bài kiểm thử tính đúng nghiệp vụ. Thời gian chờ chủ động làm thời lượng chạy không phù hợp để so sánh hiệu năng DBMS.
+
+## 3. Nếu chạy lỗi
+
+| Dấu hiệu | Kiểm tra |
+|---|---|
+| Docker báo service chưa chạy | Dùng `dc ps` và `dc logs --tail 60 mysql-lab mongo-lab`. |
+| MongoDB báo thiếu PRIMARY hoặc lỗi xác thực | Kiểm tra `db.hello()`, bước khởi tạo `rs0` và tài khoản `partstock_lab` trong hướng dẫn repo. |
+| MySQL báo lỗi procedure hoặc quyền | Kiểm tra đang dùng đúng image MySQL của PartStock và tài khoản lab có quyền tạo bảng, tạo và thực thi procedure trong `partstock_lab`. |
+| Kết quả khác bảng trên | Giữ toàn bộ log, mã `Role E run` và phiên bản DBMS để đối chiếu đúng dữ liệu của lần chạy. |
+
+MySQL giữ dữ liệu theo `run_id`, MongoDB theo `runId`. Mỗi lần chạy dùng mã mới. Chế độ `uc` có hai mã vì tách ca điều chỉnh và ca bán xen giữa.
