@@ -20,8 +20,8 @@ Xem [quyết định](../../agent/decisions.md) và [yêu cầu](../requirements
 ## Bản nháp miền A — 11/11/2026
 
 [Thiết kế UC01](uc01-catalog-brand-design.md) gồm dữ liệu danh mục/thương hiệu,
-API, phụ thuộc B/C và ca nghiệm thu. Đã có migration/code UC01, 11 test và kiểm tra lab đạt;
-còn review nhóm, UI, phân quyền chung và FK sản phẩm thật.
+API, phụ thuộc B/C và ca nghiệm thu. Đã có migration/API/UI UC01, 11 test backend,
+5 test trình duyệt và kiểm tra FK sản phẩm thật đạt; còn review nhóm/phân quyền chung.
 Tiến độ thực hiện nền A: [todo Sprint 1](../tasks/a-sprint1-todo.md).
 
 [ERD miền A](erd-mien-a.md): danh mục, thương hiệu và liên kết dự kiến với sản phẩm của B;
@@ -39,3 +39,10 @@ Bản nháp thiết kế đang chờ review (chưa chốt):
 
 - [F03 — Quy tắc chứng từ, hủy/doanh thu và cập nhật kho](f03-quy-tac-chung-tu-kho.md) — D soạn, chờ E/C/A.
 - [F04 — ERD và từ điển dữ liệu miền D](f04-erd-mien-d.md) — phiếu nhập, đơn bán, tồn và biến động kho; chờ E/C, A hợp nhất.
+
+## Bản ghép review — 16/11/2026
+
+[ERD tổng hợp](erd-integrated-review.md) đối chiếu A/B với nháp Nam, ghi rõ phần đã có
+migration và phần còn chờ Hải/Khánh. F02 và F03/F04 được ghép giữ lịch sử trên nhánh
+`integration/a-sprint2-review`; chưa vào main hoặc thành quyết định nhóm.
+[Bàn giao nghiệm thu](../handoffs/a-acceptance-2026-11-16.md) ghi reviewer và đầu vào còn thiếu.

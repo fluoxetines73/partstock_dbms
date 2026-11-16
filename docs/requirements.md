@@ -6,12 +6,13 @@ Một cửa hàng, một kho linh kiện; nhân viên/quản lý nội bộ. Lu�
 Không gồm cửa hàng online, thanh toán trực tuyến, giao hàng, nhiều chi nhánh, bảo hành,
 hóa đơn điện tử hay hệ phân tán phức tạp. MySQL chạy ứng dụng; MongoDB cho thực nghiệm.
 Ít nhất 10 use case nghiệp vụ cho 5 người, dự kiến 12 bên dưới; login/logout/quên mật khẩu không tính.
-Sơ đồ use case ở nhánh F02 chờ tích hợp. Bản đầu backend UC01 và bằng chứng kiểm tra
-ở nhánh `docs/a-sprint1-foundation`; chưa nghiệm thu app/demo đầy đủ.
+Ngày 16/11: F02, nháp F03/F04 của Nam và code A/B đã ghép trên nhánh review
+`integration/a-sprint2-review`, chưa vào main hoặc được nghiệm thu toàn nhóm.
+Xem [bàn giao A](handoffs/a-acceptance-2026-11-16.md).
 
 | ID | Chức năng | Owner | Trạng thái / bằng chứng |
 |---|---|---|---|
-| UC01 | Quản lý danh mục và thương hiệu | A | Đang làm: API/schema, 11 test và kiểm tra lab đạt; còn UI/phân quyền/tích hợp/review — [bằng chứng](../backend/README.md) |
+| UC01 | Quản lý danh mục và thương hiệu | A | Sẵn sàng review UI–API–DB: 11 test backend, integration FK sản phẩm thật, 5 browser test đạt; còn phân quyền hai actor/review và nghiệm thu bản chung — [bằng chứng](report/demo-mien-a.md) |
 | UC02 | Quản lý linh kiện, thông số, giá bán | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI, ngừng kinh doanh và tích hợp tồn — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
 | UC03 | Quản lý nhà cung cấp | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI và quy tắc xóa/ngừng sử dụng — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
 | UC04 | Tạo/xác nhận phiếu nhập và tăng tồn kho | D | Chưa triển khai / chưa có |

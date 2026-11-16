@@ -1,10 +1,19 @@
 # Kế hoạch thực hiện và bàn giao PartStock
 
-Cập nhật **11/11/2026** theo phương án người dùng duyệt. Hiện là **Sprint 2 (09–15/11)**.
+Kế hoạch duyệt **11/11/2026**; cập nhật trạng thái **16/11/2026**. Hiện là Sprint 3 (16–22/11),
+nhưng mốc nghiệm thu Sprint 1–2 ngày 15/11 **chưa đạt**. Giữ mốc gốc dưới đây để thấy phần trễ.
 Hoàn tất phần còn thiếu của Sprint 1 và toàn bộ Sprint 2 **chậm nhất Chủ nhật 15/11/2026,
 trước thứ Hai 16/11**. Hạn nộp vẫn là **30/11/2026, giờ LMS**; A xác nhận giờ cụ thể.
 
 ## 1. Phạm vi và tiến độ thực tế
+
+Cập nhật 16/11: A đã có UI UC01, kiểm thử qua API/MySQL lab, FK sản phẩm thật, sửa ID số
+và focus bàn phím; backend 11/11, browser 5/5, integration UC01/UC02–03 và build đạt.
+Đã push nhánh lab/UI riêng; F02 và nháp D ghép giữ lịch sử vào nhánh review, có ERD tổng hợp,
+báo cáo bản đầu và [bàn giao theo từng người](handoffs/a-acceptance-2026-11-16.md).
+Còn phân quyền hai actor, review thành viên/tái tạo độc lập, thiết kế E và module/lab/báo cáo
+các miền chưa có. Không nghiệm thu thay nhóm hoặc tự dời hạn; ưu tiên xử lý các đầu vào
+trong bàn giao trước buổi nghiệm thu lại. Bản rà 11/11 bên dưới là lịch sử, không phải hiện trạng.
 
 Giữ nguyên [yêu cầu](requirements.md) và [phân công](ownership.md): 12 UC, 8 dạng thao tác,
 5 chủ đề trên cả MySQL và MongoDB, cùng backup/restore bổ sung. Ứng dụng chỉ dùng MySQL;
@@ -94,8 +103,8 @@ cấu hình, credential/quyền; reset và giả lập mất dữ liệu chỉ t
 | Sprint | Mục tiêu | Đầu ra |
 |---|---|---|
 | Sprint 1 — 04–08/11, phần tồn chuyển xử lý trong Sprint 2 | Môi trường và nền tảng thiết kế/triển khai | Không hồi tố đánh dấu hoàn tất; phần còn thiếu phải đạt cùng Sprint 2 |
-| **Sprint 2 — 09–15/11, hiện tại** | Hoàn tất nền, đủ chức năng và thực nghiệm, review/tích hợp | **Đủ 12 UC, 8 thao tác, 5 chủ đề hai hệ, backup/restore kiểm chứng và báo cáo bản đầu trước 16/11** |
-| Sprint 3 — 16–22/11 | Hoàn thiện sau nghiệm thu | Sửa lỗi, ổn định app, kiểm chứng lại kết quả, hoàn thiện phân tích/báo cáo; không chủ động để chức năng bắt buộc sang sprint này |
+| **Sprint 2 — 09–15/11, chưa nghiệm thu đủ** | Hoàn tất nền, đủ chức năng và thực nghiệm, review/tích hợp | **Mục tiêu gốc: đủ 12 UC, 8 thao tác, 5 chủ đề hai hệ, backup/restore kiểm chứng và báo cáo bản đầu trước 16/11; còn tồn theo bàn giao** |
+| Sprint 3 — 16–22/11, hiện tại | Hoàn thiện sau nghiệm thu | Kế hoạch gốc: sửa lỗi, ổn định app và báo cáo. Phần bắt buộc chưa xong ngày 15/11 vẫn ghi là trễ Sprint 1–2 |
 | Sprint 4 — 23–29/11 | Hoàn thiện bản nộp | Hướng dẫn/demo/báo cáo đầy đủ, kiểm tra ZIP và dự phòng |
 | 30/11 | Nộp bài | A nộp trước giờ LMS, kiểm tra tệp và lưu xác nhận |
 

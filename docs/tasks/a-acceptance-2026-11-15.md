@@ -28,10 +28,10 @@ React + Vite theo định hướng repo; cài dependency phải có đồng ý r
   xóa bị chặn, tên trùng đồng thời và lỗi quyền; dùng schema ngẫu nhiên trên lab, tự dọn.
 - [x] Làm UI UC01 và kiểm tra: tên rỗng/dài, lỗi trùng/FK, đang tải, lỗi mạng,
   xác nhận xóa, nhấp lặp, đổi tab khi request còn chạy. Không báo thành công khi request lỗi.
-- [ ] Ghép tài liệu F02 và nháp D hiện có thành bản review; ERD chỉ rõ bảng đã có DDL
+- [x] Ghép tài liệu F02 và nháp D hiện có thành bản review; ERD chỉ rõ bảng đã có DDL
   và miền D/E chưa triển khai. Ghi những quyết định cần người khác xác nhận.
-- [ ] Viết bàn giao, demo A, bảng nghiệm thu và nội dung PR/comment cụ thể theo người nhận.
-- [ ] Review kỹ thuật, sửa lỗi quan trọng, kiểm tra cuối và commit/push các nhánh task.
+- [x] Viết bàn giao, demo A, bảng nghiệm thu và nội dung PR/comment cụ thể theo người nhận.
+- [x] Review kỹ thuật, sửa lỗi quan trọng, kiểm tra cuối và commit/push các nhánh task.
 - [ ] Tuấn review A; Hải chạy lại; Khánh ghép UI/API; nhóm review/tích hợp trước khi ghi Done.
 
 ## Kiểm chứng
@@ -56,3 +56,11 @@ Tài liệu: kiểm tra diff, đường dẫn tương đối, nguồn branch/com
   trước sửa; bổ sung trả focus về nút mở/nút Thêm sau xóa. Không thay review B/C/E.
 - Giới hạn nhỏ còn lại: dừng fixture ngay lúc khởi tạo có thể để sót schema lab ngẫu nhiên;
   đã ghi cách nhận diện/dọn trong frontend/README.md. Không ảnh hưởng dữ liệu app.
+- 16/11: tiếp tục sau gián đoạn; fetch không có code mới từ B/C/D/E. Nhánh integration
+  ghép F02/Nam với lịch sử nguyên vẹn; xung đột tài liệu giữ nội dung cả A/B/D.
+  [Bàn giao](../handoffs/a-acceptance-2026-11-16.md) có nội dung PR/comment chưa gửi,
+  ERD tổng hợp, demo A và báo cáo bản đầu. Mốc 15/11 chưa đạt, không đổi hạn để ghi Done.
+- Kiểm tra cuối 16/11 trên nhánh tích hợp: backend 11/11 và frontend build đạt. Browser
+  ban đầu không khởi động fixture được (ECONNREFUSED), xác minh MySQL lab đã dừng 12 giờ;
+  khởi động riêng mysql-lab, đợi healthy và chạy lại 5/5 đạt. Không sửa code để né lỗi môi trường.
+  Diff/đường dẫn Markdown đạt; source F02/Nam khớp nhánh gốc, backend/frontend khớp nhánh UC01.

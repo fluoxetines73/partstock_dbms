@@ -2,6 +2,9 @@
 
 Đề tài: **So sánh MySQL và MongoDB trong bài toán quản lý bán hàng và tồn kho linh kiện máy tính**.
 
+[Báo cáo tổng hợp bản đầu 16/11](draft-integrated.md) ghép phần đã có và chỉ rõ chương
+chưa bàn giao; chưa phải PDF/bản nộp. [Demo A](demo-mien-a.md) gồm UI UC01 và Storage.
+
 ## 1. Giới thiệu
 Bối cảnh, mục tiêu hai phần, phạm vi một cửa hàng/một kho, tiêu chí đánh giá và giới hạn.
 

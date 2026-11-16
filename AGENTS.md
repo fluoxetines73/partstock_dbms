@@ -22,7 +22,9 @@ decisions ghi trạng thái quyết định. Nếu mâu thuẫn, ghi rõ và đ�
 React + Vite; Node.js + Express + TypeScript; MySQL cho app, MongoDB cho lab; Docker Compose.
 Phiên bản, UI library, cách truy cập DB/ORM, schema/API và chi tiết hủy/doanh thu còn mở.
 Đã có môi trường Docker local và kiểm tra hạ tầng theo setup-local-docker.md, kết quả ở KIEM-TRA.md;
-ứng dụng/schema/seed nghiệp vụ và lệnh test ứng dụng chưa có. Không tự cài dependency hoặc tạo cấu hình giả.
+đã có UI/API/schema/seed UC01, API/schema UC02–03 và lệnh kiểm thử trên nhánh review;
+xem README từng phần và docs/handoffs/a-acceptance-2026-11-16.md để biết giới hạn.
+Không tự cài dependency hoặc tạo cấu hình giả.
 Sửa nhỏ, đúng task, giữ thay đổi có sẵn, không tự mở rộng tính năng; cập nhật tài liệu bị ảnh hưởng.
 Không khóa file theo owner. Thay đổi phạm vi/schema/API/quy tắc chung phải ghi quyết định để nhóm thống nhất;
 không cần xin A cho mọi chỉnh sửa nhỏ đã được yêu cầu.

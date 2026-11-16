@@ -7,11 +7,13 @@ khi sửa thực nghiệm); đọc trước khi sửa. File này chỉ bổ sung
 
 ## Hiện trạng repo
 
-PartStock — BTL DBMS HCMUT HK261, nhóm 5 người A–E, deadline 30/11/2026. Repo hiện **chủ yếu là tài liệu**
-cộng với môi trường Docker local cho database. Chưa có frontend/backend, `package.json`, schema/migration/seed
-nghiệp vụ, script thực nghiệm hay benchmark; vì vậy **chưa có lệnh build, lint hay test ứng dụng**.
-Đừng suy ra tiến độ từ việc thư mục tồn tại — các README trong `frontend/`, `backend/`, `database/*`,
-`experiments/*` là kế hoạch. Khi thêm lệnh thật, cập nhật file này và README liên quan.
+PartStock — BTL DBMS HCMUT HK261, nhóm 5 người A–E, deadline 30/11/2026. Nhánh review ngày 16/11
+đã có UI/API/schema UC01, API/schema UC02–03, lab Storage/Indexing và backup-restore bản đầu.
+F02/Nam đã ghép để review, chưa đủ toàn app/hai actor/năm lab hoặc nghiệm thu nhóm.
+Xem [bàn giao](docs/handoffs/a-acceptance-2026-11-16.md). Lệnh thật từ gốc repo:
+`npm test --prefix backend`, `npm run test:db --prefix backend`,
+`npm run build --prefix frontend`, `npm test --prefix frontend` (cần Chromium và MySQL lab).
+Chưa thiết lập lint. README từng miền ghi điều kiện, kết quả và phần chưa có; không suy ra Done từ thư mục.
 
 Tài liệu viết bằng tiếng Việt; giữ nguyên ngôn ngữ đó khi sửa tài liệu.
 

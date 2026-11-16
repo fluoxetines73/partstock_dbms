@@ -1,5 +1,8 @@
 # Sổ quyết định
 
+Trạng thái hiện hành: xem [bàn giao 16/11](../docs/handoffs/a-acceptance-2026-11-16.md)
+và mục cập nhật cuối file. Các bản ghi cũ là lịch sử tại thời điểm ghi, không tự thay đồng thuận nhóm.
+
 ## Đã chốt theo yêu cầu đề tài
 
 - Một cửa hàng/một kho; ứng dụng dùng MySQL, MongoDB phục vụ đối chiếu, không đồng bộ hai hệ.
@@ -221,3 +224,28 @@ trạng thái và liên kết biên bản/PR. Không biến đề xuất thành 
 - Trạng thái: A đã duyệt phương án F02; chưa có biên bản đồng thuận toàn nhóm, C review hoặc code phân quyền.
 - Chi tiết trạng thái/hủy/doanh thu/kiểm kê còn theo dõi tại F03; không mặc định các lựa chọn kỹ thuật đã chốt.
 - Tài liệu: [F02](../docs/architecture/use-cases.md), [sơ đồ](../docs/architecture/use-case-diagram.svg).
+
+## Hoàn thiện A và ghép bản review — 15–16/11/2026
+
+- Nguồn: A giao hoàn thiện mọi phần việc có thể làm của A và quản lý Git/bàn giao;
+  sau đó đồng ý cài React/Vite. Không yêu cầu làm thay UC/lab của B–E hoặc tự nghiệm thu.
+- Triển khai: React 19.3.1, Vite 8.3.8, CSS thuần; Playwright 1.61.1 kiểm thử Chromium.
+  Component UC01 độc lập để C ghép shell. Đây là lựa chọn triển khai của A trong phiên,
+  không ghi nhận C hoặc toàn nhóm đã duyệt khung UI. Figma không chặn trang UC01.
+- Quyền: tiếp tục token Quản lý local, chỉ giữ trong bộ nhớ trang; cần thống nhất nhận diện/
+  phiên/hai actor với C và owner trước khi nghiệm thu quyền. Không tự thêm Admin hoặc bảng user.
+- Kiểm chứng: 11 backend test, integration UC01/UC02–03, 5 browser test MySQL lab và build đạt.
+  Test tái hiện rồi sửa lỗi ID sắp kiểu chuỗi và mất focus modal. Không đổi migration app.
+- Git: lab 7a263bc, UC01 a3fcd35/d901fde/4b69031 trên nhánh task riêng đã push;
+  integration/a-sprint2-review ghép F02 229aa11, Nam 6729842, giữ lịch sử và cả nhật ký A/B/D.
+  Không merge main, force-push lịch sử A/B cũ, đổi protection hoặc xóa nhánh.
+- Thiết kế/báo cáo: ghép ERD những miền có đầu vào; D/E vẫn là nháp/chưa đủ DDL.
+  Có báo cáo tổng hợp bản đầu và demo A; không bịa chương lab C/D/E hoặc PDF/ZIP cuối.
+- Tiến độ: mốc 15/11 chưa đạt. Cập nhật ngày 16/11 là phần tồn Sprint 1–2, không tự dời hạn.
+  B review A, C rà F02/UI/API/B, E tái tạo/restore và review D theo plan; chưa có xác nhận từ họ.
+- Giới hạn: UI test fixture bị dừng trước khi lắng nghe có thể sót schema lab ngẫu nhiên;
+  đã ghi README. Migration runner của B chưa xác minh schema drift, đã chuyển vào checklist review B.
+- PR/comment đã soạn trong bàn giao, chưa đăng vì môi trường chưa có gh/token/browser GitHub.
+  Review kỹ thuật bằng trợ lý không thay review thành viên hoặc nghiệm thu nhóm.
+- Kiểm tra cuối 16/11: backend/build đạt; browser bị ECONNREFUSED do mysql-lab dừng,
+  khởi động riêng lab và chạy lại 5/5 đạt. Không sửa code, credential hoặc dữ liệu app vì lỗi này.

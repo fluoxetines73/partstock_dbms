@@ -2,6 +2,11 @@
 
 Nhánh: `docs/a-sprint1-foundation`. Theo [plan chung](../plan.md), bàn giao nền ngày 12/11.
 
+Danh sách dưới ghi nền 11/11. Cập nhật 16/11: UI/FK sản phẩm thật và lab Storage đã được
+triển khai/kiểm chứng, F02 và nháp Nam đã ghép vào nhánh review. Xem
+[todo nghiệm thu](a-acceptance-2026-11-15.md) và [bàn giao hiện tại](../handoffs/a-acceptance-2026-11-16.md);
+các mục cần review nhóm vẫn chưa hoàn tất, không ghi Done Sprint 1–2.
+
 - [x] Tạo nhánh riêng.
 - [x] Viết [thiết kế UC01 bản nháp](../architecture/uc01-catalog-brand-design.md).
 - [x] Vẽ [ERD miền A bản nháp](../architecture/erd-mien-a.md).
