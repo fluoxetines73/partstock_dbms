@@ -1,5 +1,18 @@
 # Sổ quyết định
 
+## Chuẩn bị PR tích hợp nền — 16/11/2026
+
+- A yêu cầu bắt đầu theo đề xuất Nam và nhận xét: một PR integration/a-sprint2-review vào main,
+  merge commit giữ tác giả/SHA; tách điều kiện merge nền khỏi nghiệm thu toàn Sprint 1–2.
+- Đã cố định link bằng chứng theo SHA và lập [body/checklist PR](../docs/reviews/main-integration-2026-11-16.md).
+  Đây chỉ là sửa tài liệu; code/backend/frontend/lab giữ nguyên ứng viên a834aa1 đã kiểm chứng.
+- GitHub API xác nhận main dbc806f, protected=false; PR #3 B đang mở vào nhánh nền A,
+  chưa có review. PR #2 D đóng chưa merge, PR #1 đã merge. Không suy ra review từ trạng thái đóng.
+- Môi trường chưa có gh/token/credential helper/browser GitHub. Có thể push SSH nhưng chưa
+  tạo PR hoặc xác minh đủ review thành viên để merge theo CONTRIBUTING. Không đẩy thẳng main.
+- Chưa merge hoặc xóa nhánh. Sau review/merge cần xử lý PR #3 trước khi xóa base;
+  xác nhận B không dùng nhánh, giữ nhánh local A đã rebase cho đến khi đối chiếu xong.
+
 Trạng thái hiện hành: xem [bàn giao 16/11](../docs/handoffs/a-acceptance-2026-11-16.md)
 và mục cập nhật cuối file. Các bản ghi cũ là lịch sử tại thời điểm ghi, không tự thay đồng thuận nhóm.
 

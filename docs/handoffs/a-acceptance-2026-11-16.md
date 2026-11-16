@@ -39,8 +39,9 @@ cách nhận diện/dọn ở README frontend, không reset DB chung.
 | `feat/a-uc01-acceptance` — `a3fcd35`, `d901fde`, `4b69031` | Sửa thứ tự ID, UI/tests và sửa focus | Kế thừa lab; review delta so với nhánh Storage |
 | `integration/a-sprint2-review` | Ghép F02 (`cc9c4fe`), Nam (`35c0edc`), bản sửa UC01 (`ca2e728`), tài liệu tổng hợp | Bản ứng viên để nhóm review so với main; chứa cả code B và nháp D, không gán toàn bộ cho A |
 
-Hai nhánh lab/UI đã push. Nhánh tích hợp được push sau kiểm tra bàn giao; xem remote để xác
-định SHA cuối. Main vẫn ở `dbc806f`; không merge main, force-push hoặc xóa nhánh cũ.
+Tại mốc bàn giao ban đầu, lab/UI và nhánh tích hợp `a834aa1` đã push; main ở `dbc806f`.
+Ngày 16/11 A đã yêu cầu bắt đầu quy trình PR tích hợp nền; trạng thái hiện hành ở
+[bản chuẩn bị merge](../reviews/main-integration-2026-11-16.md).
 Nhánh local `docs/a-sprint1-foundation` đã rebase từ phiên trước nên khác remote;
 không dùng nó để push đè lịch sử B đang kế thừa. Công việc mới đi qua chuỗi nhánh trên.
 
@@ -48,9 +49,9 @@ không dùng nó để push đè lịch sử B đang kế thừa. Công việc m
 đây để phân công review. Không merge chồng nhiều PR cùng phạm vi chỉ để tăng số PR.
 Nếu nhóm chọn merge B trước, cập nhật lại diff/base PR sau khi B vào main.
 
-- [Diff riêng lab A](https://github.com/fluoxetines73/partstock_dbms/compare/feat/uc02-03...experiment/a-storage-management)
-- [Diff riêng UC01 mới](https://github.com/fluoxetines73/partstock_dbms/compare/experiment/a-storage-management...feat/a-uc01-acceptance)
-- [Ứng viên tích hợp](https://github.com/fluoxetines73/partstock_dbms/compare/main...integration/a-sprint2-review)
+- [Diff riêng lab A](https://github.com/fluoxetines73/partstock_dbms/compare/7038bb62875e4d79d4e57c0b2a3edc1622562f38...7a263bcc33db81a5c1b0263b9afbd9664482104f)
+- [Diff riêng UC01 mới](https://github.com/fluoxetines73/partstock_dbms/compare/7a263bcc33db81a5c1b0263b9afbd9664482104f...4b69031f494c3bb88985ad9a50777443cc12771c)
+- [Ứng viên tích hợp](https://github.com/fluoxetines73/partstock_dbms/compare/dbc806f567f5d8f2429654da0a4c1cdad77c1f15...a834aa1ebb95729aa622b2cb51dc0c42c6d9754b)
 
 ## Việc còn lại theo người nhận
 
@@ -69,7 +70,10 @@ Lưu ý cho Tuấn: migration runner hiện nhận biết đã chạy qua sự t
 chưa đối chiếu cột/UNIQUE/FK. Không coi thông báo "already applied" là kiểm tra schema drift.
 Nhờ review bổ sung trước khi sử dụng trên DB đã từng sửa tay; không reset DB app để né lỗi.
 
-## Nội dung PR đã chuẩn bị
+## Nội dung PR đã chuẩn bị ở mốc bàn giao
+
+Cập nhật: PR tích hợp nền dùng [nội dung và checklist riêng](../reviews/main-integration-2026-11-16.md).
+Các điều kiện nghiệm thu toàn sprint bên dưới không chặn việc tích hợp nền đã được review.
 
 **Tiêu đề:** `[Review] Hoàn thiện UC01 và Storage của A, ghép thiết kế cho nghiệm thu Sprint 1–2`
 
@@ -106,7 +110,7 @@ kiểm kê/ngưỡng tồn và giao diện cập nhật kho nhờ Hải chốt c
 chốt cơ chế kho, điều kiện hủy khi hàng quay lại, mốc kiểm kê và cách sửa sai phiếu nhập;
 Khánh rà doanh thu sau hủy. Khi có migration/API/test miền D mình sẽ ghép vào bản chung.”
 
-## Checklist trước khi nghiệm thu/merge
+## Checklist nghiệm thu toàn Sprint 1–2
 
 - [ ] Tuấn review A; Khánh review B/F02/UI/API; Hải review Nam theo plan.
 - [ ] Hai actor được thực thi ở backend và có kiểm thử quyền tương ứng.
