@@ -276,3 +276,13 @@ trạng thái và liên kết biên bản/PR. Không biến đề xuất thành 
 - Kiểm tra trên migration A/B và fixture kho/bán tách riêng trong MySQL lab.
   Chờ bảng thật của D/E và review A. Xem [hợp đồng C](../docs/architecture/api-contract.md)
   và [bàn giao](../docs/handoffs/c-sprint1-2.md).
+
+## Đề xuất pilot bảng tiến độ trong Git — 16/11/2026
+
+- Khánh đề xuất dùng một trang HTML tĩnh để xem tiến độ A–E. Mỗi người sửa một file
+  trong `docs/status/` và cập nhật theo luồng Git/PR đang dùng.
+- Bản pilot lấy từ bàn giao A/C, tài liệu B/D và kết quả lab E. Một số tài liệu A vẫn mô tả
+  thời điểm trước merge và trước kết quả E. Pilot dùng lịch sử Git và báo cáo lab E mới hơn
+  để ghi hiện trạng, giữ nguyên tiêu chí nghiệm thu trong plan.
+- Nhóm thử một lượt cập nhật theo gói trong Sprint 3 rồi chốt có dùng bảng cho các đợt sau.
+  Trạng thái hiện tại là đề xuất đang thử. Xem [cách cập nhật](../CONTRIBUTING.md#pilot-bảng-tiến-độ).

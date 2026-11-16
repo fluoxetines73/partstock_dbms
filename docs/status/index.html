@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tiến độ nhóm · PartStock</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="project">PartStock</p>
+        <h1>Tiến độ nhóm</h1>
+        <p>Sprint 3 · 16–22/11/2026 <span class="divider">·</span> Hạn nộp 30/11/2026, giờ LMS</p>
+        <p class="notice">Còn phần việc từ mốc nghiệm thu 15/11.</p>
+      </header>
+
+      <section aria-label="Trạng thái theo thành viên">
+        <div class="columns" aria-hidden="true">
+          <span>Thành viên</span>
+          <span>Hiện trạng</span>
+          <span>Việc tiếp theo</span>
+        </div>
+        <div id="members"></div>
+        <noscript>Bật JavaScript để hiển thị tiến độ từ các file thành viên.</noscript>
+      </section>
+
+      <footer>
+        <p><strong>Cập nhật</strong> · Sửa file của bạn trong <code>docs/status/</code>, mở lại trang để kiểm tra, rồi commit và push nhánh làm việc. Xem bản chung bằng cách pull nhánh đã tích hợp và tải lại trang.</p>
+        <nav aria-label="Tài liệu dự án">
+          <a href="../plan.md">Kế hoạch</a>
+          <a href="../ownership.md">Phân công</a>
+          <a href="../../CONTRIBUTING.md#pilot-bảng-tiến-độ">Cách dùng pilot</a>
+        </nav>
+      </footer>
+    </main>
+
+    <script>const partstockStatus = {};</script>
+    <script src="a.js"></script>
+    <script src="b.js"></script>
+    <script src="c.js"></script>
+    <script src="d.js"></script>
+    <script src="e.js"></script>
+    <script src="board.js"></script>
+  </body>
+</html>

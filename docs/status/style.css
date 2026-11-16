@@ -1,0 +1,76 @@
+:root {
+  color-scheme: light;
+  font: 100%/1.5 system-ui, sans-serif;
+  color: #192b2a;
+  background: #f3f6f4;
+  --muted: #4b615d;
+  --line: #d8e3de;
+  --accent: #145b49;
+  --columns: minmax(10rem, 0.85fr) minmax(0, 1.4fr) minmax(0, 1.25fr);
+}
+
+* { box-sizing: border-box; }
+
+main {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+header {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: #123d35;
+  color: #f5fbf8;
+  border-radius: 1rem;
+}
+
+h1, h2, p { margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin-block: 0.25rem 0.75rem; }
+h2 { font-size: 1.1rem; }
+.project { font-weight: 700; color: #b5e1cf; }
+.divider { margin-inline: 0.3rem; }
+.notice { margin-top: 0.75rem; color: #ffe3a3; }
+
+.columns, .member {
+  display: grid;
+  grid-template-columns: var(--columns);
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+.columns { margin-top: 0.75rem; padding-bottom: 0.5rem; color: var(--muted); font-weight: 650; }
+
+#members {
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+
+.member + .member { border-top: 1px solid var(--line); }
+.scope, .meta, footer { color: var(--muted); }
+.meta { font-size: 0.875rem; margin-top: 0.35rem; }
+.tag {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  margin-bottom: 0.35rem;
+  border-radius: 0.4rem;
+  background: #eef1f0;
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+.tag[data-stage="working"] { background: #e6effb; color: #244b78; }
+.tag[data-stage="review"] { background: #fbefdb; color: #6e420e; }
+.tag[data-stage="accepted"] { background: #e0f3e8; color: #14553c; }
+.next { align-self: start; }
+.links { display: flex; flex-wrap: wrap; gap: 0.2rem 0.85rem; margin-top: 0.45rem; }
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+footer { padding-top: 1rem; font-size: 0.9rem; }
+nav { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; margin-top: 0.5rem; }
+
+@media (max-width: 44rem) {
+  .columns { display: none; }
+  #members { margin-top: 1rem; }
+  .member { grid-template-columns: 1fr; gap: 0.75rem; }
+}
