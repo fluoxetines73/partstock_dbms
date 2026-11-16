@@ -38,7 +38,9 @@ async function main() {
       await admin.query(readFileSync(resolve(__dirname, '../../database/seed', file), 'utf8'));
     }
     database = createDatabase({ ...options, database: schema });
-    server = createApp(database.check, { store: database.catalog, managerToken: env.E2E_MANAGER_TOKEN }).listen(3101, '127.0.0.1');
+    server = createApp(database.check, {
+      store: database.catalog, queries: database.queries, managerToken: env.E2E_MANAGER_TOKEN,
+    }).listen(3101, '127.0.0.1');
     await new Promise((resolve, reject) => { server.once('listening', resolve); server.once('error', reject); });
     for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => { cleanup().catch(() => { process.exitCode = 1; }); });
   } catch (error) { await cleanup(); throw error; }
