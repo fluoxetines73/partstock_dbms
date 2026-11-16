@@ -1,9 +1,16 @@
 # Frontend
 
-Ngày 15/11/2026: A đã triển khai UI UC01 (danh mục/thương hiệu) bằng React + Vite,
-CSS thuần; người dùng cho phép cài nền frontend. Chưa là khung UI chung đã được C review.
-Phiên bản cố định trong package-lock.json; máy kiểm chứng Node v26.13.0, React 19.3.1,
-Vite 8.3.8, Playwright 1.61.1. Không có UI của UC02–12 hoặc đăng nhập hai actor.
+## Tra cứu và doanh thu · C
+
+Từ gốc repo, chạy `npm ci --prefix frontend` rồi `npm run dev --prefix frontend`.
+Mở Vite, chọn **Tra cứu** hoặc **Doanh thu**, rồi bật **Dùng dữ liệu mẫu** để review
+UI độc lập. Chế độ thật gọi các endpoint trong [API contract](../docs/architecture/api-contract.md).
+Nhân viên nhập mã tra cứu local. Quản lý kết nối từ **Danh mục**, sau đó chuyển màn hình.
+Ngày kết thúc báo cáo là biên loại trừ.
+
+Giao diện dùng React/Vite và CSS thuần. A phụ trách UI UC01, C phụ trách phần
+Tra cứu/Doanh thu và điều hướng chung. Phiên bản dependency được cố định
+trong `package-lock.json`. Đăng nhập chung cho hai vai trò còn chờ thiết kế.
 
 ## Chạy giao diện local
 

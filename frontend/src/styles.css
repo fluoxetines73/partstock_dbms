@@ -61,3 +61,42 @@ dialog strong { overflow-wrap: anywhere; }
   .row-actions { white-space: nowrap; } .row-actions button { padding: .4rem; }
   .connect-card { padding: 1.5rem; margin-top: 2rem; }
 }
+
+.app-nav { display: flex; gap: .4rem; flex-wrap: wrap; }
+.app-nav [aria-current="page"] { font-weight: 700; text-decoration: underline; }
+.query-page { width: min(72rem, calc(100% - 2rem)); margin: 2rem auto; }
+.query-mode { display: inline-flex; align-items: center; gap: .5rem; }
+.query-mode input { width: auto; }
+.query-connect-form :is(input, button) {
+  display: block;
+  min-height: 2.875rem;
+  padding-block: .625rem;
+  font-size: .875rem;
+}
+.query-connect-form button { margin-top: .5rem; }
+.query-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); align-items: end; gap: .75rem; margin-block: 1rem; }
+.query-form label, .query-field { display: grid; gap: .25rem; }
+.query-form label { margin: 0; }
+.query-form--revenue { grid-template-columns: repeat(2, minmax(0, 1fr)) auto; }
+.query-form :is(input, select, button) {
+  min-width: 0;
+  height: 2.875rem;
+  font-size: .875rem;
+}
+.query-form :is(input, select) {
+  width: 100%;
+  border: 1px solid #b8c3d1;
+  border-radius: 8px;
+  padding: .7rem .8rem;
+  font-family: inherit;
+  color: #1d2939;
+  background-color: #fff;
+}
+.query-form select { cursor: pointer; }
+.query-form button:disabled { cursor: not-allowed; }
+.query-form button[aria-busy="true"] { cursor: wait; }
+@media (max-width: 600px) {
+  .query-form--revenue { grid-template-columns: minmax(0, 1fr); }
+}
+.query-table { overflow-x: auto; }
+.query-table table { min-width: 39rem; }
