@@ -7,6 +7,10 @@ const { loadConfig } = require('../dist/config.js');
 const migrations = [
   { file: '001_catalogs.sql', tables: ['categories', 'brands'] },
   { file: '002_products_suppliers.sql', tables: ['products', 'suppliers'] },
+  {
+    file: '003_inventory_documents.sql',
+    tables: ['inventory', 'purchase_receipts', 'purchase_receipt_lines', 'sales_orders', 'sales_order_lines', 'stock_movements'],
+  },
 ];
 
 async function applyMigrations(connection) {
@@ -57,7 +61,7 @@ async function main() {
   const connection = await mysql.createConnection(loadConfig(process.env).db);
   try {
     const applied = await applyMigrations(connection);
-    console.log(applied.length ? `PASS: applied ${applied.join(', ')}` : 'PASS: migrations 001 and 002 already applied');
+    console.log(applied.length ? `PASS: applied ${applied.join(', ')}` : `PASS: migrations ${migrations.map(migration => migration.file.slice(0, 3)).join(', ')} already applied`);
   } finally {
     await connection.end();
   }

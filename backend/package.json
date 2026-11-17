@@ -9,7 +9,8 @@
     "token:manager": "node scripts/setup-manager-token.cjs",
     "test": "npm run build && node --test tests/*.test.cjs",
     "db:setup": "npm run build && node --env-file=../.env.docker scripts/setup-catalog.cjs",
-    "test:db": "npm run build && node --env-file=../.env.docker tests-db/catalog.cjs"
+    "test:db": "npm run build && node --env-file=../.env.docker tests-db/catalog.cjs",
+    "test:db:documents": "npm run build && node --env-file=../.env.docker tests-db/uc04-07-08.cjs"
   },
   "keywords": [],
   "type": "commonjs",

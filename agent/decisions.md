@@ -1,5 +1,28 @@
 # Sổ quyết định
 
+## Cài đặt UC04/07/08 theo đề xuất F03/F04 — 17/11/2026
+
+- Nguồn: D (Nam) yêu cầu làm hết gói D trong phiên làm việc; agent cài đặt theo F03/F04 trên nhánh `feat/uc04-07-08-transactions`.
+  Chưa có PR, chưa có review của E, chưa có biên bản nhóm. **Các đề xuất F03 Q1–Q8 được dùng làm mặc định để có code chạy được,
+  không phải đồng thuận nhóm.** Nếu nhóm chọn khác, đổi ở nơi ghi bên dưới.
+- Mặc định đang được cài đặt: Q1 không hủy phiếu nhập đã xác nhận (API không có route); Q2 hủy đơn không giới hạn thời gian, bắt buộc lý do,
+  chỉ Quản lý; Q3 doanh thu phương án A (C đã dùng, đơn hủy bị loại); Q4 không chiết khấu/thuế; Q5 kiểm kê chưa cài (thuộc E);
+  Q6 tạo dòng tồn 0 trong cùng transaction với `POST /api/products` và backfill trong migration 003; Q7 chỉ `customer_name` tùy chọn;
+  Q8 không có bảng người dùng.
+- Quyết định kỹ thuật D tự đặt, cần E/A xác nhận: mã chứng từ `PN-`/`DB-` + ngày VN + ID 6 chữ số do server sinh;
+  `confirmed_at`/`cancelled_at`/`occurred_at` ghi giờ VN (+07:00) bằng `CONVERT_TZ(UTC_TIMESTAMP(3), ...)`; sửa nháp là thay toàn bộ dòng
+  (`PUT`); xác nhận/hủy lặp trả `409` kèm trạng thái hiện tại (không trả `200` kiểu "đã xác nhận" như lab của E); deadlock chạy lại tối đa 3 lần.
+- Cơ chế kho dùng chung D–E: `inventory.quantity_on_hand` với `CHECK >= 0`, `stock_movements` chỉ thêm, UNIQUE `(movement_type, dòng chứng từ)`,
+  tồn trừ bằng `UPDATE ... WHERE quantity_on_hand >= q`. **Chưa thống nhất với E:** lab concurrency của E dùng cột `stock_version`
+  để chặn kiểm kê với số đếm cũ (`STALE_COUNT`), còn F03 mục 4 đề xuất áp delta lên tồn hiện tại. Migration 003 không có `stock_version`
+  và chưa có bảng kiểm kê; E cần chọn phương án rồi thêm cột/bảng bằng migration 004. Ngưỡng cảnh báo UC10 cũng chưa có chỗ lưu.
+- Sửa test của người khác để chạy trên schema thật: `backend/tests-db/queries.cjs` (C) bỏ fixture `inventory/sales_*` tự tạo, kiểm tra
+  chế độ chỉ-có-danh-mục bằng cách áp 001–002 trước rồi 003; `backend/tests-db/uc02-03.cjs` (B) cập nhật danh sách migration;
+  `ui-server.cjs` (A) nạp 003 và mở route của D; `frontend/tests/queries.spec.js` (C) ca "chưa có tồn" thành "đọc tồn thật".
+  Các ca cũ về `STOCK_UNAVAILABLE` vẫn được kiểm ở bước chỉ-có-danh-mục. C và A nên xem lại các thay đổi này.
+- Chưa áp migration 003 vào MySQL app `partstock`; chỉ chạy trên schema dùng một lần ở `mysql-lab`.
+- Bằng chứng: [bàn giao D](../docs/handoffs/d-sprint2.md), [lab Transaction](../experiments/transactions/README.md).
+
 ## Chuẩn bị PR tích hợp nền — 16/11/2026
 
 - A yêu cầu bắt đầu theo đề xuất Nam và nhận xét: một PR integration/a-sprint2-review vào main,

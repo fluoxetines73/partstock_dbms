@@ -48,7 +48,7 @@ chưa đủ bằng chứng: không lấy CRUD UC01 thay các kịch bản chứn
 | Storage — A | [3.2](3-2-storage.md), script và kết quả năm pha hai hệ | Chờ B review, tái tạo độc lập |
 | Indexing — B | [3.3](3-3-indexing.md), script/kết quả của B | C review; không coi A đã chạy lại lab này trong lượt nghiệm thu |
 | Query processing — C | [Báo cáo](3-4-query-processing.md), [kết quả và hướng dẫn](../../experiments/query-processing/README.md) | Đã chạy MySQL và MongoDB, khớp baseline; chờ review và chạy lại độc lập |
-| Transaction — D | [README chủ đề](../../experiments/transactions/README.md), F03/F04 | Nháp thiết kế không thay script/kết quả hai DBMS |
+| Transaction — D | [3.5](3-5-transaction.md), [script và kết quả](../../experiments/transactions/README.md), F03/F04 | Đã chạy 10 ca trên MySQL và MongoDB, 38/38 kiểm tra đạt trên máy của D; chờ E review và chạy lại độc lập |
 | Concurrency — E | [README chủ đề](../../experiments/concurrency/README.md) | Chưa có chương/kết quả hoàn chỉnh trong bản rà |
 | Backup/restore — B | [3.7](3-7-backup-restore.md) | Cần E restore và đối chiếu độc lập |
 

@@ -30,3 +30,11 @@ theo tên từ seed UC01. Phiếu, đơn và tồn kho dùng fixture riêng theo
 Kiểm tra sau khi nạp gồm 2 danh mục, 2 hãng, 5 sản phẩm (4 `ACTIVE`, 1 `DISCONTINUED`)
 và 2 nhà cung cấp. Lọc Kingston từ 500.000 đến 1.000.000 VND trả về `RAM-KIN-16`
 và `SSD-KIN-500`. Xem kết quả kiểm chứng trong [erd-mien-b.md](../../docs/architecture/erd-mien-b.md#kiểm-chứng-thủ-công-của-tuấn).
+
+## Dữ liệu mẫu UC04/07/08
+
+[003_inventory_documents.sql](003_inventory_documents.sql) nạp sau migration 001–003 và seed 001–002, một lần trên schema lab rỗng.
+Nó tạo dòng tồn cho mọi sản phẩm, một phiếu nhập đã xác nhận làm tồn đầu kỳ (RAM-KIN-08: 10, RAM-KIN-16: 5, SSD-KIN-500: 8,
+SSD-SAM-1000: 4), một đơn bán đã xác nhận (840.000 VND), một đơn đã hủy và một đơn nháp, kèm sổ biến động khớp. Kết quả mong đợi:
+tồn 8 / 5 / 8 / 4 / 0 (tổng 25), 7 biến động (4 `IMPORT`, 2 `SALE`, 1 `SALE_CANCEL`), thỏa bất biến I1–I5 của F03. Ngày cố định để kết quả
+tái tạo được; không có dữ liệu cá nhân thật. Kiểm tra bằng [test D](../../backend/tests-db/uc04-07-08.cjs).

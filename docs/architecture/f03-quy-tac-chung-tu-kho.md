@@ -1,8 +1,9 @@
 # F03 — Quy tắc chứng từ, hủy/doanh thu và cập nhật kho
 
 **Bản nháp đề xuất 10/11/2026.** D soạn; chờ E đồng soạn/duyệt phần kho và kiểm kê,
-C rà phần doanh thu, A điều phối nhóm chốt. Chưa phải quyết định nhóm, chưa có code hay
-kết quả chạy nào kiểm chứng nội dung dưới đây. Khi chốt, ghi vào [sổ quyết định](../../agent/decisions.md).
+C rà phần doanh thu, A điều phối nhóm chốt. Chưa phải quyết định nhóm. **Cập nhật 17/11/2026:** mục 1, 3 và 6 đã được cài đặt và chạy thử
+(migration 003, `backend/src/sales.ts`, `purchases.ts`, lab Transaction) — xem [bàn giao D](../handoffs/d-sprint2.md); mục 4 (kiểm kê) và
+các câu hỏi Q1–Q8 vẫn chưa được E/nhóm chốt. Khi chốt, ghi vào [sổ quyết định](../../agent/decisions.md).
 
 Đối chiếu [plan ngày 11/11](../plan.md): F03/F04 là mã tham chiếu lịch sử trong gói D,
 không còn là chuỗi task nhỏ bắt buộc. Quy tắc chung cần thống nhất ngày 11/11; nền ngày 12/11,

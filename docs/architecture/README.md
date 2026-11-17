@@ -38,7 +38,8 @@ bản nháp để review và ghép ERD chung.
 Bản nháp chờ C review và A ghép ERD chung. Migration 002 tạo bảng linh kiện và nhà cung cấp.
 Hướng dẫn nạp seed nằm trong [database/seed/README.md](../../database/seed/README.md#dữ-liệu-mẫu-uc0203).
 
-Bản nháp thiết kế đang chờ review (chưa chốt):
+Bản nháp thiết kế đang chờ review (chưa chốt). Từ 17/11/2026 đã có migration 003, API, UI và lab Transaction cài đặt theo hai bản nháp này
+(xem [bàn giao D](../handoffs/d-sprint2.md)); các điểm lệch so với nháp ghi ở đó:
 
 - [F03 — Quy tắc chứng từ, hủy/doanh thu và cập nhật kho](f03-quy-tac-chung-tu-kho.md) — D soạn, chờ E/C/A.
 - [F04 — ERD và từ điển dữ liệu miền D](f04-erd-mien-d.md) — phiếu nhập, đơn bán, tồn và biến động kho; chờ E/C, A hợp nhất.

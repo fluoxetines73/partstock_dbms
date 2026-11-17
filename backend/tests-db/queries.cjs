@@ -27,7 +27,10 @@ async function main() {
     await admin.query(`CREATE DATABASE ${schema}`);
     created = true;
     await admin.query(`USE ${schema}`);
-    await applyMigrations(admin);
+    // Catalog-only schema first: UC05-06/11 must degrade cleanly until D's migration 003 exists.
+    for (const file of ['001_catalogs.sql', '002_products_suppliers.sql']) {
+      await admin.query(readFileSync(resolve(__dirname, '../../database/mysql/migrations', file), 'utf8'));
+    }
     for (const file of ['001_catalogs.sql', '002_products_suppliers.sql']) {
       await admin.query(readFileSync(resolve(__dirname, '../../database/seed', file), 'utf8'));
     }
@@ -63,15 +66,19 @@ async function main() {
     await get('product-search?never_sold=true', manager, 503);
     await get('revenue?from=2026-02-30&to=2026-12-01', manager, 400);
 
-    // Minimal D/E-shaped read fixtures, scoped to this disposable lab schema.
+    // Migration 003 backfills a zero stock row for the already-seeded products.
+    assert.deepEqual(await applyMigrations(admin), ['003_inventory_documents.sql']);
+    assert.equal((await get('product-search?q=ram-kin-08', staff)).items[0].quantity_on_hand, 0);
+    assert.deepEqual(await get(period, manager), { from: '2026-11-01', to: '2026-12-01', revenue_vnd: '0', order_count: '0' });
+    // Read fixtures written straight into D's real tables, scoped to this disposable lab schema.
     await admin.query(`
-      CREATE TABLE inventory (product_id BIGINT UNSIGNED PRIMARY KEY, quantity_on_hand INT);
-      INSERT INTO inventory SELECT id, IF(sku='RAM-KIN-08', 3, 0) FROM products;
-      CREATE TABLE sales_orders (id BIGINT UNSIGNED PRIMARY KEY, status VARCHAR(12), confirmed_at DATETIME(3));
-      CREATE TABLE sales_order_lines (order_id BIGINT UNSIGNED, product_id BIGINT UNSIGNED, quantity INT, unit_price DECIMAL(15,0));
-      INSERT INTO sales_orders VALUES (1,'CONFIRMED','2026-11-01'),(2,'CANCELLED','2026-11-15'),
-        (3,'CONFIRMED','2026-12-01'),(4,'DRAFT',NULL);
-      INSERT INTO sales_order_lines
+      UPDATE inventory SET quantity_on_hand = 3 WHERE product_id = (SELECT id FROM products WHERE sku = 'RAM-KIN-08');
+      INSERT INTO sales_orders (id, code, status, confirmed_at, cancelled_at, cancel_reason) VALUES
+        (1, 'DB-T-1', 'CONFIRMED', '2026-11-01', NULL, NULL),
+        (2, 'DB-T-2', 'CANCELLED', '2026-11-15', '2026-11-16', 'Khach doi y'),
+        (3, 'DB-T-3', 'CONFIRMED', '2026-12-01', NULL, NULL),
+        (4, 'DB-T-4', 'DRAFT', NULL, NULL, NULL);
+      INSERT INTO sales_order_lines (order_id, product_id, quantity, unit_price)
         SELECT 1,id,2,420000 FROM products WHERE sku='RAM-KIN-08'
         UNION ALL SELECT 1,id,1,790000 FROM products WHERE sku='RAM-KIN-16'
         UNION ALL SELECT 2,id,1,999999 FROM products WHERE sku='SSD-KIN-500'
@@ -89,7 +96,7 @@ async function main() {
       from: '2026-11-01', to: '2026-12-01', revenue_vnd: '1630000', order_count: '1',
     });
     assert.equal((await get('revenue?from=2027-01-01&to=2027-02-01', manager)).revenue_vnd, '0');
-    console.log('PASS: UC05/06/11 HTTP, role checks, schema unavailable, combined stock filter and revenue boundaries.');
+    console.log('PASS: UC05/06/11 HTTP, role checks, schema unavailable, backfilled stock, combined stock filter and revenue boundaries.');
   } finally {
     if (server) await new Promise(resolveClose => server.close(resolveClose));
     if (database) await database.close();

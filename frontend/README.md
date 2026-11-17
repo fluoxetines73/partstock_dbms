@@ -65,3 +65,18 @@ Test có cảnh báo màu terminal `NO_COLOR/FORCE_COLOR`, không ảnh hưởng
   token chung vào frontend hoặc chọn role trong UI để thay kiểm tra quyền backend.
 - Nhờ Tuấn review API/FK và thay đổi thứ tự ID; Hải chạy lại test trên máy thứ hai.
 - C tiếp tục khung chung/UC05–06–11; B/D/E tự làm UI miền mình theo ownership.
+
+## Nhập kho và Bán hàng · D
+
+Hai mục **Nhập kho** (UC04) và **Bán hàng** (UC07–08) trong thanh điều hướng, mã ở [DocumentsPage.jsx](src/DocumentsPage.jsx)
+và [documents-api.js](src/documents-api.js). Kết nối bằng mã quản lý đã nhập ở **Danh mục**, hoặc nhập mã nhân viên ngay trên trang.
+Luồng: tạo chứng từ → chọn nhà cung cấp/khách, thêm dòng → **Lưu nháp** (tồn chưa đổi) → **Xác nhận**. Đơn đã xác nhận có ô lý do
+và nút hủy; nút này hiện với cả Nhân viên nhưng máy chủ từ chối (403) và UI giải thích. Một thao tác chạy tại một thời điểm nên bấm đúp
+không gửi hai lần; mất mạng khi ghi hiển thị "chưa xác định kết quả" thay vì báo thành công. Danh sách sản phẩm lấy từ tra cứu của C
+(tối đa 100 sản phẩm đang bán, kèm tồn).
+
+Test trình duyệt mới ở [documents.spec.js](tests/documents.spec.js) (4 ca): nhập kho lưu nháp rồi xác nhận, xác nhận chứng từ rỗng bị từ chối
+và xóa nháp, bán rồi Nhân viên bị từ chối khi hủy và Quản lý hủy hoàn kho, thiếu tồn giữ đơn là nháp. Mỗi ca đối chiếu tồn qua API.
+Server test (`backend/tests-db/ui-server.cjs`) giờ nạp thêm migration/seed 003 và mở các route của D, nên test tra cứu của C đọc tồn thật
+thay vì fixture. 17/11/2026: **12/12 test trình duyệt đạt** (5 UC01, 4 D, 3 C) và build Vite đạt, trên Windows với Chromium qua
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. Chưa kiểm tra ảnh responsive riêng cho hai trang mới.

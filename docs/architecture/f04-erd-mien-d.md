@@ -2,7 +2,8 @@
 
 **Bản nháp đề xuất 10/11/2026.** D thiết kế phần phiếu nhập, đơn bán; `inventory` và
 `stock_movements` dùng chung với E. Chờ E duyệt phần kho, C rà truy vấn, A hợp nhất vào ERD chung.
-Chưa có migration hay DDL đã chạy. Quy tắc nghiệp vụ đi kèm: [F03](f03-quy-tac-chung-tu-kho.md).
+**Cập nhật 17/11/2026:** DDL đã cài đặt ở [migration 003](../../database/mysql/migrations/003_inventory_documents.sql) và chạy thử trên MySQL 8.4.13
+lab; khác biệt so với nháp: `stock_count_line_id` chưa có khóa ngoại (bảng kiểm kê thuộc E). Quy tắc nghiệp vụ đi kèm: [F03](f03-quy-tac-chung-tu-kho.md).
 
 Theo [plan ngày 11/11](../plan.md), F04 là mã tham chiếu lịch sử cho thiết kế trong gói D.
 D bàn giao cấu trúc miền mình để A hợp nhất ngày 11/11, tự viết migration/API/UI và dữ liệu

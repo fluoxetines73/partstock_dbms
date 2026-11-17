@@ -3,6 +3,8 @@ import { catalogRouter, type CatalogStore } from './catalog.js';
 import { productRouter, type createProductStore } from './products.js';
 import { supplierRouter, type createSupplierStore } from './suppliers.js';
 import { queryRouter, type createQueryStore } from './queries.js';
+import { purchaseRouter, type createPurchaseStore } from './purchases.js';
+import { salesRouter, type createSalesStore } from './sales.js';
 
 interface AppResources {
   store: CatalogStore;
@@ -11,6 +13,8 @@ interface AppResources {
   managerToken?: string;
   staffToken?: string;
   queries?: ReturnType<typeof createQueryStore>;
+  purchases?: ReturnType<typeof createPurchaseStore>;
+  sales?: ReturnType<typeof createSalesStore>;
 }
 
 export function createApp(checkDatabase: () => Promise<void>, resources?: AppResources) {
@@ -30,6 +34,8 @@ export function createApp(checkDatabase: () => Promise<void>, resources?: AppRes
   });
   if (resources?.products) app.use('/api/products', productRouter(resources.products, resources.managerToken));
   if (resources?.suppliers) app.use('/api/suppliers', supplierRouter(resources.suppliers, resources.managerToken));
+  if (resources?.purchases) app.use('/api/purchase-receipts', purchaseRouter(resources.purchases, resources.managerToken, resources.staffToken));
+  if (resources?.sales) app.use('/api/sales-orders', salesRouter(resources.sales, resources.managerToken, resources.staffToken));
   if (resources?.queries) app.use('/api', queryRouter(resources.queries, resources.managerToken, resources.staffToken));
   if (resources) app.use('/api', catalogRouter(resources.store, resources.managerToken));
   app.use((_request, response) => {
