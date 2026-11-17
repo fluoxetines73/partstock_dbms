@@ -26,6 +26,20 @@ Review theo gói; người viết tiếp tục phần độc lập trong lúc ch
 cấu trúc chung để làm song song; nghiệm thu vẫn cần bản tích hợp thật.
 A chủ trì phạm vi/thiết kế/ưu tiên; B–E đóng góp chuyên môn. Ghi thay đổi chung vào agent/decisions.md.
 
+## Pilot bảng tiến độ
+
+1. Mở `docs/status/index.html` từ bản checkout bằng trình duyệt. Trang chạy trực tiếp từ file.
+2. Khi có bàn giao, kết quả review hoặc vướng mắc, sửa file trong `docs/status/` theo mã của mình:
+   Đạt `a.js`, Tuấn `b.js`, Khánh `c.js`, Nam `d.js`, Hải `e.js`. Ghi `updated` theo `YYYY-MM-DD`,
+   một câu hiện trạng (`summary`), một việc tiếp theo hoặc đầu vào đang chờ (`next`), và link
+   bằng chứng nếu có (`links`, đường dẫn tính từ `docs/status/`, để `[]` nếu chưa có).
+   Chọn `stage` theo plan: `working`, `review`, `fix`, `accepted`. Dùng `accepted` khi đủ điều kiện nghiệm thu.
+3. Tải lại trang để kiểm tra, rồi commit và push nhánh làm việc theo luồng PR hiện có.
+   Sau khi tích hợp, mọi người pull nhánh chung rồi tải lại trang để xem trạng thái mới.
+
+Bản đầu lấy từ bằng chứng đã có trong repo ngày 16/11. Nhóm thử một lượt cập nhật theo gói trong
+Sprint 3 rồi quyết định có dùng bảng làm nơi cập nhật trạng thái hằng ngày hay không.
+
 ## Definition of Done
 
 Chạy trong bản tích hợp, đúng nghiệp vụ, có review và bằng chứng kiểm tra thật.

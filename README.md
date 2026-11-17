@@ -7,6 +7,9 @@ Bài tập lớn Database Management Systems, HCMUT, Học kỳ 261.
 
 ## Trạng thái
 
+**Pilot bảng tiến độ:** mở `docs/status/index.html` bằng trình duyệt sau khi checkout
+nhánh có pilot. Trang hiển thị phần việc A–E từ repo. Xem [cách cập nhật](CONTRIBUTING.md#pilot-bảng-tiến-độ).
+
 Đã có bộ môi trường Docker local cho MySQL app, MySQL lab và MongoDB lab, kèm script tạo
 credential riêng và kiểm tra hạ tầng. Trên một máy đã kiểm chứng container healthy,
 commit/rollback, giữ dữ liệu qua tạo lại container và kết nối DBeaver; xem [kết quả](KIEM-TRA.md).

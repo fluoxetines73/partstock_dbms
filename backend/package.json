@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node --env-file=../.env.docker dist/server.js",
+    "token:manager": "node scripts/setup-manager-token.cjs",
     "test": "npm run build && node --test tests/*.test.cjs",
     "db:setup": "npm run build && node --env-file=../.env.docker scripts/setup-catalog.cjs",
     "test:db": "npm run build && node --env-file=../.env.docker tests-db/catalog.cjs"

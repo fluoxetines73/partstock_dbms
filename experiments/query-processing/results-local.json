@@ -1,0 +1,448 @@
+{
+  "dataset": {
+    "products": 2400,
+    "orders": 4800,
+    "linesPerOrder": 1
+  },
+  "warmup": 1,
+  "samplesPerQuery": 3,
+  "mysql": {
+    "version": "8.4.13",
+    "innodb_buffer_pool_size": 134217728
+  },
+  "mongodb": {
+    "version": "8.0.34",
+    "topology": "rs0",
+    "members": 1,
+    "indexes": [
+      [
+        {
+          "v": 2,
+          "key": {
+            "_id": 1
+          },
+          "name": "_id_"
+        },
+        {
+          "v": 2,
+          "key": {
+            "category_id": 1,
+            "brand_id": 1,
+            "price": 1
+          },
+          "name": "category_id_1_brand_id_1_price_1"
+        }
+      ],
+      [
+        {
+          "v": 2,
+          "key": {
+            "_id": 1
+          },
+          "name": "_id_"
+        },
+        {
+          "v": 2,
+          "key": {
+            "status": 1,
+            "confirmed_at": 1
+          },
+          "name": "status_1_confirmed_at_1"
+        },
+        {
+          "v": 2,
+          "key": {
+            "line.product_id": 1
+          },
+          "name": "line.product_id_1"
+        }
+      ]
+    ]
+  },
+  "evidence": {
+    "filter": {
+      "count": 26,
+      "sha256": "2ec1eee48883350f680db922dd89686e359f8033e529ed5a839c7b7df115cf04",
+      "mysql": [
+        "-> Sort: qp_products.id  (cost=49 rows=40) (actual time=0.0955..0.097 rows=26 loops=1)\n    -> Filter: (qp_products.stock > 0)  (cost=49 rows=40) (actual time=0.0772..0.0846 rows=26 loops=1)\n        -> Index range scan on qp_products using qp_filter over (category_id = 2 AND brand_id = 3 AND 130000 <= price <= 160000), with index condition: ((qp_products.brand_id = 3) and (qp_products.category_id = 2) and (qp_products.price between 130000 and 160000))  (cost=49 rows=40) (actual time=0.0753..0.0799 rows=40 loops=1)",
+        "-> Sort: qp_products.id  (cost=49 rows=40) (actual time=0.0912..0.0925 rows=26 loops=1)\n    -> Filter: (qp_products.stock > 0)  (cost=49 rows=40) (actual time=0.0746..0.0817 rows=26 loops=1)\n        -> Index range scan on qp_products using qp_filter over (category_id = 2 AND brand_id = 3 AND 130000 <= price <= 160000), with index condition: ((qp_products.brand_id = 3) and (qp_products.category_id = 2) and (qp_products.price between 130000 and 160000))  (cost=49 rows=40) (actual time=0.0725..0.0777 rows=40 loops=1)",
+        "-> Sort: qp_products.id  (cost=49 rows=40) (actual time=0.0858..0.0869 rows=26 loops=1)\n    -> Filter: (qp_products.stock > 0)  (cost=49 rows=40) (actual time=0.0699..0.0767 rows=26 loops=1)\n        -> Index range scan on qp_products using qp_filter over (category_id = 2 AND brand_id = 3 AND 130000 <= price <= 160000), with index condition: ((qp_products.brand_id = 3) and (qp_products.category_id = 2) and (qp_products.price between 130000 and 160000))  (cost=49 rows=40) (actual time=0.0688..0.0734 rows=40 loops=1)"
+      ],
+      "mongodb": [
+        {
+          "plan": [
+            {
+              "stage": "SORT"
+            },
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "FETCH"
+            },
+            {
+              "stage": "IXSCAN",
+              "index": "category_id_1_brand_id_1_price_1"
+            }
+          ],
+          "cursor": {
+            "rows": 26,
+            "keys": 40,
+            "documents": 40,
+            "milliseconds": 0
+          },
+          "stages": []
+        },
+        {
+          "plan": [
+            {
+              "stage": "SORT"
+            },
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "FETCH"
+            },
+            {
+              "stage": "IXSCAN",
+              "index": "category_id_1_brand_id_1_price_1"
+            }
+          ],
+          "cursor": {
+            "rows": 26,
+            "keys": 40,
+            "documents": 40,
+            "milliseconds": 0
+          },
+          "stages": []
+        },
+        {
+          "plan": [
+            {
+              "stage": "SORT"
+            },
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "FETCH"
+            },
+            {
+              "stage": "IXSCAN",
+              "index": "category_id_1_brand_id_1_price_1"
+            }
+          ],
+          "cursor": {
+            "rows": 26,
+            "keys": 40,
+            "documents": 40,
+            "milliseconds": 0
+          },
+          "stages": []
+        }
+      ]
+    },
+    "never_sold": {
+      "count": 600,
+      "sha256": "6007ab33054c913f04d4d1ebdae3196af78d726794d3075c33e63bd27d0f1b2b",
+      "mysql": [
+        "-> Nested loop antijoin  (cost=2953 rows=2454) (actual time=6.64..7.46 rows=600 loops=1)\n    -> Covering index scan on p using PRIMARY  (cost=253 rows=2454) (actual time=0.0722..0.396 rows=2400 loops=1)\n    -> Nested loop inner join  (cost=2455 rows=1) (actual time=0.00281..0.00281 rows=0.75 loops=2400)\n        -> Covering index lookup on l using qp_product (product_id=p.id)  (cost=1 rows=1) (actual time=0.00131..0.00132 rows=0.818 loops=2400)\n        -> Filter: (o.`status` in ('CONFIRMED','CANCELLED'))  (cost=1 rows=1) (actual time=0.00162..0.00162 rows=0.916 loops=1964)\n            -> Single-row index lookup on o using PRIMARY (id=l.order_id)  (cost=1 rows=1) (actual time=0.0012..0.00121 rows=1 loops=1964)",
+        "-> Nested loop antijoin  (cost=2953 rows=2454) (actual time=6.69..7.49 rows=600 loops=1)\n    -> Covering index scan on p using PRIMARY  (cost=253 rows=2454) (actual time=0.0709..0.397 rows=2400 loops=1)\n    -> Nested loop inner join  (cost=2455 rows=1) (actual time=0.00284..0.00284 rows=0.75 loops=2400)\n        -> Covering index lookup on l using qp_product (product_id=p.id)  (cost=1 rows=1) (actual time=0.00133..0.00133 rows=0.818 loops=2400)\n        -> Filter: (o.`status` in ('CONFIRMED','CANCELLED'))  (cost=1 rows=1) (actual time=0.00162..0.00162 rows=0.916 loops=1964)\n            -> Single-row index lookup on o using PRIMARY (id=l.order_id)  (cost=1 rows=1) (actual time=0.0012..0.0012 rows=1 loops=1964)",
+        "-> Nested loop antijoin  (cost=2953 rows=2454) (actual time=6.59..7.38 rows=600 loops=1)\n    -> Covering index scan on p using PRIMARY  (cost=253 rows=2454) (actual time=0.0726..0.38 rows=2400 loops=1)\n    -> Nested loop inner join  (cost=2455 rows=1) (actual time=0.0028..0.0028 rows=0.75 loops=2400)\n        -> Covering index lookup on l using qp_product (product_id=p.id)  (cost=1 rows=1) (actual time=0.00129..0.0013 rows=0.818 loops=2400)\n        -> Filter: (o.`status` in ('CONFIRMED','CANCELLED'))  (cost=1 rows=1) (actual time=0.00162..0.00162 rows=0.916 loops=1964)\n            -> Single-row index lookup on o using PRIMARY (id=l.order_id)  (cost=1 rows=1) (actual time=0.00121..0.00121 rows=1 loops=1964)"
+      ],
+      "mongodb": [
+        {
+          "plan": [
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "COLLSCAN"
+            }
+          ],
+          "cursor": {
+            "rows": 2400,
+            "keys": 0,
+            "documents": 2400,
+            "milliseconds": 266
+          },
+          "stages": [
+            {
+              "stage": "$cursor",
+              "rows": 2400,
+              "milliseconds_estimate": 1
+            },
+            {
+              "stage": "$lookup",
+              "rows": 2400,
+              "keys": 1964,
+              "documents": 1964,
+              "indexes": [
+                "line.product_id_1"
+              ],
+              "milliseconds_estimate": 265
+            },
+            {
+              "stage": "$match",
+              "rows": 600,
+              "milliseconds_estimate": 265
+            },
+            {
+              "stage": "$sort",
+              "rows": 600,
+              "milliseconds_estimate": 265
+            },
+            {
+              "stage": "$project",
+              "rows": 600,
+              "milliseconds_estimate": 266
+            }
+          ]
+        },
+        {
+          "plan": [
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "COLLSCAN"
+            }
+          ],
+          "cursor": {
+            "rows": 2400,
+            "keys": 0,
+            "documents": 2400,
+            "milliseconds": 234
+          },
+          "stages": [
+            {
+              "stage": "$cursor",
+              "rows": 2400,
+              "milliseconds_estimate": 1
+            },
+            {
+              "stage": "$lookup",
+              "rows": 2400,
+              "keys": 1964,
+              "documents": 1964,
+              "indexes": [
+                "line.product_id_1"
+              ],
+              "milliseconds_estimate": 234
+            },
+            {
+              "stage": "$match",
+              "rows": 600,
+              "milliseconds_estimate": 234
+            },
+            {
+              "stage": "$sort",
+              "rows": 600,
+              "milliseconds_estimate": 234
+            },
+            {
+              "stage": "$project",
+              "rows": 600,
+              "milliseconds_estimate": 234
+            }
+          ]
+        },
+        {
+          "plan": [
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "COLLSCAN"
+            }
+          ],
+          "cursor": {
+            "rows": 2400,
+            "keys": 0,
+            "documents": 2400,
+            "milliseconds": 302
+          },
+          "stages": [
+            {
+              "stage": "$cursor",
+              "rows": 2400,
+              "milliseconds_estimate": 1
+            },
+            {
+              "stage": "$lookup",
+              "rows": 2400,
+              "keys": 1964,
+              "documents": 1964,
+              "indexes": [
+                "line.product_id_1"
+              ],
+              "milliseconds_estimate": 302
+            },
+            {
+              "stage": "$match",
+              "rows": 600,
+              "milliseconds_estimate": 302
+            },
+            {
+              "stage": "$sort",
+              "rows": 600,
+              "milliseconds_estimate": 302
+            },
+            {
+              "stage": "$project",
+              "rows": 600,
+              "milliseconds_estimate": 302
+            }
+          ]
+        }
+      ]
+    },
+    "revenue": {
+      "count": 1,
+      "sha256": "c15fb3c8d9398c40962a098ccfb39286a0626d3ca1d7a8730b455e76a368e57c",
+      "total_vnd": 599942000,
+      "mysql": [
+        "-> Aggregate: sum((l.quantity * l.unit_price))  (cost=2638 rows=1) (actual time=6.12..6.12 rows=1 loops=1)\n    -> Nested loop inner join  (cost=2450 rows=1874) (actual time=0.0646..5.79 rows=1874 loops=1)\n        -> Filter: ((o.`status` = 'CONFIRMED') and (o.confirmed_at >= DATE'2026-11-01') and (o.confirmed_at < DATE'2026-11-16'))  (cost=389 rows=1874) (actual time=0.0578..1.87 rows=1874 loops=1)\n            -> Covering index range scan on o using qp_period over (status = 'CONFIRMED' AND '2026-11-01' <= confirmed_at < '2026-11-16')  (cost=389 rows=1874) (actual time=0.056..0.976 rows=1874 loops=1)\n        -> Single-row index lookup on l using PRIMARY (order_id=o.id)  (cost=1 rows=1) (actual time=0.00183..0.00187 rows=1 loops=1874)",
+        "-> Aggregate: sum((l.quantity * l.unit_price))  (cost=2638 rows=1) (actual time=4.37..4.37 rows=1 loops=1)\n    -> Nested loop inner join  (cost=2450 rows=1874) (actual time=0.0658..4.16 rows=1874 loops=1)\n        -> Filter: ((o.`status` = 'CONFIRMED') and (o.confirmed_at >= DATE'2026-11-01') and (o.confirmed_at < DATE'2026-11-16'))  (cost=389 rows=1874) (actual time=0.0584..1.28 rows=1874 loops=1)\n            -> Covering index range scan on o using qp_period over (status = 'CONFIRMED' AND '2026-11-01' <= confirmed_at < '2026-11-16')  (cost=389 rows=1874) (actual time=0.0564..0.687 rows=1874 loops=1)\n        -> Single-row index lookup on l using PRIMARY (order_id=o.id)  (cost=1 rows=1) (actual time=0.00134..0.00137 rows=1 loops=1874)",
+        "-> Aggregate: sum((l.quantity * l.unit_price))  (cost=2638 rows=1) (actual time=4.24..4.24 rows=1 loops=1)\n    -> Nested loop inner join  (cost=2450 rows=1874) (actual time=0.0677..4.01 rows=1874 loops=1)\n        -> Filter: ((o.`status` = 'CONFIRMED') and (o.confirmed_at >= DATE'2026-11-01') and (o.confirmed_at < DATE'2026-11-16'))  (cost=389 rows=1874) (actual time=0.0611..1.2 rows=1874 loops=1)\n            -> Covering index range scan on o using qp_period over (status = 'CONFIRMED' AND '2026-11-01' <= confirmed_at < '2026-11-16')  (cost=389 rows=1874) (actual time=0.0582..0.664 rows=1874 loops=1)\n        -> Single-row index lookup on l using PRIMARY (order_id=o.id)  (cost=1 rows=1) (actual time=0.0013..0.00133 rows=1 loops=1874)"
+      ],
+      "mongodb": [
+        {
+          "plan": [
+            {
+              "stage": "GROUP"
+            },
+            {
+              "stage": "FETCH"
+            },
+            {
+              "stage": "IXSCAN",
+              "index": "status_1_confirmed_at_1"
+            }
+          ],
+          "cursor": {
+            "rows": 1,
+            "keys": 1874,
+            "documents": 1874,
+            "milliseconds": 3
+          },
+          "stages": []
+        },
+        {
+          "plan": [
+            {
+              "stage": "GROUP"
+            },
+            {
+              "stage": "FETCH"
+            },
+            {
+              "stage": "IXSCAN",
+              "index": "status_1_confirmed_at_1"
+            }
+          ],
+          "cursor": {
+            "rows": 1,
+            "keys": 1874,
+            "documents": 1874,
+            "milliseconds": 5
+          },
+          "stages": []
+        },
+        {
+          "plan": [
+            {
+              "stage": "GROUP"
+            },
+            {
+              "stage": "FETCH"
+            },
+            {
+              "stage": "IXSCAN",
+              "index": "status_1_confirmed_at_1"
+            }
+          ],
+          "cursor": {
+            "rows": 1,
+            "keys": 1874,
+            "documents": 1874,
+            "milliseconds": 4
+          },
+          "stages": []
+        }
+      ]
+    },
+    "filter_scan": {
+      "count": 26,
+      "sha256": "2ec1eee48883350f680db922dd89686e359f8033e529ed5a839c7b7df115cf04",
+      "mysql": [
+        "-> Filter: ((qp_products.brand_id = 3) and (qp_products.category_id = 2) and (qp_products.price between 130000 and 160000) and (qp_products.stock > 0))  (cost=253 rows=1) (actual time=0.109..0.974 rows=26 loops=1)\n    -> Index scan on qp_products using PRIMARY  (cost=253 rows=2454) (actual time=0.078..0.759 rows=2400 loops=1)",
+        "-> Filter: ((qp_products.brand_id = 3) and (qp_products.category_id = 2) and (qp_products.price between 130000 and 160000) and (qp_products.stock > 0))  (cost=253 rows=1) (actual time=0.0676..0.685 rows=26 loops=1)\n    -> Index scan on qp_products using PRIMARY  (cost=253 rows=2454) (actual time=0.0479..0.525 rows=2400 loops=1)",
+        "-> Filter: ((qp_products.brand_id = 3) and (qp_products.category_id = 2) and (qp_products.price between 130000 and 160000) and (qp_products.stock > 0))  (cost=253 rows=1) (actual time=0.0682..0.855 rows=26 loops=1)\n    -> Index scan on qp_products using PRIMARY  (cost=253 rows=2454) (actual time=0.0476..0.672 rows=2400 loops=1)"
+      ],
+      "mongodb": [
+        {
+          "plan": [
+            {
+              "stage": "SORT"
+            },
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "COLLSCAN"
+            }
+          ],
+          "cursor": {
+            "rows": 26,
+            "keys": 0,
+            "documents": 2400,
+            "milliseconds": 2
+          },
+          "stages": []
+        },
+        {
+          "plan": [
+            {
+              "stage": "SORT"
+            },
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "COLLSCAN"
+            }
+          ],
+          "cursor": {
+            "rows": 26,
+            "keys": 0,
+            "documents": 2400,
+            "milliseconds": 2
+          },
+          "stages": []
+        },
+        {
+          "plan": [
+            {
+              "stage": "SORT"
+            },
+            {
+              "stage": "PROJECTION_SIMPLE"
+            },
+            {
+              "stage": "COLLSCAN"
+            }
+          ],
+          "cursor": {
+            "rows": 26,
+            "keys": 0,
+            "documents": 2400,
+            "milliseconds": 1
+          },
+          "stages": []
+        }
+      ]
+    }
+  }
+}

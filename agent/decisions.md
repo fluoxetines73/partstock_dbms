@@ -262,3 +262,27 @@ trạng thái và liên kết biên bản/PR. Không biến đề xuất thành 
   Review kỹ thuật bằng trợ lý không thay review thành viên hoặc nghiệm thu nhóm.
 - Kiểm tra cuối 16/11: backend/build đạt; browser bị ECONNREFUSED do mysql-lab dừng,
   khởi động riêng lab và chạy lại 5/5 đạt. Không sửa code, credential hoặc dữ liệu app vì lỗi này.
+
+## Triển khai thử UC05–06/11 của C — 16/11/2026
+
+- Nguồn: Khánh yêu cầu hoàn thành gói C trên nền remote main, dùng đầu ra A/B/D/E.
+- Đề xuất tra cứu mã chính xác hoặc tên chứa từ khóa, chỉ hiện sản phẩm ACTIVE,
+  lọc tồn theo dương hoặc bằng 0. Tồn chưa có được biểu diễn bằng null.
+- Đề xuất dùng phương án A của F03 cho doanh thu, lấy đơn đang CONFIRMED và
+  biên ngày [from, to) theo giờ nghiệp vụ Việt Nam. Đơn tháng 11 hủy tháng 12
+  làm giảm doanh thu tháng 11. A/C/D cần xác nhận trước nghiệm thu.
+- Token nhân viên local riêng mở UC05–06, giữ token quản lý hiện tại cho UC11.
+  A và các miền vẫn cần chốt cơ chế phiên chung.
+- Kiểm tra trên migration A/B và fixture kho/bán tách riêng trong MySQL lab.
+  Chờ bảng thật của D/E và review A. Xem [hợp đồng C](../docs/architecture/api-contract.md)
+  và [bàn giao](../docs/handoffs/c-sprint1-2.md).
+
+## Đề xuất pilot bảng tiến độ trong Git — 16/11/2026
+
+- Khánh đề xuất dùng một trang HTML tĩnh để xem tiến độ A–E. Mỗi người sửa một file
+  trong `docs/status/` và cập nhật theo luồng Git/PR đang dùng.
+- Bản pilot lấy từ bàn giao A/C, tài liệu B/D và kết quả lab E. Một số tài liệu A vẫn mô tả
+  thời điểm trước merge và trước kết quả E. Pilot dùng lịch sử Git và báo cáo lab E mới hơn
+  để ghi hiện trạng, giữ nguyên tiêu chí nghiệm thu trong plan.
+- Nhóm thử một lượt cập nhật theo gói trong Sprint 3 rồi chốt có dùng bảng cho các đợt sau.
+  Trạng thái hiện tại là đề xuất đang thử. Xem [cách cập nhật](../CONTRIBUTING.md#pilot-bảng-tiến-độ).

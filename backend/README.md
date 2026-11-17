@@ -1,5 +1,16 @@
 # Backend PartStock
 
+## UC05–06 và UC11
+
+Xem [hợp đồng API](../docs/architecture/api-contract.md) cho tra cứu, bộ lọc và
+doanh thu. Test tích hợp tạo schema tạm trên MySQL lab, áp dụng migration/seed
+A/B và dùng fixture riêng cho phần kho/bán hàng chờ D/E.
+
+```powershell
+npm run build --prefix backend
+node --env-file=.env.docker backend/tests-db/queries.cjs
+```
+
 Express 5 + TypeScript + mysql2, SQL trực tiếp. Node trên máy đã kiểm tra: v26.13.0.
 Phiên bản thư viện được lưu trong package-lock.json; nhóm vẫn cần review lựa chọn chung.
 
@@ -54,14 +65,14 @@ Chạy `npm run db:setup` từ thư mục `backend` để build và áp dụng c
 Schema mới chạy `001` rồi `002`. Schema đã có đủ hai bảng UC01 chỉ chạy `002`.
 Xem điều kiện chạy lại và cách xử lý lỗi giữa chừng trong [database/mysql/README.md](../database/mysql/README.md).
 
-Quyền quản lý local tạm thời dùng `APP_MANAGER_TOKEN`. Tạo token bằng:
+Quyền quản lý local tạm thời dùng `APP_MANAGER_TOKEN`. Từ gốc repo, chạy:
 
 ```bash
-node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+npm run token:manager --prefix backend
 ```
 
-Thêm `APP_MANAGER_TOKEN=<token vừa tạo>` vào `.env.docker` của riêng bạn, rồi chạy lại
-`npm start`. Không commit hoặc chia sẻ token. Khi gọi API, gửi header
+Lệnh tạo và lưu mã vào `.env.docker` local, giữ nguyên mã đã có. Khởi động lại
+backend, rồi lấy giá trị trong file để nhập ở giao diện. Khi gọi API, gửi header
 `Authorization: Bearer <token>`. Không cấu hình trả 503; thiếu token trả 401; token sai trả 403.
 Đây chưa là hệ thống đăng nhập hoặc phân quyền hai actor hoàn chỉnh.
 

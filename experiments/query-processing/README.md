@@ -1,30 +1,30 @@
-# Query processing
+# Query processing · C
 
-## Mục tiêu và owner
-Kiểm chứng cơ chế Query processing trên cả MySQL và MongoDB theo nghiệp vụ PartStock.
-Owner: **C**. Trạng thái: **chưa triển khai**, chưa có script/lệnh chạy/kết quả.
+So sánh kế hoạch lọc kết hợp, tìm sản phẩm chưa từng bán và tổng hợp doanh thu.
+Bộ sinh trong `run.cjs` tạo cùng 2.400 sản phẩm, 4.800 đơn, một dòng mỗi đơn.
+MySQL tách đơn và dòng. MongoDB nhúng dòng vào đơn và dùng `$lookup` để truy
+ngược lịch sử từ sản phẩm. Dữ liệu lab do script sinh riêng, độc lập với app.
 
-## Câu hỏi cần kiểm chứng
-Hai hệ chọn và thực hiện kế hoạch tra cứu/tổng hợp thế nào?
+## Chạy lại
 
-## Kịch bản dự kiến
-- MySQL: Phân tích EXPLAIN và số đo thực thi phù hợp phiên bản cho lọc/join/subquery/doanh thu.
-- MongoDB: Phân tích explain và execution statistics của find/aggregation tương đương, kể cả lookup khi phù hợp model.
+Chuẩn bị `.env.docker` và rs0 theo [hướng dẫn Docker](../../setup-local-docker.md).
+Chạy từ gốc repo:
 
-## Đầu vào
-Cùng khoảng thời gian, điều kiện lọc và kết quả nghiệp vụ mong đợi.
-Schema/seed dùng chung ở database/; ghi model riêng và khác biệt giữa hai hệ.
+```powershell
+docker compose --env-file .env.docker -f compose.local.yaml up -d --wait mysql-lab mongo-lab
+node experiments/query-processing/run.cjs
+```
 
-## Bằng chứng cần thu
-Kế hoạch thực thi trước/sau điều chỉnh, operator/stage, số quét, thời gian và đối chiếu kết quả; không chỉ ghi thời gian.
-Mỗi kết quả đi kèm script, dữ liệu tái tạo, cấu hình và giải thích theo bối cảnh.
+Script gọi đúng hai service lab qua Compose, kiểm tra credential lab ở trong
+container và MySQL dùng bảng tạm theo kết nối. MongoDB chỉ dọn collection có
+tiền tố ngẫu nhiên do lượt chạy đó tạo. Nếu tiến trình bị ngắt đột ngột, chỉ
+dọn các collection của lượt đã dừng sau khi đối chiếu tên và DB lab.
 
-## Điều kiện so sánh
-Cùng nghiệp vụ/dữ liệu logic; ghi phiên bản, topology, tài nguyên/cấu hình, quy mô, index,
-cache, số lần chạy và cách tổng hợp khi đo hiệu năng. Kiểm tra hỗ trợ tính năng trước khi chạy.
-Không coi một lượt đo là kết luận tổng quát; nêu khác biệt model và giới hạn.
+Mỗi truy vấn chạy một lượt lấy kết quả, một lượt explain làm nóng, rồi ba lượt
+explain được ghi. Không xóa cache. Đối chiếu toàn bộ danh sách kết quả theo thứ
+tự hoặc tổng tiền với baseline tính bằng JS, lưu SHA-256 để so lại. Thêm
+`--raw` để lấy cây explain MongoDB đầy đủ. Kế hoạch MySQL được giữ nguyên
+dạng TREE. Cách đọc và giới hạn có trong [báo cáo](../../docs/report/3-4-query-processing.md).
 
-## Reset lab
-Chưa có lệnh reset. Khi triển khai: xác minh đích lab bằng cấu hình/kết nối/quyền riêng,
-kết thúc các phiên thử, tạo lại dữ liệu thử từ seed đã biết và đối chiếu baseline trước lần tiếp.
-Không chạy reset trên database ứng dụng; backup/dump và artifact lớn không commit.
+[Kết quả 16/11](results-local.json) ghi MySQL 8.4.13 và MongoDB 8.0.34 rs0 một node.
+Các truy vấn và kết quả trên app xem [bàn giao C](../../docs/handoffs/c-sprint1-2.md).

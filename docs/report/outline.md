@@ -23,7 +23,8 @@ Dữ liệu logic, mô hình riêng, phiên bản/cấu hình, quy mô/index/cac
 Bản đầu gồm phương pháp, query plan, số liệu đọc trước/sau, index size, update cost và lệnh demo.
 [3-3-indexing.md](3-3-indexing.md)
 ### 3.4. Query processing — C
-Kế hoạch thực thi, diễn giải và liên hệ số đo.
+Bản đầu gồm kế hoạch, volume xử lý và số đo từ cả hai hệ.
+[3-4-query-processing.md](3-4-query-processing.md)
 ### 3.5. Transaction — D
 Commit/rollback, lỗi giữa chừng, bất biến.
 ### 3.6. Concurrency control — E

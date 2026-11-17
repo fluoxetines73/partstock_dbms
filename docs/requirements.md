@@ -16,13 +16,13 @@ Xem [bàn giao A](handoffs/a-acceptance-2026-11-16.md).
 | UC02 | Quản lý linh kiện, thông số, giá bán | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI, ngừng kinh doanh và tích hợp tồn — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
 | UC03 | Quản lý nhà cung cấp | B | Đang làm: migration và API xem/thêm/sửa đã kiểm tra trên lab. Còn UI và quy tắc xóa/ngừng sử dụng — [backend/README.md](../backend/README.md#uc0203--api-linh-kiện-và-nhà-cung-cấp) |
 | UC04 | Tạo/xác nhận phiếu nhập và tăng tồn kho | D | Chưa triển khai / chưa có |
-| UC05 | Tra cứu sản phẩm theo mã/tên | C | Chưa triển khai / chưa có |
-| UC06 | Lọc sản phẩm theo loại, hãng, giá, tồn kho | C | Chưa triển khai / chưa có |
+| UC05 | Tra cứu sản phẩm theo mã/tên | C | UI/mock và API đã kiểm tra với migration A/B; chờ review A. [Bàn giao](handoffs/c-sprint1-2.md) |
+| UC06 | Lọc sản phẩm theo loại, hãng, giá, tồn kho | C | UI/mock và API đã kiểm tra; phần tồn dùng fixture lab, chờ D/E. [Bàn giao](handoffs/c-sprint1-2.md) |
 | UC07 | Tạo/xác nhận đơn bán và trừ tồn kho | D | Chưa triển khai / chưa có |
 | UC08 | Hủy đơn theo quy tắc và hoàn tồn kho | D | Chưa triển khai / chưa có |
 | UC09 | Tra cứu lịch sử nhập/xuất/tồn | E | Chưa triển khai / chưa có |
 | UC10 | Cảnh báo tồn kho dưới ngưỡng | E | Chưa triển khai / chưa có |
-| UC11 | Báo cáo doanh thu theo thời gian | C | Chưa triển khai / chưa có |
+| UC11 | Báo cáo doanh thu theo thời gian | C | UI/mock và API kiểm tra qua fixture lab; chờ schema D, chính sách doanh thu và review A. [Bàn giao](handoffs/c-sprint1-2.md) |
 | UC12 | Kiểm kê và điều chỉnh tồn kho có lý do | E | Chưa triển khai / chưa có |
 
 ## Quy tắc nghiệp vụ
@@ -37,19 +37,19 @@ Xem [bàn giao A](handoffs/a-acceptance-2026-11-16.md).
 
 ## Theo dõi 8 dạng thao tác
 
-Các ví dụ dưới đây là kịch bản dự kiến, chưa phải bằng chứng đạt. C điều phối đối chiếu;
-owner bổ sung đường dẫn code, script/query, dữ liệu đầu vào, kết quả và demo thực tế.
+C đối chiếu bằng chứng theo nguồn ghi trong từng dòng. Kịch bản còn mở cần owner
+bổ sung đường dẫn code, script/query, dữ liệu đầu vào, kết quả và demo thực tế.
 
 | Dạng | Kịch bản dự kiến | Owner | Code/script/demo | Trạng thái |
 |---|---|---|---|---|
 | insert | Thêm sản phẩm/nhà cung cấp | B | `POST /api/products` tạo `RAM-TEST-01` giá 450.000 VND, `POST /api/suppliers` tạo nhà cung cấp mẫu. Cả hai trả `201` và xuất hiện trong GET cuối. [Integration test](../backend/tests-db/uc02-03.cjs#L75) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
-| delete | Xóa chứng từ nháp chưa ảnh hưởng kho | D | Chưa có | Chưa triển khai |
+| delete | Xóa chứng từ nháp chưa ảnh hưởng kho | D | Có ví dụ xóa danh mục/thương hiệu trong [test UC01](../frontend/tests/catalog.spec.js). | Kịch bản chứng từ chờ D |
 | update | Đổi giá/thông số sản phẩm | B | `PATCH /api/products/:id` trả `200` khi đổi giá từ 450.000 lên 470.000 VND và khi xóa thông số bằng `null`. GET cuối đọc lại đúng hai giá trị. [Integration test](../backend/tests-db/uc02-03.cjs#L82) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
-| Điều kiện đơn | Tra cứu mã sản phẩm | C | Chưa có | Chưa triển khai |
-| Điều kiện kết hợp | Loại + hãng + giá + tồn | C | Chưa có | Chưa triển khai |
-| join | Đơn bán, dòng bán và sản phẩm | D / C | Chưa có | Chưa triển khai |
-| subquery | Sản phẩm chưa từng bán, theo schema chốt | C | Chưa có | Chưa triển khai |
-| aggregate | Doanh thu theo thời gian | C | Chưa có | Chưa triển khai |
+| Điều kiện đơn | Tra cứu mã sản phẩm | C | `GET /api/product-search?q=RAM-KIN-08` trong [test](../backend/tests-db/queries.cjs) | HTTP → MySQL lab với migration A/B |
+| Điều kiện kết hợp | Loại + hãng + giá + tồn | C | `GET /api/product-search` với đủ bốn điều kiện trong [test](../backend/tests-db/queries.cjs) | HTTP → MySQL lab, tồn dùng fixture |
+| join | Đơn bán, dòng bán và sản phẩm | D / C | Tra cứu join bảng sản phẩm/danh mục/thương hiệu; doanh thu join đầu đơn/dòng; subquery đối chiếu thêm theo sản phẩm. [SQL](../backend/src/queries.ts) | Test A/B và fixture D |
+| subquery | Sản phẩm chưa từng bán | C | `GET /api/product-search?never_sold=true` và `NOT EXISTS` trong [lab](../experiments/query-processing/README.md) | HTTP → fixture MySQL và đối chiếu hai hệ |
+| aggregate | Doanh thu theo thời gian | C | `GET /api/revenue` trả 1.630.000 VND trên [fixture app](../backend/tests-db/queries.cjs) | HTTP → fixture MySQL, chờ dữ liệu D |
 
 ## Rubric và đầu ra
 
