@@ -26,7 +26,8 @@ Bản đầu gồm phương pháp, query plan, số liệu đọc trước/sau, 
 Bản đầu gồm kế hoạch, volume xử lý và số đo từ cả hai hệ.
 [3-4-query-processing.md](3-4-query-processing.md)
 ### 3.5. Transaction — D
-Commit/rollback, lỗi giữa chừng, bất biến.
+Commit/rollback, lỗi giữa chừng, bất biến. Bản đầu gồm 10 ca trên cả hai hệ, kể cả đối chứng không dùng transaction.
+[3-5-transaction.md](3-5-transaction.md)
 ### 3.6. Concurrency control — E
 Nhiều phiên tranh chấp tồn cuối, lịch xen kẽ và kết quả.
 ### 3.7. Backup/restore — B, E kiểm chứng

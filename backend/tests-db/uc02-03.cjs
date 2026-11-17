@@ -35,7 +35,7 @@ async function main() {
     await admin.query(`CREATE DATABASE ${schema}`);
     created = true;
     await admin.query(`USE ${schema}`);
-    assert.deepEqual(await applyMigrations(admin), ['001_catalogs.sql', '002_products_suppliers.sql']);
+    assert.deepEqual(await applyMigrations(admin), ['001_catalogs.sql', '002_products_suppliers.sql', '003_inventory_documents.sql']);
     for (const file of ['001_catalogs.sql', '002_products_suppliers.sql']) {
       await admin.query(readFileSync(resolve(__dirname, '../../database/seed', file), 'utf8'));
     }

@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test';
 import { randomBytes } from 'node:crypto';
 
 process.env.E2E_MANAGER_TOKEN ||= randomBytes(32).toString('hex');
+process.env.E2E_STAFF_TOKEN ||= randomBytes(32).toString('hex');
 export default defineConfig({
   testDir: './tests', workers: 1, fullyParallel: false,
   reporter: 'list', timeout: 20000,

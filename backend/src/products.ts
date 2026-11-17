@@ -93,6 +93,8 @@ export function createProductStore(pool: Pool) {
           'INSERT INTO products (sku, name, category_id, brand_id, specifications, selling_price) VALUES (?, ?, ?, ?, ?, ?)',
           productFields.map(field => productValue(input, field)),
         );
+        // F03 Q6: every product has exactly one stock row from the start, so stock updates never need an upsert.
+        await connection.execute('INSERT INTO inventory (product_id, quantity_on_hand) VALUES (LAST_INSERT_ID(), 0)');
         const [[row]] = await connection.execute<ProductRow[]>(`${selectProducts} WHERE p.id = LAST_INSERT_ID()`);
         return toProduct(row!);
       });

@@ -42,3 +42,21 @@ kể cả FK fixture; chưa nghiệm thu tích hợp sản phẩm thật hoặc 
 Migration tạo bảng `products` và `suppliers`. Chạy một lần sau `001_catalogs.sql` trên schema
 chưa có hai bảng này. Hai FK sang danh mục và thương hiệu dùng `BIGINT UNSIGNED NOT NULL`
 và `ON DELETE RESTRICT`. [migrations/002_products_suppliers.sql](migrations/002_products_suppliers.sql)
+
+## Miền D — UC04, UC07, UC08, 17/11/2026
+
+[003_inventory_documents.sql](migrations/003_inventory_documents.sql) tạo `inventory`, `purchase_receipts`, `purchase_receipt_lines`,
+`sales_orders`, `sales_order_lines` và `stock_movements` theo [F04](../../docs/architecture/f04-erd-mien-d.md), rồi tạo dòng tồn 0
+cho mọi sản phẩm đã có. Chạy sau 002, cùng runner `npm run db:setup`:
+
+| Trạng thái schema | Migration áp dụng |
+|---|---|
+| Chưa có bảng nào | `001` → `002` → `003` |
+| Đã có bốn bảng UC01–03 | `003` |
+| Đã có đủ chín bảng | Bỏ qua |
+
+Đã áp dụng thành công hai lần liên tiếp trên schema lab dùng một lần (lần hai không làm gì) với MySQL 8.4.13. Các điều F04 ghi là chưa chạy
+thử đã được kiểm tra: `CHECK` đi cùng khóa ngoại `RESTRICT` trên `stock_movements` hợp lệ, khóa ngoại ghép `(dòng, sản phẩm)` hoạt động.
+`stock_movements.stock_count_line_id` chưa có khóa ngoại vì bảng kiểm kê thuộc E. Mốc `confirmed_at`/`cancelled_at`/`occurred_at`
+do backend ghi theo giờ Việt Nam. Không có lệnh rollback xóa bảng; việc đó mất chứng từ và lịch sử nên cần rà dữ liệu trước.
+Chưa áp dụng vào MySQL app `partstock`; đang chờ review.

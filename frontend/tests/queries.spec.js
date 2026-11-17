@@ -1,17 +1,17 @@
 import { expect, test } from '@playwright/test';
 
-test('C live search uses A/B migrations and explains when inventory is unavailable', async ({ page }) => {
+test('C live search reads the stock rows written by migration 003 and the D seed', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Tra cứu', exact: true }).click();
-  await page.getByLabel('Mã truy cập tra cứu').fill(process.env.E2E_MANAGER_TOKEN);
+  await page.getByLabel('Mã truy cập tra cứu').fill(process.env.E2E_STAFF_TOKEN);
   await page.getByRole('button', { name: 'Kết nối' }).click();
   await page.getByLabel('Mã hoặc tên').fill('RAM-KIN-08');
   await page.getByRole('button', { name: 'Tìm kiếm' }).click();
-  await expect(page.getByRole('row', { name: /RAM-KIN-08/ })).toBeVisible();
-  await expect(page.getByText('Chưa có dữ liệu tồn kho.')).toBeVisible();
-  await page.getByLabel('Tồn kho').selectOption('in');
+  await expect(page.getByRole('row', { name: /RAM-KIN-08.*8$/ })).toBeVisible();
+  await expect(page.getByText('Chưa có dữ liệu tồn kho.')).toHaveCount(0);
+  await page.getByLabel('Tồn kho').selectOption('out');
   await page.getByRole('button', { name: 'Tìm kiếm' }).click();
-  await expect(page.getByRole('alert')).toContainText('Dữ liệu tồn chưa có');
+  await expect(page.getByText('Không có linh kiện phù hợp.')).toBeVisible();
 });
 
 test('C search mock combines category, brand, price and stock and shows empty results', async ({ page }) => {

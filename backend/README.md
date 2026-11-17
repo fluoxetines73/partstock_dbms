@@ -174,3 +174,32 @@ node --env-file=.env.docker backend/tests-db/uc02-03.cjs
 Script dọn schema thử sau khi chạy. C review hợp đồng API và có thể dùng dữ liệu mẫu
 để ghép danh sách và form khi khung UI sẵn sàng. Tại lần kiểm tra này, thư mục frontend
 có README. [uc02-03.cjs](tests-db/uc02-03.cjs) · [database/seed/README.md](../database/seed/README.md#dữ-liệu-mẫu-uc0203) · [frontend/README.md](../frontend/README.md)
+
+## UC04, UC07, UC08 — phiếu nhập, đơn bán, hủy đơn
+
+D, 17/11/2026. Route và mã lỗi ở [API contract](../docs/architecture/api-contract.md#uc04--uc07--uc08--phiếu-nhập-đơn-bán-hủy).
+Nghiệp vụ theo [F03](../docs/architecture/f03-quy-tac-chung-tu-kho.md), bảng theo
+[F04](../docs/architecture/f04-erd-mien-d.md) và [migration 003](../database/mysql/migrations/003_inventory_documents.sql).
+Mã nằm ở [documents.ts](src/documents.ts) (transaction, chạy lại khi deadlock, ghi tồn), [purchases.ts](src/purchases.ts)
+và [sales.ts](src/sales.ts). Chạy `npm run db:setup` để áp migration 003 trên MySQL app (thêm sáu bảng và tạo dòng tồn 0
+cho sản phẩm đã có).
+
+Cách đảm bảo nhất quán: mỗi lần xác nhận/hủy là một transaction. Trạng thái đổi bằng `UPDATE ... WHERE status = '<trạng thái cũ>'`
+nên hai yêu cầu đồng thời bị tuần tự hóa và yêu cầu sau bị từ chối. Tồn trừ bằng `UPDATE ... WHERE quantity_on_hand >= q`
+(kiểm tra và ghi là một bước nguyên tử), dòng xử lý theo `product_id` tăng dần để tránh deadlock; deadlock vẫn xảy ra thì chạy lại
+tối đa 3 lần. Lớp bảo vệ thứ hai là `CHECK (quantity_on_hand >= 0)` và UNIQUE `(movement_type, dòng chứng từ)`.
+
+```powershell
+npm test --prefix backend
+npm run test:db:documents --prefix backend
+```
+
+Test thứ hai (`tests-db/uc04-07-08.cjs`) tạo schema lab dùng một lần, nạp migration và seed 001–003 rồi gọi HTTP. Kiểm tra: seed thỏa
+bất biến I1–I5; nháp không đổi tồn; xác nhận cộng/trừ tồn đúng một lần và ghi đúng biến động (kể cả mốc thời gian); giá bán chốt lúc
+xác nhận và không đổi khi đổi giá sản phẩm; thiếu tồn ở dòng 2 hoàn nguyên dòng 1; sản phẩm ngừng kinh doanh chặn xác nhận nhưng
+không chặn hủy; Nhân viên không hủy được; hủy hai lần và hủy đồng thời chỉ hoàn kho một lần; sáu đơn tranh một chiếc cuối (một thắng,
+năm bị từ chối); ba lần xác nhận đồng thời cùng đơn chỉ trừ một lần; 20 đơn xếp dòng ngược nhau không lỗi; tồn và doanh thu đọc được
+từ API của C. 17/11/2026 trên MySQL lab 8.4.13: **tất cả 8 nhóm kiểm tra đạt**.
+
+Giới hạn: chưa có chọn sản phẩm theo tìm kiếm cho danh mục lớn (UI lấy tối đa 100 sản phẩm đang bán); sửa nháp là thay toàn bộ dòng,
+chưa có API sửa từng dòng; chưa có phân quyền/đăng nhập ngoài hai token local; không hủy phiếu nhập đã xác nhận (đề xuất F03 Q1).

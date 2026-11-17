@@ -1,0 +1,743 @@
+{
+  "environment": {
+    "mysql": {
+      "version": "8.4.13",
+      "engine": "InnoDB",
+      "isolation": "REPEATABLE-READ",
+      "schema": "disposable partstock_tx_* on mysql-lab (127.0.0.1:3308)"
+    },
+    "mongodb": {
+      "version": "8.0.34",
+      "topology": "rs0",
+      "members": [
+        "mongo-lab:27017"
+      ],
+      "transaction": "snapshot read concern, majority write concern",
+      "ledger_indexes": [
+        "_id_",
+        "movement_type_1_line_id_1"
+      ]
+    }
+  },
+  "fixture": {
+    "products": [
+      {
+        "sku": "RAM-KIN-08",
+        "price": 420000,
+        "stock": 8
+      },
+      {
+        "sku": "RAM-KIN-16",
+        "price": 790000,
+        "stock": 5
+      },
+      {
+        "sku": "SSD-KIN-500",
+        "price": 990000,
+        "stock": 8
+      },
+      {
+        "sku": "SSD-SAM-1000",
+        "price": 1990000,
+        "stock": 4
+      }
+    ],
+    "orders": [
+      {
+        "label": "O1",
+        "lines": [
+          {
+            "sku": "RAM-KIN-08",
+            "quantity": 3
+          },
+          {
+            "sku": "RAM-KIN-16",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label": "O2",
+        "lines": [
+          {
+            "sku": "RAM-KIN-08",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label": "O3",
+        "lines": [
+          {
+            "sku": "RAM-KIN-08",
+            "quantity": 2
+          },
+          {
+            "sku": "RAM-KIN-16",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label": "O4",
+        "lines": [
+          {
+            "sku": "RAM-KIN-08",
+            "quantity": 1
+          },
+          {
+            "sku": "SSD-SAM-1000",
+            "quantity": 5
+          }
+        ]
+      },
+      {
+        "label": "O5",
+        "lines": [
+          {
+            "sku": "SSD-KIN-500",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label": "O6",
+        "lines": [
+          {
+            "sku": "RAM-KIN-16",
+            "quantity": 1
+          }
+        ]
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": 1,
+      "name": "commit",
+      "description": "Xác nhận đơn hai dòng, không lỗi: commit",
+      "order": "O1",
+      "action": "confirm",
+      "mode": "transaction",
+      "injected_fault": null,
+      "mysql": {
+        "result": "CONFIRMED",
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "CONFIRMED",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "fault_before_stock_update",
+      "description": "Lỗi sau khi đổi trạng thái đơn, trước khi trừ tồn",
+      "order": "O2",
+      "action": "confirm",
+      "mode": "transaction",
+      "injected_fault": "before_stock_update",
+      "mysql": {
+        "result": "FAULT_INJECTED",
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "FAULT_INJECTED",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "fault_before_ledger",
+      "description": "Lỗi sau khi trừ tồn dòng 1, trước khi ghi biến động",
+      "order": "O3",
+      "action": "confirm",
+      "mode": "transaction",
+      "injected_fault": "before_ledger",
+      "mysql": {
+        "result": "FAULT_INJECTED",
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "FAULT_INJECTED",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "insufficient_second_line",
+      "description": "Dòng 1 trừ được, dòng 2 thiếu tồn: toàn đơn quay lại",
+      "order": "O4",
+      "action": "confirm",
+      "mode": "transaction",
+      "injected_fault": null,
+      "mysql": {
+        "result": "INSUFFICIENT_STOCK",
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "INSUFFICIENT_STOCK",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 5,
+      "name": "connection_lost_before_commit",
+      "description": "Mọi thao tác ghi đã xong, client mất kết nối trước COMMIT",
+      "order": "O5",
+      "action": "confirm",
+      "mode": "abandon",
+      "injected_fault": null,
+      "mysql": {
+        "result": "CONNECTION_LOST",
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "CONNECTION_LOST",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 6,
+      "name": "repeat_confirm",
+      "description": "Gửi lại xác nhận đơn đã xác nhận",
+      "order": "O1",
+      "action": "confirm",
+      "mode": "transaction",
+      "injected_fault": null,
+      "mysql": {
+        "result": "ORDER_NOT_DRAFT",
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "ORDER_NOT_DRAFT",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CONFIRMED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 5,
+            "RAM-KIN-16": 3,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 0
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 7,
+      "name": "cancel",
+      "description": "Hủy đơn đã xác nhận: hoàn tồn đủ mọi dòng",
+      "order": "O1",
+      "action": "cancel",
+      "mode": "transaction",
+      "injected_fault": null,
+      "mysql": {
+        "result": "CANCELLED",
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 8,
+            "RAM-KIN-16": 5,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 2
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "CANCELLED",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 8,
+            "RAM-KIN-16": 5,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 2
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 8,
+      "name": "repeat_cancel",
+      "description": "Gửi lại yêu cầu hủy: không hoàn kho lần hai",
+      "order": "O1",
+      "action": "cancel",
+      "mode": "transaction",
+      "injected_fault": null,
+      "mysql": {
+        "result": "ORDER_NOT_CANCELLABLE",
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 8,
+            "RAM-KIN-16": 5,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 2
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "ORDER_NOT_CANCELLABLE",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "DRAFT",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 8,
+            "RAM-KIN-16": 5,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 2,
+            "SALE_CANCEL": 2
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 9,
+      "name": "retry_after_failure",
+      "description": "Đơn từng lỗi ở ca 2 vẫn là nháp và xác nhận được khi hết lỗi",
+      "order": "O2",
+      "action": "confirm",
+      "mode": "transaction",
+      "injected_fault": null,
+      "mysql": {
+        "result": "CONFIRMED",
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "CONFIRMED",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 7,
+            "RAM-KIN-16": 5,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 3,
+            "SALE_CANCEL": 2
+          },
+          "violations": []
+        }
+      },
+      "mongodb": {
+        "result": "CONFIRMED",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "CONFIRMED",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "DRAFT"
+          },
+          "stock": {
+            "RAM-KIN-08": 7,
+            "RAM-KIN-16": 5,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 3,
+            "SALE_CANCEL": 2
+          },
+          "violations": []
+        }
+      }
+    },
+    {
+      "id": 10,
+      "name": "baseline_without_transaction",
+      "description": "Đối chứng: cùng lỗi ca 3 nhưng không dùng giao dịch",
+      "order": "O6",
+      "action": "confirm",
+      "mode": "none",
+      "injected_fault": "before_ledger",
+      "mysql": {
+        "result": "FAULT_INJECTED",
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "CONFIRMED",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "CONFIRMED"
+          },
+          "stock": {
+            "RAM-KIN-08": 7,
+            "RAM-KIN-16": 4,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 3,
+            "SALE_CANCEL": 2
+          },
+          "violations": [
+            "I2",
+            "I4"
+          ]
+        }
+      },
+      "mongodb": {
+        "result": "FAULT_INJECTED",
+        "attempts": 1,
+        "state": {
+          "orders": {
+            "O1": "CANCELLED",
+            "O2": "CONFIRMED",
+            "O3": "DRAFT",
+            "O4": "DRAFT",
+            "O5": "DRAFT",
+            "O6": "CONFIRMED"
+          },
+          "stock": {
+            "RAM-KIN-08": 7,
+            "RAM-KIN-16": 4,
+            "SSD-KIN-500": 8,
+            "SSD-SAM-1000": 4
+          },
+          "movements": {
+            "SALE": 3,
+            "SALE_CANCEL": 2
+          },
+          "violations": [
+            "I2:RAM-KIN-16",
+            "I4:O6-1"
+          ]
+        }
+      }
+    }
+  ],
+  "checks_passed": 38,
+  "checks": [
+    "case 1: both systems return CONFIRMED",
+    "case 1: MySQL and MongoDB end in the same logical state",
+    "case 1: invariants I1, I2, I4 hold",
+    "case 2: both systems return FAULT_INJECTED",
+    "case 2: MySQL and MongoDB end in the same logical state",
+    "case 2: failed or repeated confirm leaves everything as after case 1",
+    "case 2: invariants I1, I2, I4 hold",
+    "case 3: both systems return FAULT_INJECTED",
+    "case 3: MySQL and MongoDB end in the same logical state",
+    "case 3: failed or repeated confirm leaves everything as after case 1",
+    "case 3: invariants I1, I2, I4 hold",
+    "case 4: both systems return INSUFFICIENT_STOCK",
+    "case 4: MySQL and MongoDB end in the same logical state",
+    "case 4: failed or repeated confirm leaves everything as after case 1",
+    "case 4: invariants I1, I2, I4 hold",
+    "case 5: both systems return CONNECTION_LOST",
+    "case 5: MySQL and MongoDB end in the same logical state",
+    "case 5: failed or repeated confirm leaves everything as after case 1",
+    "case 5: invariants I1, I2, I4 hold",
+    "case 6: both systems return ORDER_NOT_DRAFT",
+    "case 6: MySQL and MongoDB end in the same logical state",
+    "case 6: failed or repeated confirm leaves everything as after case 1",
+    "case 6: invariants I1, I2, I4 hold",
+    "case 7: both systems return CANCELLED",
+    "case 7: MySQL and MongoDB end in the same logical state",
+    "case 7: invariants I1, I2, I4 hold",
+    "case 8: both systems return ORDER_NOT_CANCELLABLE",
+    "case 8: MySQL and MongoDB end in the same logical state",
+    "case 8: invariants I1, I2, I4 hold",
+    "case 9: both systems return CONFIRMED",
+    "case 9: MySQL and MongoDB end in the same logical state",
+    "case 9: invariants I1, I2, I4 hold",
+    "case 10: both systems return FAULT_INJECTED",
+    "case 10: MySQL and MongoDB end in the same logical state",
+    "case 1: stock RAM-KIN-08 8->5 and RAM-KIN-16 5->3, two SALE rows",
+    "case 7: cancel restores both lines once (stock back to the initial values)",
+    "case 8: repeated cancel leaves the state of case 7",
+    "case 10: without a transaction the same fault leaves I2 and I4 broken on both systems"
+  ]
+}
