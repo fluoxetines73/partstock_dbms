@@ -1,5 +1,13 @@
 # Sổ quyết định
 
+## Hợp đồng ngừng kinh doanh linh kiện UC02 — 23/11/2026
+
+- Tuấn triển khai thao tác Quản lý qua `PATCH /api/products/:id` với `status: DISCONTINUED`,
+  dùng cột trạng thái hiện có. Gửi lặp trả lại linh kiện đã ngừng kinh doanh; UC02 chỉ hỗ trợ
+  chuyển một chiều trong lần này. Thao tác giữ nguyên tồn kho và chứng từ cũ.
+- UC04/07 tiếp tục chặn thêm hoặc xác nhận nháp chứa linh kiện ngừng kinh doanh. UC08 vẫn
+  hoàn kho khi hủy đơn đã xác nhận. Chờ Khánh review [hợp đồng API](../docs/architecture/api-contract.md#uc02--ngừng-kinh-doanh-linh-kiện).
+
 <a id="q01-nha-cung-cap"></a>
 
 ## Đề xuất Q01 về nhà cung cấp — 22/11/2026

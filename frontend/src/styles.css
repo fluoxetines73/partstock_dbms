@@ -113,6 +113,7 @@ dialog strong { overflow-wrap: anywhere; }
 .managed-table--products table { min-width: 46rem; }
 .managed-table--suppliers table { min-width: 29rem; }
 .managed-table th:last-child { width: 7rem; }
+.managed-table--products th:last-child { width: 11.5rem; }
 .managed-table th, .managed-table td { vertical-align: top; }
 .managed-specs { margin-top: .3rem; font-size: .85rem; color: #475467; }
 .managed-specs summary { cursor: pointer; }

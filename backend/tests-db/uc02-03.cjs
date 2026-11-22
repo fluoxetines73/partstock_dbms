@@ -5,8 +5,62 @@ const { readFileSync } = require('node:fs');
 const { resolve } = require('node:path');
 const mysql = require('mysql2/promise');
 const { createApp } = require('../dist/app.js');
+const { loadConfig } = require('../dist/config.js');
 const { createDatabase } = require('../dist/db.js');
 const { applyMigrations } = require('../scripts/setup-catalog.cjs');
+
+async function readSchema(connection, tables) {
+  const [columns] = await connection.query(`
+    SELECT TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, COLUMN_TYPE, IS_NULLABLE,
+           COLUMN_DEFAULT, CHARACTER_SET_NAME, COLLATION_NAME, EXTRA, GENERATION_EXPRESSION
+    FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME IN (?)
+    ORDER BY TABLE_NAME, ORDINAL_POSITION`, [tables]);
+  const [uniqueKeys] = await connection.query(`
+    SELECT TABLE_NAME, INDEX_NAME, SEQ_IN_INDEX, COLUMN_NAME, EXPRESSION, SUB_PART, COLLATION, INDEX_TYPE, IS_VISIBLE
+    FROM information_schema.STATISTICS
+    WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME IN (?) AND NON_UNIQUE = 0
+    ORDER BY TABLE_NAME, INDEX_NAME, SEQ_IN_INDEX`, [tables]);
+  const [foreignKeys] = await connection.query(`
+    SELECT k.TABLE_NAME, k.CONSTRAINT_NAME, k.ORDINAL_POSITION, k.COLUMN_NAME,
+           NULLIF(k.REFERENCED_TABLE_SCHEMA, DATABASE()) AS external_schema,
+           k.REFERENCED_TABLE_NAME, k.REFERENCED_COLUMN_NAME, r.UPDATE_RULE, r.DELETE_RULE
+    FROM information_schema.KEY_COLUMN_USAGE k
+    JOIN information_schema.REFERENTIAL_CONSTRAINTS r
+      ON r.CONSTRAINT_SCHEMA = k.CONSTRAINT_SCHEMA AND r.CONSTRAINT_NAME = k.CONSTRAINT_NAME
+     AND r.TABLE_NAME = k.TABLE_NAME
+    WHERE k.TABLE_SCHEMA = DATABASE() AND k.TABLE_NAME IN (?)
+    ORDER BY k.TABLE_NAME, k.CONSTRAINT_NAME, k.ORDINAL_POSITION`, [tables]);
+  return { columns, uniqueKeys, foreignKeys };
+}
+
+async function auditAppSchema(lab, env) {
+  const { db } = loadConfig(env);
+  assert.equal(db.host, '127.0.0.1', 'Audit only the local application schema');
+  assert.notEqual(db.port, Number(env.LAB_MYSQL_PORT), 'App audit and lab must use separate MySQL services');
+  const [tables] = await lab.query('SHOW TABLES');
+  const tableNames = tables.map(row => Object.values(row)[0]);
+  const expected = await readSchema(lab, tableNames);
+
+  const app = await mysql.createConnection(db);
+  try {
+    await app.query('START TRANSACTION READ ONLY');
+    const actual = await readSchema(app, tableNames);
+    for (const [kind, rows] of Object.entries(expected)) {
+      for (const table of tableNames) {
+        assert.deepEqual(actual[kind].filter(row => row.TABLE_NAME === table),
+          rows.filter(row => row.TABLE_NAME === table), `${table}: ${kind} differ from migrations 001–003`);
+      }
+    }
+  } finally {
+    await app.end();
+  }
+
+  const primaryCount = expected.uniqueKeys.filter(key => key.INDEX_NAME === 'PRIMARY' && key.SEQ_IN_INDEX === 1).length;
+  const uniqueCount = expected.uniqueKeys.filter(key => key.INDEX_NAME !== 'PRIMARY' && key.SEQ_IN_INDEX === 1).length;
+  const foreignCount = expected.foreignKeys.filter(key => key.ORDINAL_POSITION === 1).length;
+  console.log(`PASS: read-only app audit matches ${tableNames.length} tables, ${expected.columns.length} columns, ` +
+    `${primaryCount} primary keys, ${uniqueCount} UNIQUE indexes and ${foreignCount} foreign keys.`);
+}
 
 async function main() {
   const env = process.env;
@@ -40,7 +94,7 @@ async function main() {
       await admin.query(readFileSync(resolve(__dirname, '../../database/seed', file), 'utf8'));
     }
     assert.deepEqual(await applyMigrations(admin), []);
-    console.log('PASS: setup applied 001 then 002 on a fresh schema and skipped both on rerun.');
+    console.log('PASS: setup applied 001–003 on a fresh lab schema and skipped all three on rerun.');
 
     database = createDatabase({ ...options, database: schema });
     const token = randomBytes(24).toString('hex');
@@ -79,6 +133,9 @@ async function main() {
     const product = await request('/products', 201, 'POST', productInput);
     assert.match(product.id, /^[1-9]\d*$/);
     assert.deepEqual(product, { id: product.id, status: 'ACTIVE', ...productInput });
+    const [inventory] = await admin.execute('SELECT quantity_on_hand FROM inventory WHERE product_id = ?', [product.id]);
+    assert.deepEqual(inventory, [{ quantity_on_hand: 0 }]);
+    console.log('PASS: POST /api/products creates exactly one inventory row with quantity 0.');
     const productPath = '/products/' + product.id;
     const updatedProduct = await request(productPath, 200, 'PATCH', { selling_price: 470000 });
     assert.deepEqual(updatedProduct, { ...product, selling_price: 470000 });
@@ -104,6 +161,7 @@ async function main() {
     for (const invalid of [
       { selling_price: -1 }, { selling_price: 1.5 }, { selling_price: 1_000_000_000_000_000 },
       { brand_id: null }, { category_id: 1 }, { specifications: [] }, { sku: ' ' }, { name: ' ' },
+      { status: 'DISCONTINUED' },
     ]) {
       assert.equal((await request('/products', 400, 'POST', { ...productInput, ...invalid })).error.code, 'VALIDATION_ERROR');
     }
@@ -121,7 +179,9 @@ async function main() {
     assert.equal((await request('/products', 409, 'POST', { ...productInput, sku: product.sku.toLowerCase() })).error.code, 'SKU_CONFLICT');
     assert.equal((await request(productPath, 409, 'PATCH', { sku: seedProduct.sku })).error.code, 'SKU_CONFLICT');
     assert.equal((await request(productPath, 400, 'PATCH', {})).error.code, 'VALIDATION_ERROR');
-    assert.equal((await request(productPath, 400, 'PATCH', { status: 'DISCONTINUED' })).error.code, 'VALIDATION_ERROR');
+    for (const status of ['ACTIVE', 'INVALID', null]) {
+      assert.equal((await request(productPath, 400, 'PATCH', { status })).error.code, 'VALIDATION_ERROR');
+    }
     assert.equal((await request('/products/18446744073709551615', 404, 'PATCH', { selling_price: 1 })).error.code, 'NOT_FOUND');
     assert.equal((await request('/suppliers', 400, 'POST', { phone: '0900000000' })).error.code, 'VALIDATION_ERROR');
     assert.equal((await request(supplierPath, 400, 'PATCH', { phone: 900000000 })).error.code, 'VALIDATION_ERROR');
@@ -137,6 +197,16 @@ async function main() {
     assert.deepEqual(await request('/products', 200), [...products, { ...updatedProduct, specifications: null }]);
     assert.deepEqual(await request('/suppliers', 200), [...suppliers, { ...updatedSupplier, email: null }]);
     console.log('PASS: validation, foreign keys (including UC01 RESTRICT), SKU conflict, missing records, authentication and unchanged data after rejected writes.');
+
+    const stopProduct = { status: 'DISCONTINUED' };
+    const discontinued = { ...updatedProduct, specifications: null, ...stopProduct };
+    assert.deepEqual(await request(productPath, 200, 'PATCH', stopProduct), discontinued);
+    assert.deepEqual(await request(productPath, 200, 'PATCH', stopProduct), discontinued);
+    assert.deepEqual(await request('/products', 200), [...products, discontinued]);
+    const [remainingInventory] = await admin.execute('SELECT quantity_on_hand FROM inventory WHERE product_id = ?', [product.id]);
+    assert.deepEqual(remainingInventory, inventory);
+    console.log('PASS: Manager can discontinue a product, repeat the request, and still read it without changing stock.');
+    if (process.argv.includes('--audit-app')) await auditAppSchema(admin, env);
   } finally {
     try {
       if (server) await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()));

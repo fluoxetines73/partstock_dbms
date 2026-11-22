@@ -3,7 +3,8 @@
 ## Mục tiêu và owner
 Kiểm chứng cơ chế Backup/restore trên cả MySQL và MongoDB theo nghiệp vụ PartStock.
 Owner **B (Tuấn)**. Đã chạy thủ công trên cả hai lab ngày 14/11/2026 và đối chiếu đạt.
-Hai script chạy lại cũng đã PASS trên đích lab mới. Chờ **E (Hải)** kiểm chứng độc lập.
+Hai script chạy lại cũng đã PASS trên đích lab mới. **E (Hải)** đã kiểm chứng độc lập
+hai hệ ngày 16/11/2026. [Kết quả Role E](../concurrency/README-Role-E-Progress.md)
 
 ## Chạy lại trên lab
 
@@ -24,8 +25,9 @@ thư mục chứa `backup.log`, `restore.log`, `tool-version.txt`, `dump-bytes.t
 `before`/`after` trong container. Source, target và dump được giữ để đối chiếu.
 [mysql.sh](mysql.sh) · [mongodb.sh](mongodb.sh)
 
-Hải chạy hai script trên lab của mình và phản hồi PASS/FAIL theo từng hệ, kèm số liệu
-nguồn/đích và lỗi nếu có. Thời gian và dung lượng là số liệu của từng lượt chạy.
+Thời gian và dung lượng được ghi riêng cho từng lượt chạy. Lượt kiểm chứng của Hải dùng
+môi trường cô lập từ image đã ghim. Phần chạy Docker Compose trên máy thành viên thứ hai
+tiếp tục theo dõi trong [KIEM-TRA.md](../../KIEM-TRA.md).
 
 ## Kết quả ngày 14/11/2026
 

@@ -47,6 +47,35 @@ test('UC02 lists, adds and edits parts through MySQL', async ({ page }) => {
   await expect(row.getByText('Thông số', { exact: true })).toHaveCount(0);
 });
 
+test('UC02 discontinues a part only after confirmation and keeps it in the list', async ({ page }) => {
+  await openManagement(page, 'Linh kiện');
+  const sku = 'UC02-UI-STOP';
+  const dialog = page.getByRole('dialog');
+  await page.getByRole('button', { name: 'Thêm linh kiện' }).click();
+  await fillProduct(dialog, { name: 'RAM ngừng bán UI', sku, price: '450000', specifications: '' });
+  await dialog.getByRole('button', { name: 'Lưu', exact: true }).click();
+
+  const row = page.getByRole('row').filter({ hasText: sku });
+  const discontinue = row.getByRole('button', { name: 'Ngừng kinh doanh RAM ngừng bán UI' });
+  await discontinue.click();
+  await expect(dialog).toContainText(sku);
+  await expect(dialog.getByRole('button', { name: 'Hủy' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(discontinue).toBeFocused();
+  await expect(row.getByRole('cell', { name: 'Đang kinh doanh', exact: true })).toBeVisible();
+
+  await discontinue.click();
+  const patch = page.waitForRequest(request => request.method() === 'PATCH' && request.url().includes('/api/products/'));
+  await dialog.getByRole('button', { name: 'Ngừng kinh doanh', exact: true }).click();
+  expect((await patch).postDataJSON()).toEqual({ status: 'DISCONTINUED' });
+  await expect(page.getByRole('status')).toHaveText('Đã ngừng kinh doanh RAM ngừng bán UI.');
+  await expect(row.getByRole('cell', { name: 'Ngừng kinh doanh', exact: true })).toBeVisible();
+  await expect(discontinue).toHaveCount(0);
+
+  await openManagement(page, 'Linh kiện');
+  await expect(row.getByRole('cell', { name: 'Ngừng kinh doanh', exact: true })).toBeVisible();
+});
+
 test('UC03 shares the manager session and persists partial contact edits', async ({ page }) => {
   await openManagement(page, 'Linh kiện');
   await expect(page.getByRole('button', { name: 'Thêm linh kiện' })).toBeEnabled();

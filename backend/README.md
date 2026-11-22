@@ -139,7 +139,9 @@ Body thêm linh kiện mẫu. Lấy ID danh mục và hãng từ UC01 hoặc see
 0 đến 999.999.999.999.999 theo schema hiện tại. `specifications` nhận JSON object hoặc `null`.
 Response có `status` và sản phẩm mới mặc định `ACTIVE`. Ví dụ sửa giá dùng
 `{"selling_price":470000}`. API tạo dòng tồn bằng `0` trong cùng giao dịch khi thêm linh kiện.
-Quy tắc ngừng kinh doanh đang chờ nhóm chốt.
+Gửi `PATCH /api/products/:id` với `{"status":"DISCONTINUED"}` để ngừng kinh doanh.
+Gửi lặp vẫn trả `200` với linh kiện đã ngừng. Tồn kho, sổ biến động và chứng từ cũ được giữ nguyên.
+[Hợp đồng UC02](../docs/architecture/api-contract.md#uc02--ngừng-kinh-doanh-linh-kiện)
 
 Body thêm nhà cung cấp mẫu là `{"name":"Nhà cung cấp mẫu","email":"test@example.invalid"}`.
 `name` là bắt buộc, `phone` và `email` là chuỗi tùy chọn hoặc `null`. PATCH giữ nguyên

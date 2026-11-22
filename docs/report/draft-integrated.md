@@ -1,6 +1,7 @@
 # Báo cáo tổng hợp bản đầu — PartStock
 
 Ngày 16/11/2026. A tổng hợp từ đầu ra trong repo; **bản làm việc chưa đủ để nộp**.
+Phần UC02–03, demo Indexing và kiểm chứng restore được cập nhật ngày 23/11/2026.
 Chương chuyên đề giữ ở file riêng và liên kết bên dưới; đây chưa phải PDF hoặc báo cáo hoàn chỉnh.
 Không có biên bản nghiệm thu/review nhóm được tạo trong lần tổng hợp này.
 
@@ -29,15 +30,16 @@ với cấu trúc chứng từ/kho mới là đề xuất của Nam và phần k
 
 Ứng dụng hiện đi theo React/Vite → Express/TypeScript → MySQL app. Backend dùng mysql2
 và SQL trực tiếp. UC01 đã có màn danh mục/thương hiệu, CRUD, kiểm tra tên và FK RESTRICT
-với sản phẩm. UC02–03 có API bản đầu của Tuấn; các miền C/D/E chưa có hiện thực trong
-các nhánh đã rà. Chưa có luồng nhập–bán–tồn–doanh thu chạy đủ trên bản chung.
+với sản phẩm. UC02–03 có giao diện và API xem, thêm, sửa do Tuấn phụ trách, đã kiểm thử
+qua MySQL lab. Quản lý có thể ngừng kinh doanh linh kiện. Các quyết định về ngừng sử dụng
+nhà cung cấp được theo dõi ở [Q01](../../agent/decisions.md#q01-nha-cung-cap).
 
 App và lab tách dịch vụ Docker, cổng, credential và volume. Các kiểm thử gây thay đổi
 dữ liệu chạy trong schema lab ngẫu nhiên, không reset DB app. Mỗi máy giữ dữ liệu riêng;
 cùng migration/seed không có nghĩa cùng một DB online. Nhận diện hiện tại dùng token
 quản lý local, chưa thực thi đầy đủ ma trận quyền hai actor.
 
-Bằng chứng UC01 và demo ở [demo A](demo-mien-a.md); API UC02–03 và demo ở
+Bằng chứng UC01 và demo ở [demo A](demo-mien-a.md). Bằng chứng UI/API UC02–03 và các ca demo ở
 [demo B](demo-mien-b.md). [Bảng 8 thao tác](../requirements.md#theo-dõi-8-dạng-thao-tác)
 chưa đủ bằng chứng: không lấy CRUD UC01 thay các kịch bản chứng từ/truy vấn còn thiếu.
 
@@ -46,11 +48,11 @@ chưa đủ bằng chứng: không lấy CRUD UC01 thay các kịch bản chứn
 | Chủ đề | Chương / nguồn hiện có | Giới hạn nghiệm thu |
 |---|---|---|
 | Storage — A | [3.2](3-2-storage.md), script và kết quả năm pha hai hệ | Chờ B review, tái tạo độc lập |
-| Indexing — B | [3.3](3-3-indexing.md), script/kết quả của B | C review; không coi A đã chạy lại lab này trong lượt nghiệm thu |
+| Indexing — B | [3.3](3-3-indexing.md), script/kết quả của B và [kịch bản trình bày](demo-mien-b.md#2-indexing-trên-mysql-và-mongodb) | Chờ Khánh review. Timing dùng để đối chiếu trước/sau trong từng hệ. |
 | Query processing — C | [Báo cáo](3-4-query-processing.md), [kết quả và hướng dẫn](../../experiments/query-processing/README.md) | Đã chạy MySQL và MongoDB, khớp baseline; chờ review và chạy lại độc lập |
 | Transaction — D | [3.5](3-5-transaction.md), [script và kết quả](../../experiments/transactions/README.md), F03/F04 | Đã chạy 10 ca trên MySQL và MongoDB, 38/38 kiểm tra đạt trên máy của D; chờ E review và chạy lại độc lập |
 | Concurrency — E | [README chủ đề](../../experiments/concurrency/README.md) | Chưa có chương/kết quả hoàn chỉnh trong bản rà |
-| Backup/restore — B | [3.7](3-7-backup-restore.md) | Cần E restore và đối chiếu độc lập |
+| Backup/restore — B | [3.7](3-7-backup-restore.md), gồm kiểm chứng độc lập của Hải | Restore đạt trên hai DBMS từ image đã ghim. Còn xác minh Docker Compose trên máy thành viên thứ hai. |
 
 Không gộp các số đo khác quy mô, index, topology hay trạng thái cache thành một bảng xếp
 hạng chung. Mỗi chương phải ghi điều kiện, generator, số lượt, cách kiểm chứng, giới hạn

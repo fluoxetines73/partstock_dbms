@@ -54,18 +54,22 @@ export function ManagedDataPage({ resource, token, onDisconnect, onOpenCatalog }
     setReload(value => value + 1);
   }
 
-  function openEditor(event, item = null) {
+  function openEditor(event, item = null, discontinuing = false) {
     setNotice('');
-    setEditor({ item, opener: event.currentTarget });
+    setEditor({ item, discontinuing, opener: event.currentTarget });
   }
 
-  function saved(item, editing) {
+  function saved(item) {
     setData(current => ({
       ...current,
-      rows: editing ? current.rows.map(row => row.id === item.id ? item : row) : [...current.rows, item],
+      rows: editor.item ? current.rows.map(row => row.id === item.id ? item : row) : [...current.rows, item],
     }));
     setEditor(null);
-    setNotice(editing ? 'Đã lưu thay đổi.' : `Đã thêm ${noun}.`);
+    if (editor.discontinuing) {
+      setNotice(`Đã ngừng kinh doanh ${item.name}.`);
+    } else {
+      setNotice(editor.item ? 'Đã lưu thay đổi.' : `Đã thêm ${noun}.`);
+    }
   }
 
   return <main className="workspace">
@@ -109,7 +113,13 @@ export function ManagedDataPage({ resource, token, onDisconnect, onOpenCatalog }
             </> : <>
               <td className="item-name">{item.name}</td><td>{item.phone ?? '—'}</td><td>{item.email ?? '—'}</td>
             </>}
-            <td className="row-actions"><button type="button" aria-label={`Sửa ${item.name}`} onClick={event => openEditor(event, item)}>Sửa</button></td>
+            <td className="row-actions">
+              <button type="button" aria-label={`Sửa ${item.name}`} onClick={event => openEditor(event, item)}>Sửa</button>
+              {isProduct && item.status === 'ACTIVE' && <button type="button" className="danger-text"
+                aria-label={`Ngừng kinh doanh ${item.name}`} onClick={event => openEditor(event, item, true)}>
+                Ngừng kinh doanh
+              </button>}
+            </td>
           </tr>)}</tbody>
         </table>
       </div> : <p className="empty">Chưa có {noun}.</p>)}
@@ -178,7 +188,7 @@ function ReferenceSelect({ id, label, items, value, onChange }) {
   </div>;
 }
 
-function ManagedEditor({ resource, data, item, noun, token, opener, fallbackFocus, onClose, onSaved }) {
+function ManagedEditor({ resource, data, item, discontinuing, noun, token, opener, fallbackFocus, onClose, onSaved }) {
   const [form, setForm] = useState(() => initialForm(resource, item));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -204,7 +214,7 @@ function ManagedEditor({ resource, data, item, noun, token, opener, fallbackFocu
     if (pending.current) return;
     setError('');
     try {
-      const values = readForm(resource, form);
+      const values = discontinuing ? { status: 'DISCONTINUED' } : readForm(resource, form);
       const body = item ? Object.fromEntries(Object.entries(values).filter(([field, value]) =>
         field === 'specifications' ? JSON.stringify(value) !== JSON.stringify(item[field]) : value !== item[field],
       )) : values;
@@ -214,7 +224,7 @@ function ManagedEditor({ resource, data, item, noun, token, opener, fallbackFocu
       setBusy(true);
       const path = item ? `${resource}/${item.id}` : resource;
       const updated = await catalogRequest(token, path, { method: item ? 'PATCH' : 'POST', body, errorMessages });
-      onSaved(updated, Boolean(item));
+      onSaved(updated);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -226,8 +236,12 @@ function ManagedEditor({ resource, data, item, noun, token, opener, fallbackFocu
   return <dialog ref={dialog} className="managed-editor" aria-labelledby="managed-editor-title"
     onCancel={event => { event.preventDefault(); if (!pending.current) onClose(); }}>
     <form onSubmit={submit} noValidate>
-      <h2 id="managed-editor-title">{item ? 'Sửa' : 'Thêm'} {noun}</h2>
-      <fieldset disabled={busy}>
+      <h2 id="managed-editor-title">{discontinuing ? 'Ngừng kinh doanh' : `${item ? 'Sửa' : 'Thêm'} ${noun}`}</h2>
+      {discontinuing ? <p>
+        Linh kiện <strong>{item.name} ({item.sku})</strong> sẽ không còn chọn được trên phiếu nhập và đơn bán mới.
+        Phiếu nhập và đơn bán nháp chứa linh kiện này sẽ không xác nhận được.
+        Tồn kho và chứng từ đã xác nhận được giữ nguyên.
+      </p> : <fieldset disabled={busy}>
         <label htmlFor="managed-name">Tên</label>
         <input id="managed-name" value={form.name} onChange={event => change('name', event)} required autoFocus />
         {resource === 'products' ? <>
@@ -249,11 +263,13 @@ function ManagedEditor({ resource, data, item, noun, token, opener, fallbackFocu
           <label htmlFor="managed-email">Email (tùy chọn)</label>
           <input id="managed-email" type="email" value={form.email} onChange={event => change('email', event)} />
         </>}
-      </fieldset>
+      </fieldset>}
       {error && <p role="alert" className="error">{error}</p>}
       <div className="dialog-actions">
-        <button type="button" onClick={onClose} disabled={busy}>Hủy</button>
-        <button type="submit" className="primary" disabled={busy}>{busy ? 'Đang lưu…' : 'Lưu'}</button>
+        <button type="button" onClick={onClose} disabled={busy} autoFocus={discontinuing}>Hủy</button>
+        <button type="submit" className={discontinuing ? 'danger' : 'primary'} disabled={busy}>
+          {busy ? 'Đang lưu…' : discontinuing ? 'Ngừng kinh doanh' : 'Lưu'}
+        </button>
       </div>
     </form>
   </dialog>;

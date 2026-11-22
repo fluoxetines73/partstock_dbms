@@ -40,6 +40,8 @@ phiên với **Danh mục**, gọi API thật để xem, thêm và sửa.
 - **Linh kiện:** chọn danh mục và thương hiệu từ UC01, nhập SKU, tên và giá nguyên VND.
   Ô thông số tùy chọn nhận một đối tượng JSON, ví dụ `{"capacity_gb":8}`. Xóa nội dung ô
   thông số khi sửa để bỏ giá trị đã lưu. Có thể mở **Thông số** ngay trên dòng linh kiện.
+  Với linh kiện đang kinh doanh, chọn **Ngừng kinh doanh** và xác nhận. Linh kiện vẫn
+  xuất hiện trong danh sách Quản lý với trạng thái mới, kể cả sau khi tải lại.
 - **Nhà cung cấp:** nhập tên, điện thoại và email tùy chọn. Xóa nội dung một trường liên hệ
   khi sửa để bỏ giá trị đã lưu.
 
