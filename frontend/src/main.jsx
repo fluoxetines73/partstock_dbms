@@ -4,7 +4,14 @@ import { CatalogPage } from './CatalogPage.jsx';
 import { catalogRequest } from './catalog-api.js';
 import { QueryPage } from './QueryPage.jsx';
 import { DocumentsPage } from './DocumentsPage.jsx';
+import { ManagedDataPage } from './ManagedDataPage.jsx';
 import './styles.css';
+
+const navigation = [
+  ['catalog', 'Danh mục'], ['products', 'Linh kiện'], ['suppliers', 'Nhà cung cấp'],
+  ['search', 'Tra cứu'], ['purchases', 'Nhập kho'], ['sales', 'Bán hàng'], ['revenue', 'Doanh thu'],
+];
+const managementTitles = { catalog: 'Danh mục & thương hiệu', products: 'Linh kiện', suppliers: 'Nhà cung cấp' };
 
 function App() {
   const [page, setPage] = useState('catalog');
@@ -13,6 +20,13 @@ function App() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const pending = useRef(false);
+  const managementTitle = managementTitles[page];
+
+  function disconnect() {
+    setToken('');
+    setError('');
+  }
+
   async function connect(event) {
     event.preventDefault();
     if (pending.current) return;
@@ -24,14 +38,15 @@ function App() {
   }
   return <><div className="topbar"><a className="brand" href="/">partstock<span> / quản lý kho</span></a>
     <nav className="app-nav" aria-label="Chức năng">
-      {[['catalog', 'Danh mục'], ['search', 'Tra cứu'], ['purchases', 'Nhập kho'], ['sales', 'Bán hàng'], ['revenue', 'Doanh thu']].map(([id, label]) =>
+      {navigation.map(([id, label]) =>
         <button key={id} type="button" aria-current={page === id ? 'page' : undefined} onClick={() => setPage(id)}>{label}</button>)}
     </nav></div>
     {page === 'purchases' || page === 'sales' ? <DocumentsPage key={page} kind={page === 'purchases' ? 'purchase' : 'sales'} managerToken={token} />
-      : page !== 'catalog' ? <QueryPage key={page} managerToken={token} revenue={page === 'revenue'} />
-      : token ? <CatalogPage token={token} onDisconnect={() => { setToken(''); setError(''); }} />
-      : <main className="connect-card"><p className="eyebrow">PARTSTOCK • NỘI BỘ</p><h1>Sẵn sàng quản lý<br />danh mục linh kiện.</h1>
-        <p>Kết nối phiên quản lý để xem danh mục và thương hiệu.</p>
+      : !managementTitle ? <QueryPage key={page} managerToken={token} revenue={page === 'revenue'} />
+      : token ? (page === 'catalog' ? <CatalogPage token={token} onDisconnect={disconnect} />
+        : <ManagedDataPage key={page} resource={page} token={token} onDisconnect={disconnect} onOpenCatalog={() => setPage('catalog')} />)
+      : <main className="connect-card"><h1>{managementTitle}</h1>
+        <p>Nhập mã truy cập để mở phiên Quản lý.</p>
         <form onSubmit={connect}><label htmlFor="access-code">Mã truy cập quản lý</label>
           <input id="access-code" type="password" autoComplete="off" value={input} disabled={busy} onChange={event => setInput(event.target.value)} />
           {error && <p className="error" role="alert">{error}</p>}

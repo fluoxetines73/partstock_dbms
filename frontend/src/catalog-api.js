@@ -8,7 +8,7 @@ const messages = {
   AUTH_NOT_CONFIGURED: 'Chức năng quản lý chưa được cấu hình. Liên hệ người phụ trách.',
 };
 
-export async function catalogRequest(token, resource, { method = 'GET', body, signal } = {}) {
+export async function catalogRequest(token, resource, { method = 'GET', body, signal, errorMessages } = {}) {
   let response;
   try {
     response = await fetch(`/api/${resource}`, {
@@ -22,7 +22,10 @@ export async function catalogRequest(token, resource, { method = 'GET', body, si
   }
   if (response.status === 204) return null;
   const data = await response.json().catch(() => null);
-  if (!response.ok) throw new Error(messages[data?.error?.code] || 'Không thể thực hiện thao tác. Vui lòng thử lại sau.');
+  if (!response.ok) {
+    const code = data?.error?.code;
+    throw new Error(errorMessages?.[code] || messages[code] || 'Không thể thực hiện thao tác. Vui lòng thử lại sau.');
+  }
   if (!data) throw new Error('Phản hồi không hợp lệ. Hãy tải lại danh sách.');
   return data;
 }

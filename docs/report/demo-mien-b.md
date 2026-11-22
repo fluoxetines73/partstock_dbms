@@ -11,7 +11,7 @@ docker @compose ps mysql-lab mongo-lab
 
 ## 1. UC02–03 qua HTTP trên MySQL lab
 
-Script tự tạo schema lab riêng, chạy migration `001 → 002`, nạp seed `001 → 002`,
+Script HTTP tự tạo schema lab riêng, chạy migration `001 → 002 → 003`, nạp seed `001 → 002`,
 rồi gọi API thật bằng token thử. Script dọn schema sau lượt chạy.
 
 ```powershell
@@ -26,8 +26,21 @@ node --env-file=.env.docker backend/tests-db/uc02-03.cjs
 | `update` | `PATCH /api/products/:id` đổi giá thành 470.000 VND. `PATCH /api/suppliers/:id` cập nhật số điện thoại. `GET` cuối đọc lại các giá trị đã lưu |
 | Ràng buộc | Giá âm và FK không tồn tại trả `400`. SKU trùng trả `409`. `GET` cuối xác nhận dữ liệu chỉ đổi theo các request thành công |
 
-Đây là minh chứng API → MySQL để Khánh đối chiếu rubric. Demo list/form từ UI và
-nghiệp vụ khởi tạo tồn chờ tích hợp. [uc02-03.cjs](../../backend/tests-db/uc02-03.cjs) · [backend/README.md](../../backend/README.md)
+Kịch bản trình duyệt dùng API thật và schema MySQL lab riêng. Chạy từ gốc repo, sau khi
+chuẩn bị frontend và Chromium theo [hướng dẫn kiểm thử](../../frontend/README.md).
+
+```powershell
+npm.cmd run build --prefix backend
+npm.cmd test --prefix frontend -- managed-data.spec.js
+```
+
+1. Mở **Linh kiện**, kết nối phiên Quản lý và xem dữ liệu seed. Tạo linh kiện giá
+   450.000 VND, rồi sửa lên 470.000 VND. Tải lại trang, kết nối và đọc lại giá đã lưu.
+2. Mở **Nhà cung cấp** bằng cùng phiên. Tạo nhà cung cấp có email, sửa điện thoại và
+   bỏ email. Tải lại trang để kiểm tra điện thoại mới và ô email trống.
+3. Thử thêm linh kiện với SKU trùng. Giao diện hiện lỗi và giữ nội dung form.
+
+[Kiểm thử HTTP](../../backend/tests-db/uc02-03.cjs) · [Kiểm thử trình duyệt](../../frontend/tests/managed-data.spec.js)
 
 ## 2. Indexing trên MySQL và MongoDB
 

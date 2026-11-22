@@ -32,6 +32,24 @@ Frontend gọi `/api` cùng origin; Vite proxy sang backend. Backend dùng PORT 
 Build: `npm run build --prefix frontend`. `dist/` chỉ là artifact tĩnh; deployment cần proxy
 `/api` cùng origin riêng, Vite preview không cấu hình API production thay nhóm.
 
+## Linh kiện và Nhà cung cấp · B
+
+Mở **Linh kiện** hoặc **Nhà cung cấp** và kết nối phiên Quản lý. Các màn hình dùng cùng
+phiên với **Danh mục**, gọi API thật để xem, thêm và sửa.
+
+- **Linh kiện:** chọn danh mục và thương hiệu từ UC01, nhập SKU, tên và giá nguyên VND.
+  Ô thông số tùy chọn nhận một đối tượng JSON, ví dụ `{"capacity_gb":8}`. Xóa nội dung ô
+  thông số khi sửa để bỏ giá trị đã lưu. Có thể mở **Thông số** ngay trên dòng linh kiện.
+- **Nhà cung cấp:** nhập tên, điện thoại và email tùy chọn. Xóa nội dung một trường liên hệ
+  khi sửa để bỏ giá trị đã lưu.
+
+Kịch bản xem, thêm, sửa và đọc lại sau khi tải trang nằm trong
+[managed-data.spec.js](tests/managed-data.spec.js) và [demo miền B](../docs/report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab).
+Quy tắc xóa và ngừng sử dụng đang được theo dõi trong [đề xuất Q01](../agent/decisions.md#q01-nha-cung-cap).
+
+22/11/2026: **15/15 test Playwright đạt**, gồm 3 ca UC02–03 mới và 12 ca hồi quy,
+trên Microsoft Edge với MySQL lab cục bộ. Build frontend và test HTTP UC02–03 cũng đạt.
+
 ## Kiểm thử thật qua trình duyệt → HTTP → MySQL lab
 
 MySQL lab healthy ở 127.0.0.1:3308; có `.env.docker` riêng. Từ gốc repo:
@@ -46,7 +64,7 @@ npm test
 Nếu đã có Chromium tương thích, đặt `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` tới executable
 thay bước tải trình duyệt. Cần OS có các thư viện chạy Chromium. Test tự mở localhost
 3101/5174 (phải đang rảnh), không dùng lại server sẵn có. Tạo schema lab ngẫu nhiên
-`partstock_uc01_ui_*`, nạp migration/seed 001–002 thật, dùng token test ngẫu nhiên và dọn
+`partstock_uc01_ui_*`, nạp migration/seed 001–003 thật, dùng token test ngẫu nhiên và dọn
 schema khi kết thúc. Không ghi/xóa dữ liệu MySQL app hoặc reset lab chung. Hard kill hoặc
 dừng ngay khi fixture còn đang khởi tạo (trước khi server lắng nghe) có thể
 để sót schema của lượt lỗi; chỉ dọn đúng schema đó sau khi kiểm tra.

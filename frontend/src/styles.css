@@ -108,3 +108,27 @@ dialog strong { overflow-wrap: anywhere; }
 .document-panel { margin-top: 2rem; padding: 1.5rem; border: 1px solid #dce2ea; border-radius: 12px; background: #fff; }
 .document-panel .actions { flex-wrap: wrap; margin-top: 1rem; }
 .document-panel .query-table table { min-width: 34rem; }
+
+.managed-table { overflow-x: auto; }
+.managed-table--products table { min-width: 46rem; }
+.managed-table--suppliers table { min-width: 29rem; }
+.managed-table th:last-child { width: 7rem; }
+.managed-table th, .managed-table td { vertical-align: top; }
+.managed-specs { margin-top: .3rem; font-size: .85rem; color: #475467; }
+.managed-specs summary { cursor: pointer; }
+.managed-specs pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.managed-reference-hint { margin-bottom: 1rem; }
+.managed-reference-hint button { margin-left: .25rem; }
+.managed-editor { width: min(36rem, calc(100% - 2rem)); }
+.managed-editor fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.managed-editor :is(select, textarea) {
+  width: 100%; padding: .7rem .8rem; border: 1px solid #b8c3d1; border-radius: 8px;
+  font: inherit; color: #1d2939; background: #fff;
+}
+.managed-editor textarea { resize: vertical; font-family: ui-monospace, monospace; }
+.managed-editor .hint { margin-top: .35rem; }
+.managed-references { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+@media (max-width: 600px) {
+  .topbar { align-items: flex-start; flex-direction: column; }
+  .managed-editor { padding: 1rem; }
+}
