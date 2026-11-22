@@ -118,7 +118,8 @@ Mục tiêu/kích hoạt ghi trong từng đặc tả.
 **Nhánh thay thế/ngoại lệ:**
 
 - Thông tin không hợp lệ: báo lỗi, không lưu.
-- Nhà cung cấp có chứng từ: không xóa phá tham chiếu; chính sách ngừng sử dụng chờ Q01.
+- Nhà cung cấp có chứng từ: từ chối xóa để bảo toàn tham chiếu. Xem
+  [đề xuất Q01 về xóa và ngừng sử dụng](../../agent/decisions.md#q01-nha-cung-cap) đang chờ nhóm chốt.
 
 **Hậu điều kiện thành công:** Xem trả thông tin, dữ liệu không đổi; thay đổi hợp lệ được lưu, chứng từ cũ được bảo toàn.
 
@@ -145,6 +146,8 @@ Mục tiêu/kích hoạt ghi trong từng đặc tả.
 **Nhánh thay thế/ngoại lệ:**
 
 - Xóa phiếu nhập nháp: kiểm tra vẫn là nháp chưa tác động kho; xóa chứng từ/dòng nháp hợp lệ, tồn và biến động giữ nguyên. Nếu đã xác nhận hoặc bị chuyển trạng thái đồng thời, từ chối xóa; không xóa phá lịch sử.
+- Theo [đề xuất Q01](../../agent/decisions.md#q01-nha-cung-cap), phiếu nháp đã chọn nhà cung cấp trước
+  khi họ ngừng sử dụng vẫn được xác nhận với nhà cung cấp đó nếu đáp ứng các điều kiện còn lại.
 - Dòng hàng không hợp lệ: từ chối xác nhận và nêu lỗi.
 - Xác nhận lặp/đồng thời: không tăng tồn thêm cho cùng lần xác nhận.
 - Lỗi giữa chừng: không để chứng từ, tồn và biến động chỉ cập nhật một phần.
