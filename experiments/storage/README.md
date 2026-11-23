@@ -2,7 +2,8 @@
 
 Bản đầu đã chạy 15/11/2026 trên MySQL 8.4.13/InnoDB và MongoDB 8.0.34/WiredTiger,
 rs0 một node. [Kết quả](results-initial.json), [báo cáo/demo](../../docs/report/3-2-storage.md).
-Chưa có review B hoặc chạy lại trên máy thứ hai.
+Lượt tái tạo ngày 23/11 trên môi trường Tuấn khớp dữ liệu logic ở cả năm pha.
+Xem [kết quả và nhận xét review](../../docs/reviews/b-uc01-storage-2026-11-23.md).
 
 ## Chạy
 

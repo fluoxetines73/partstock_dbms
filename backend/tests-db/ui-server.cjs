@@ -40,7 +40,7 @@ async function main() {
     database = createDatabase({ ...options, database: schema });
     server = createApp(database.check, {
       store: database.catalog, queries: database.queries, products: database.products,
-      purchases: database.purchases, sales: database.sales,
+      suppliers: database.suppliers, purchases: database.purchases, sales: database.sales,
       managerToken: env.E2E_MANAGER_TOKEN, staffToken: env.E2E_STAFF_TOKEN,
     }).listen(3101, '127.0.0.1');
     await new Promise((resolve, reject) => { server.once('listening', resolve); server.once('error', reject); });

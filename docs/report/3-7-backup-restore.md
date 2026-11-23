@@ -15,12 +15,12 @@ giữ nguyên trong khi dump. Mỗi lượt tạo tên riêng cho nguồn và đ
 - **MySQL 8.4.13:** dùng `mysqldump --single-transaction` cho các bảng InnoDB,
   rồi import SQL vào schema lab mới bằng MySQL client. [MySQL mysqldump](https://dev.mysql.com/doc/refman/8.4/en/mysqldump.html)
 - **MongoDB 8.0.34:** dùng `mongodump --archive` trên `rs0 PRIMARY` một node.
-  `mongorestore --nsFrom/--nsTo` ánh xạ các collection sang database lab mới. Lượt xác minh
-  script dùng MongoDB Database Tools 100.20.0. [MongoDB mongodump](https://www.mongodb.com/docs/database-tools/mongodump/) · [MongoDB mongorestore](https://www.mongodb.com/docs/database-tools/mongorestore/)
+  `mongorestore --nsFrom/--nsTo` ánh xạ các collection sang database lab mới. Lượt chạy
+  lại của Tuấn dùng MongoDB Database Tools 100.20.0. [MongoDB mongodump](https://www.mongodb.com/docs/database-tools/mongodump/) · [MongoDB mongorestore](https://www.mongodb.com/docs/database-tools/mongorestore/)
 
 ## 3.7.2. Kết quả
 
-Bảng ghi một lượt chạy thủ công trên mỗi hệ ngày 14/11/2026.
+Bảng thời gian và dung lượng ghi một lượt chạy thủ công của Tuấn trên mỗi hệ ngày 14/11/2026.
 
 | Hệ | Backup (s) | Restore (s) | Dump (bytes) | Đối chiếu |
 |---|---:|---:|---:|---|
@@ -39,8 +39,15 @@ Bảng ghi một lượt chạy thủ công trên mỗi hệ ngày 14/11/2026.
 MongoDB báo phục hồi thành công 5 documents với 0 lỗi. Hai dòng đơn được tính từ
 mảng trong document đơn bán. Lượt chạy lại bằng hai script cũng đạt các giá trị đối
 chiếu trên. Log gốc của lượt thủ công được lưu local trong
-`experiments/backup-restore/artifacts/2026-11-14/`. Kết quả hiện là kiểm chứng của Tuấn.
-Hải sẽ chạy restore độc lập trên lab của mình. [experiments/backup-restore/README.md](../../experiments/backup-restore/README.md) · [Bàn giao cho Hải](https://github.com/fluoxetines73/partstock_dbms/pull/3#issuecomment-6872371662)
+`experiments/backup-restore/artifacts/2026-11-14/`. [Hướng dẫn chạy lại](../../experiments/backup-restore/README.md)
+
+### Kiểm chứng độc lập của Hải — 16/11/2026
+
+Restore vào đích lab sạch đạt trên **MySQL 8.4.13/InnoDB** và **MongoDB 8.0.34/rs0 một node**.
+Nguồn và đích khớp đủ sáu giá trị trong bảng. `mongorestore` ghi nhận **5 document, 0 lỗi**.
+Hải chạy trong môi trường cô lập từ image đã ghim của PartStock. Bước chạy lại Docker Compose
+trên máy thành viên thứ hai còn chờ kiểm chứng. Báo cáo của Hải ghi kết quả đối chiếu nghiệp vụ.
+[Kết quả Role E](../../experiments/concurrency/README-Role-E-Progress.md) · [Theo dõi môi trường](../../KIEM-TRA.md)
 
 ## 3.7.3. Kết luận và giới hạn
 

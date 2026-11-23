@@ -18,6 +18,16 @@ UC04/07/08 theo [F03/F04](f03-quy-tac-chung-tu-kho.md), chi tiết ở mục dư
 UC09/10/12 có [kịch bản lab E](../../experiments/concurrency/README.md); hợp đồng
 HTTP chờ E bàn giao. A và các miền cần thống nhất phiên dùng chung.
 
+## UC02 · Ngừng kinh doanh linh kiện
+
+Quản lý gửi `PATCH /api/products/:id` với `{"status":"DISCONTINUED"}`. API trả `200` kèm
+bản ghi đã cập nhật, kể cả khi gửi lặp. `POST /api/products` dùng mặc định `ACTIVE` và chỉ
+`PATCH` chấp nhận trường `status` với giá trị `DISCONTINUED`.
+
+Linh kiện vẫn có trong `GET /api/products` và chứng từ cũ. Thao tác giữ nguyên tồn kho và
+sổ biến động. UC04/07 từ chối thêm hoặc xác nhận nháp chứa linh kiện này. UC08 vẫn cho
+hủy đơn đã xác nhận và hoàn tồn theo luồng hiện có.
+
 ## UC05–06 · Tra cứu
 
 `q` được trim và chuẩn hóa NFC. So SKU chính xác hoặc tìm chuỗi con theo tên

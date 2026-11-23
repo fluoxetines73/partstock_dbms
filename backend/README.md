@@ -110,7 +110,7 @@ Còn review B/C, phân quyền hai actor chung và nghiệm thu trên bản nhó
 ## UC02–03 — API linh kiện và nhà cung cấp
 
 Bản đầu dùng cùng `APP_MANAGER_TOKEN` và header `Authorization: Bearer <token>` như UC01.
-MySQL cần migration `001` rồi `002`. Chạy `npm run db:setup` từ `backend` để áp dụng
+MySQL cần migration `001`–`003`. Chạy `npm run db:setup` từ `backend` để áp dụng
 migration còn thiếu. [database/mysql/README.md](../database/mysql/README.md#chạy-migration)
 
 | Thao tác | Linh kiện | Nhà cung cấp |
@@ -138,7 +138,10 @@ Body thêm linh kiện mẫu. Lấy ID danh mục và hãng từ UC01 hoặc see
 `sku`, `name`, hai FK và `selling_price` là bắt buộc khi thêm. Giá là số nguyên VND từ
 0 đến 999.999.999.999.999 theo schema hiện tại. `specifications` nhận JSON object hoặc `null`.
 Response có `status` và sản phẩm mới mặc định `ACTIVE`. Ví dụ sửa giá dùng
-`{"selling_price":470000}`. Phần ngừng kinh doanh và tạo dòng tồn bằng 0 chờ tích hợp quy tắc D–E.
+`{"selling_price":470000}`. API tạo dòng tồn bằng `0` trong cùng giao dịch khi thêm linh kiện.
+Gửi `PATCH /api/products/:id` với `{"status":"DISCONTINUED"}` để ngừng kinh doanh.
+Gửi lặp vẫn trả `200` với linh kiện đã ngừng. Tồn kho, sổ biến động và chứng từ cũ được giữ nguyên.
+[Hợp đồng UC02](../docs/architecture/api-contract.md#uc02--ngừng-kinh-doanh-linh-kiện)
 
 Body thêm nhà cung cấp mẫu là `{"name":"Nhà cung cấp mẫu","email":"test@example.invalid"}`.
 `name` là bắt buộc, `phone` và `email` là chuỗi tùy chọn hoặc `null`. PATCH giữ nguyên
@@ -171,9 +174,8 @@ node --env-file=.env.docker backend/tests-db/uc02-03.cjs
 | Giá âm, SKU trùng, danh mục hoặc thương hiệu không tồn tại | Lần lượt `400 VALIDATION_ERROR`, `409 SKU_CONFLICT`, `400 INVALID_REFERENCE`. GET cuối xác nhận các yêu cầu bị từ chối giữ nguyên dữ liệu |
 | Xóa danh mục hoặc thương hiệu đang được sản phẩm tham chiếu qua UC01 | `409 RESOURCE_IN_USE` cho cả hai |
 
-Script dọn schema thử sau khi chạy. C review hợp đồng API và có thể dùng dữ liệu mẫu
-để ghép danh sách và form khi khung UI sẵn sàng. Tại lần kiểm tra này, thư mục frontend
-có README. [uc02-03.cjs](tests-db/uc02-03.cjs) · [database/seed/README.md](../database/seed/README.md#dữ-liệu-mẫu-uc0203) · [frontend/README.md](../frontend/README.md)
+Script dọn schema thử sau khi chạy. Hai màn hình quản lý dùng các endpoint trên.
+[Test HTTP](tests-db/uc02-03.cjs) · [Dữ liệu mẫu](../database/seed/README.md#dữ-liệu-mẫu-uc0203) · [Hướng dẫn UI](../frontend/README.md#linh-kiện-và-nhà-cung-cấp--b)
 
 ## UC04, UC07, UC08 — phiếu nhập, đơn bán, hủy đơn
 

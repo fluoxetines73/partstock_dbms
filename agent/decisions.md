@@ -1,5 +1,33 @@
 # Sổ quyết định
 
+## Hợp đồng ngừng kinh doanh linh kiện UC02 — 23/11/2026
+
+- Tuấn triển khai thao tác Quản lý qua `PATCH /api/products/:id` với `status: DISCONTINUED`,
+  dùng cột trạng thái hiện có. Gửi lặp trả lại linh kiện đã ngừng kinh doanh; UC02 chỉ hỗ trợ
+  chuyển một chiều trong lần này. Thao tác giữ nguyên tồn kho và chứng từ cũ.
+- UC04/07 tiếp tục chặn thêm hoặc xác nhận nháp chứa linh kiện ngừng kinh doanh. UC08 vẫn
+  hoàn kho khi hủy đơn đã xác nhận. Chờ Khánh review [hợp đồng API](../docs/architecture/api-contract.md#uc02--ngừng-kinh-doanh-linh-kiện).
+
+<a id="q01-nha-cung-cap"></a>
+
+## Đề xuất Q01 về nhà cung cấp — 22/11/2026
+
+- Tuấn (B) đề xuất quy tắc cho UC03 và phần liên quan của UC04. Phần UC02–03 đã bàn giao ở
+  [PR #3](https://github.com/fluoxetines73/partstock_dbms/pull/3) được tiếp nhận vào `main` qua
+  [PR #4](https://github.com/fluoxetines73/partstock_dbms/pull/4). Q01 tiếp tục được theo dõi ở
+  [đặc tả F02](../docs/architecture/use-cases.md#uc03).
+- Quản lý chỉ được xóa nhà cung cấp khi không còn bản ghi nào tham chiếu. Phiếu nhập nháp và phiếu
+  đã xác nhận đều chặn xóa qua khóa ngoại `ON DELETE RESTRICT` trong
+  [migration 003](../database/mysql/migrations/003_inventory_documents.sql).
+- Quản lý có thể ngừng sử dụng nhà cung cấp và vẫn xem được thông tin của họ trong UC03 và các
+  phiếu nhập cũ. UC04 chỉ cho chọn nhà cung cấp đang sử dụng khi lập phiếu mới hoặc đổi nhà cung cấp
+  trên phiếu nháp.
+- Phiếu nháp đã chọn nhà cung cấp trước khi họ ngừng sử dụng được xác nhận tiếp với nhà cung cấp
+  đang gắn trên phiếu, miễn là các điều kiện xác nhận khác vẫn đạt. Người dùng vẫn xem được nhà
+  cung cấp đó khi mở lại phiếu. Quy tắc này giữ lịch sử và cho phép hoàn tất phiếu đang xử lý.
+- Trạng thái: Tuấn đã chọn phương án đề xuất. Chờ Đạt chốt Q01, Khánh review UC03/API và Nam xác
+  nhận luồng UC04. Các phần Q01 về danh mục và thương hiệu tiếp tục theo dõi trong F02.
+
 ## Cài đặt UC04/07/08 theo đề xuất F03/F04 — 17/11/2026
 
 - Nguồn: D (Nam) yêu cầu làm hết gói D trong phiên làm việc; agent cài đặt theo F03/F04 trên nhánh `feat/uc04-07-08-transactions`.

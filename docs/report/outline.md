@@ -11,7 +11,7 @@ Bối cảnh, mục tiêu hai phần, phạm vi một cửa hàng/một kho, ti�
 ## 2. Ứng dụng và thiết kế
 12 use case và sơ đồ; ERD/model, kiến trúc, quy tắc tồn/chứng từ, API và lựa chọn công nghệ.
 Minh chứng ứng dụng MySQL, 8 dạng thao tác, hướng dẫn chạy/demo và kiểm thử.
-Kịch bản UC02–03 qua HTTP và demo hai lab của B trong [demo-mien-b.md](demo-mien-b.md).
+Kịch bản UC02–03 qua trình duyệt và HTTP cùng hướng dẫn lab của B trong [demo-mien-b.md](demo-mien-b.md).
 
 ## 3. Thực nghiệm MySQL và MongoDB
 ### 3.1. Phương pháp chung
@@ -31,8 +31,9 @@ Commit/rollback, lỗi giữa chừng, bất biến. Bản đầu gồm 10 ca tr
 ### 3.6. Concurrency control — E
 Nhiều phiên tranh chấp tồn cuối, lịch xen kẽ và kết quả.
 ### 3.7. Backup/restore — B, E kiểm chứng
-Bản đầu gồm fixture, logical backup, restore vào đích lab sạch, số liệu đối chiếu
-và giới hạn của phép đo. Chờ E kiểm chứng độc lập. [3-7-backup-restore.md](3-7-backup-restore.md)
+Gồm logical backup, restore vào đích lab sạch và giới hạn của phép đo. Hải đã đối chiếu
+độc lập đạt trên hai hệ. Còn bước kiểm chứng Docker Compose trên máy thành viên thứ hai.
+[3-7-backup-restore.md](3-7-backup-restore.md)
 
 ## 4. Teamwork và quản lý
 Phân công/đóng góp A–E, sprint, review, biên bản, phụ thuộc và xử lý rủi ro; liên kết bằng chứng.

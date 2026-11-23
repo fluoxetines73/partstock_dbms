@@ -12,8 +12,9 @@ interface ProductInput {
 }
 
 const productFields = ['sku', 'name', 'category_id', 'brand_id', 'specifications', 'selling_price'] as const;
-type ProductField = typeof productFields[number];
-type ProductPatch = Partial<ProductInput>;
+const productPatchFields = [...productFields, 'status'] as const;
+type ProductField = typeof productPatchFields[number];
+type ProductPatch = Partial<ProductInput> & { status?: 'DISCONTINUED' };
 
 interface ProductRow extends RowDataPacket {
   id: string;
@@ -39,7 +40,7 @@ function toProduct(row: ProductRow) {
 function parseProductPatch(body: unknown): ProductPatch | undefined {
   if (!isObject(body)) return;
   const fields = Object.keys(body);
-  if (fields.length === 0 || fields.some(field => !productFields.includes(field as ProductField))) return;
+  if (fields.length === 0 || fields.some(field => !productPatchFields.includes(field as ProductField))) return;
 
   const input: ProductPatch = {};
   for (const field of ['sku', 'name'] as const) {
@@ -64,12 +65,16 @@ function parseProductPatch(body: unknown): ProductPatch | undefined {
     if (specifications !== null && !isObject(specifications)) return;
     input.specifications = specifications;
   }
+  if (Object.hasOwn(body, 'status')) {
+    if (body.status !== 'DISCONTINUED') return;
+    input.status = body.status;
+  }
   return input;
 }
 
 function parseProductCreate(body: unknown): ProductInput | undefined {
   const patch = parseProductPatch(body);
-  if (!patch) return;
+  if (!patch || patch.status !== undefined) return;
   const { sku, name, category_id, brand_id, selling_price, specifications } = patch;
   if (sku === undefined || name === undefined || category_id === undefined || brand_id === undefined || selling_price === undefined) return;
   return { sku, name, category_id, brand_id, selling_price, specifications };
@@ -100,7 +105,7 @@ export function createProductStore(pool: Pool) {
       });
     },
     async update(id: string, input: ProductPatch) {
-      const fields = productFields.filter(field => input[field] !== undefined);
+      const fields = productPatchFields.filter(field => input[field] !== undefined);
       return writeAndRead(pool, async connection => {
         await connection.execute(
           `UPDATE products SET ${fields.map(field => `${field} = ?`).join(', ')} WHERE id = ?`,

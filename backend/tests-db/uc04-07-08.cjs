@@ -239,12 +239,30 @@ async function main() {
     assert.equal(await count('sales_orders', `id = ${short.id} AND confirmed_at IS NULL`), 1);
     await checkInvariants('after rejected sale');
 
-    // A product discontinued after the draft was saved blocks the confirmation but never the cancellation.
+    // Verify what happens to both kinds of drafts and an existing receipt when UC02 discontinues a product.
+    const purchaseLine = { product_id: ssd1t, quantity: 1, unit_cost: 1 };
+    const pendingReceipt = await ok('POST', '/purchase-receipts', staff, { supplier_id: supplierA, lines: [purchaseLine] }, 201);
     const willStop = await ok('POST', '/sales-orders', staff, { lines: [{ product_id: ssd1t, quantity: 1 }] }, 201);
-    await admin.query("UPDATE products SET status = 'DISCONTINUED' WHERE sku = 'SSD-SAM-1000'");
+    const receipts = await ok('GET', '/purchase-receipts?status=CONFIRMED', staff, undefined, 200);
+    const openingReceiptPath = `/purchase-receipts/${receipts.find(receipt => receipt.code === 'PN-20261101-000001').id}`;
+    const openingReceipt = await ok('GET', openingReceiptPath, staff, undefined, 200);
+    const stockBeforeStop = await stockOf('SSD-SAM-1000');
+    const movementsBeforeStop = await count('stock_movements');
+    const stopProduct = { status: 'DISCONTINUED' };
+    await call('PATCH', `/products/${ssd1t}`, staff, stopProduct, 403);
+    assert.equal((await ok('PATCH', `/products/${ssd1t}`, manager, stopProduct, 200)).status, 'DISCONTINUED');
+    await call('POST', `/purchase-receipts/${pendingReceipt.id}/confirm`, staff, undefined, 409)
+      .then(result => assert.deepEqual(result.data.error, { code: 'PRODUCT_DISCONTINUED', skus: ['SSD-SAM-1000'] }));
     await call('POST', `/sales-orders/${willStop.id}/confirm`, staff, undefined, 409)
       .then(result => assert.deepEqual(result.data.error, { code: 'PRODUCT_DISCONTINUED', skus: ['SSD-SAM-1000'] }));
+    await call('POST', '/purchase-receipts', staff, { supplier_id: supplierA, lines: [purchaseLine] }, 409);
     await call('POST', '/sales-orders', staff, { lines: [{ product_id: ssd1t, quantity: 1 }] }, 409);
+    assert.equal(await stockOf('SSD-SAM-1000'), stockBeforeStop);
+    assert.equal(await count('stock_movements'), movementsBeforeStop);
+    assert.deepEqual(await ok('GET', openingReceiptPath, staff, undefined, 200), openingReceipt);
+    assert.deepEqual((await ok('GET', '/product-search?q=SSD-SAM-1000', staff, undefined, 200)).items, []);
+    await call('DELETE', `/purchase-receipts/${pendingReceipt.id}`, staff, undefined, 204);
+    // Restore active lab fixtures for the later cases.
     await admin.query("UPDATE products SET status = 'ACTIVE' WHERE sku = 'SSD-SAM-1000'");
     await call('DELETE', `/sales-orders/${willStop.id}`, staff, undefined, 204);
     await call('DELETE', `/sales-orders/${short.id}`, staff, undefined, 204);
@@ -257,10 +275,16 @@ async function main() {
     await call('POST', `/sales-orders/${order.id}/cancel`, manager, { reason: '   ' }, 400);
     // F03 §1: a product discontinued after the sale does not block cancelling that order.
     const stopped = await ok('POST', '/sales-orders', staff, { lines: [{ product_id: ram16, quantity: 1 }] }, 201);
-    await ok('POST', `/sales-orders/${stopped.id}/confirm`, staff, undefined, 200);
-    await admin.query("UPDATE products SET status = 'DISCONTINUED' WHERE sku = 'RAM-KIN-16'");
-    assert.equal((await ok('POST', `/sales-orders/${stopped.id}/cancel`, manager, { reason: 'Hang ngung kinh doanh' }, 200)).status, 'CANCELLED');
+    const stoppedPath = `/sales-orders/${stopped.id}`;
+    const confirmedStopped = await ok('POST', `${stoppedPath}/confirm`, staff, undefined, 200);
+    const stockBeforeCancel = await stockOf('RAM-KIN-16');
+    await call('PATCH', `/products/${ram16}`, manager, stopProduct, 200);
+    assert.deepEqual(await ok('GET', stoppedPath, staff, undefined, 200), confirmedStopped);
+    assert.equal((await ok('POST', `${stoppedPath}/cancel`, manager, { reason: 'Hang ngung kinh doanh' }, 200)).status, 'CANCELLED');
+    await call('POST', `${stoppedPath}/cancel`, manager, { reason: 'Lan nua' }, 409);
+    assert.equal(await stockOf('RAM-KIN-16'), stockBeforeCancel + 1);
     await admin.query("UPDATE products SET status = 'ACTIVE' WHERE sku = 'RAM-KIN-16'");
+    console.log('PASS: UC02 discontinuation blocks new and existing draft confirmations, preserves history and stock, and allows a one-time refund.');
     const plain = await ok('POST', '/sales-orders', staff, { lines: [{ product_id: ram16, quantity: 1 }] }, 201);
     await call('POST', `/sales-orders/${plain.id}/cancel`, manager, { reason: 'Nhap nham' }, 409)
       .then(result => assert.deepEqual(result.data.error, { code: 'ORDER_NOT_CANCELLABLE', status: 'DRAFT' }));
