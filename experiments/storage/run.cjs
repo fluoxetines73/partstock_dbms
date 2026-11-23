@@ -38,7 +38,8 @@ SELECT JSON_OBJECT('phase','${phase}', 'logical', JSON_OBJECT(
  'priceSum',(SELECT COALESCE(SUM(selling_price),0) FROM storage_products),
  'payloadBytes',(SELECT COALESCE(SUM(OCTET_LENGTH(description)),0) FROM storage_specifications),
  'invalid',(SELECT COUNT(*) FROM storage_products p JOIN storage_specifications s ON p.id=s.product_id
-   WHERE p.sku<>CONCAT('ST-',LPAD(p.id,6,'0')) OR p.name<>CONCAT('Part ',p.id)
+   WHERE CAST(p.sku AS BINARY) <> CAST(CONCAT('ST-',LPAD(p.id,6,'0')) AS BINARY)
+   OR CAST(p.name AS BINARY) <> CAST(CONCAT('Part ',p.id) AS BINARY)
    OR p.selling_price<>100000+p.id*10 OR BINARY s.description<>BINARY REPEAT(LEFT(SHA2(CAST(p.id AS CHAR),256),32),${expanded ? 16 : 1}))),
  'tables',(SELECT JSON_ARRAYAGG(JSON_OBJECT('name',TABLE_NAME,'engine',ENGINE,'rowFormat',ROW_FORMAT,
  'estimatedRows',TABLE_ROWS,'dataLength',DATA_LENGTH,'indexLength',INDEX_LENGTH,'dataFree',DATA_FREE))
