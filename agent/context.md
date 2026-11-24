@@ -18,7 +18,9 @@ integration UC01/UC02–03 và build đạt. React/Vite được người dùng 
 CatalogPage tách để C ghép shell chung. Token quản lý local chưa là hai actor đầy đủ.
 Lab Storage đã push experiment/a-storage-management, có kết quả năm pha và chương báo cáo.
 Còn review B/C, tái tạo độc lập và dữ liệu/thiết kế miền E/C để hoàn tất bản chung.
-[ERD tổng hợp](../docs/architecture/erd-integrated-review.md) phân biệt DDL A/B và nháp D/E.
+Tại lần ghép ngày 16/11/2026, ERD review ghi DDL A/B và nháp D/E.
+[ERD Chen hiện tại](../docs/architecture/erd-integrated-review.md) mô tả 10 bảng và 11 quan hệ
+theo migration 001–003. Thiết kế kiểm kê và cảnh báo tồn thấp còn mở.
 [Bàn giao](../docs/handoffs/a-acceptance-2026-11-16.md) có demo, PR/comment soạn sẵn và người nhận;
 chưa đăng PR/comment vì chưa có phiên GitHub API/browser. SSH push hoạt động; main giữ dbc806f.
 Không force-push docs/a-sprint1-foundation local đã rebase khác remote; B kế thừa bản cũ 24db24b.

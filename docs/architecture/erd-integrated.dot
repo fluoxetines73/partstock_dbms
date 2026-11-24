@@ -1,0 +1,127 @@
+// Kết xuất: neato -n2 -Tsvg erd-integrated.dot -o erd-integrated.svg
+graph PartStockChen {
+  graph [bgcolor="white", fontname="DejaVu Sans", pad=0.22, splines=line];
+  node [fontname="DejaVu Sans", fontcolor="#132B3D", color="#365A71", penwidth=1.45];
+  edge [fontname="DejaVu Sans", fontcolor="#132B3D", color="#365A71", penwidth=1.45];
+
+  title [shape=plain, pos="650,731!", fontsize=30, label=<<B>PartStock · ERD Chen</B>>];
+  subtitle [shape=plain, pos="650,692!", fontsize=14, fontcolor="#475C6C",
+    label="Lược đồ MySQL theo migration 001–003"];
+  legend [shape=plain, pos="650,-11!", fontsize=14, fontcolor="#475C6C",
+    label="Hình chữ nhật: thực thể   ·   Hình thoi: quan hệ   ·   Elip: thuộc tính   ·   Gạch chân: khóa chính   ·   (min,max): số lần tham gia"];
+
+  // Thực thể. Tên bảng MySQL nằm dưới tên nghiệp vụ.
+  node [shape=box, style=filled, fillcolor="#E8F4FC", margin="0.14,0.10", fontsize=17];
+  categories [pos="290,579!", label=<<B>Danh mục</B><BR/><FONT POINT-SIZE="13">categories</FONT>>];
+  brands [pos="1010,579!", label=<<B>Thương hiệu</B><BR/><FONT POINT-SIZE="13">brands</FONT>>];
+  products [pos="650,401!", label=<<B>Sản phẩm</B><BR/><FONT POINT-SIZE="13">products</FONT>>];
+  suppliers [pos="290,53!", label=<<B>Nhà cung cấp</B><BR/><FONT POINT-SIZE="13">suppliers</FONT>>];
+  inventory [pos="650,614!", label=<<B>Tồn kho</B><BR/><FONT POINT-SIZE="13">inventory</FONT>>];
+  receipts [pos="290,209!", label=<<B>Phiếu nhập</B><BR/><FONT POINT-SIZE="13">purchase_receipts</FONT>>];
+  receipt_lines [pos="290,401!", label=<<B>Dòng phiếu nhập</B><BR/><FONT POINT-SIZE="13">purchase_receipt_lines</FONT>>];
+  orders [pos="1010,209!", label=<<B>Đơn bán</B><BR/><FONT POINT-SIZE="13">sales_orders</FONT>>];
+  order_lines [pos="1010,401!", label=<<B>Dòng đơn bán</B><BR/><FONT POINT-SIZE="13">sales_order_lines</FONT>>];
+  movements [pos="650,203!", label=<<B>Biến động kho</B><BR/><FONT POINT-SIZE="13">stock_movements</FONT>>];
+
+  // Quan hệ tương ứng với khóa ngoại trong migration.
+  node [shape=diamond, fillcolor="#FFF2DA", color="#8D631F", fontsize=14, margin="0.13,0.07"];
+  categorizes [pos="416,505!", label="Phân loại"];
+  labels [pos="901,505!", label="Có hãng"];
+  has_inventory [pos="650,543!", label="Có tồn"];
+  supplies [pos="290,131!", label="Cung cấp", fixedsize=true, width=1.7, height=0.56];
+  lists_import [pos="465,401!", label="Được\nnhập"];
+  lists_sale [pos="835,401!", label="Được\nbán"];
+  has_receipt_line [pos="290,307!", label="Gồm dòng", fixedsize=true, width=1.75, height=0.65];
+  has_order_line [pos="1010,307!", label="Gồm dòng", fixedsize=true, width=1.75, height=0.65];
+  has_movement [pos="650,302!", label="Có\nbiến động", fixedsize=true, width=1.65, height=0.93];
+  generates_import [pos="464,305!", label=<<B>Phát sinh</B><BR/><FONT POINT-SIZE="12">IMPORT</FONT>>, fixedsize=true, width=1.85, height=0.92];
+  generates_sale [pos="836,305!", label=<<B>Phát sinh</B><BR/><FONT POINT-SIZE="12">SALE<BR/>SALE_CANCEL</FONT>>, fixedsize=true, width=2.40, height=1.28];
+
+  categories -- categorizes -- products;
+  brands -- labels -- products;
+  inventory -- has_inventory -- products;
+  suppliers -- supplies -- receipts;
+  receipts -- has_receipt_line -- receipt_lines;
+  products -- lists_import -- receipt_lines;
+  orders -- has_order_line -- order_lines;
+  products -- lists_sale -- order_lines;
+  products -- has_movement -- movements;
+  receipt_lines -- generates_import -- movements;
+  order_lines -- generates_sale -- movements;
+
+  // Lực lượng đặt sát phía thực thể tương ứng.
+  node [shape=plain, style="", fontsize=13];
+  categories_count [pos="368,554!", label="(0,N)"];
+  product_category_count [pos="550,461!", label="(1,1)"];
+  brands_count [pos="921,553!", label="(0,N)"];
+  product_brand_count [pos="763,458!", label="(1,1)"];
+  inventory_count [pos="679,578!", label="(1,1)"];
+  product_inventory_count [pos="675,457!", label="(0,1)"];
+  supplier_count [pos="322,94!", label="(0,N)"];
+  receipt_supplier_count [pos="322,170!", label="(1,1)"];
+  receipt_count [pos="322,250!", label="(0,N)"];
+  receipt_line_receipt_count [pos="322,359!", label="(1,1)"];
+  product_import_count [pos="560,417!", label="(0,N)"];
+  receipt_line_product_count [pos="407,417!", label="(1,1)"];
+  order_count [pos="1042,250!", label="(0,N)"];
+  order_line_order_count [pos="1042,359!", label="(1,1)"];
+  product_sale_count [pos="740,417!", label="(0,N)"];
+  order_line_product_count [pos="904,417!", label="(1,1)"];
+  product_movement_count [pos="682,359!", label="(0,N)"];
+  movement_product_count [pos="682,247!", label="(1,1)"];
+  receipt_line_movement_count [pos="372,373!", label="(0,1)"];
+  movement_receipt_line_count [pos="565,236!", label="(0,1)"];
+  order_line_movement_count [pos="928,373!", label="(0,2)"];
+  movement_order_line_count [pos="735,236!", label="(0,1)"];
+
+  // Thuộc tính tiêu biểu; gạch chân cột khóa chính.
+  node [shape=ellipse, style=filled, fillcolor="#F6F9FB", color="#6D8798", fontsize=14, margin="0.09,0.05"];
+  edge [color="#6D8798", penwidth=1.1];
+
+  category_id [pos="228,632!", label=<<U>id</U>>];
+  category_name [pos="354,632!", label="name"];
+  categories -- {category_id category_name};
+
+  brand_id [pos="944,632!", label=<<U>id</U>>];
+  brand_name [pos="1072,632!", label="name"];
+  brands -- {brand_id brand_name};
+
+  product_id [pos="544,489!", label=<<U>id</U>>];
+  product_sku [pos="601,494!", label="sku"];
+  product_price [pos="745,499!", label="selling_price"];
+  products -- {product_id product_sku product_price};
+
+  inventory_product_id [pos="495,647!", label=<<U>product_id</U> (PK, FK)>];
+  inventory_quantity [pos="817,647!", label="quantity_on_hand"];
+  inventory -- {inventory_product_id inventory_quantity};
+
+  supplier_id [pos="74,67!", label=<<U>id</U>>];
+  supplier_name [pos="159,25!", label="name"];
+  suppliers -- {supplier_id supplier_name};
+
+  receipt_id [pos="91,263!", label=<<U>id</U>>];
+  receipt_code [pos="83,209!", label="code"];
+  receipt_status [pos="91,155!", label="status"];
+  receipts -- {receipt_id receipt_code receipt_status};
+
+  receipt_line_id [pos="161,469!", label=<<U>id</U>>];
+  receipt_line_quantity [pos="290,474!", label="quantity"];
+  receipt_line_cost [pos="76,402!", label="unit_cost"];
+  receipt_lines -- {receipt_line_id receipt_line_quantity receipt_line_cost};
+
+  order_id [pos="1209,263!", label=<<U>id</U>>];
+  order_code [pos="1217,209!", label="code"];
+  order_status [pos="1209,155!", label="status"];
+  orders -- {order_id order_code order_status};
+
+  order_line_id [pos="1139,469!", label=<<U>id</U>>];
+  order_line_quantity [pos="1010,474!", label="quantity"];
+  order_line_price [pos="1224,402!", label="unit_price"];
+  order_lines -- {order_line_id order_line_quantity order_line_price};
+
+  movement_id [pos="434,115!", label=<<U>id</U>>];
+  movement_type [pos="525,72!", label="movement_type"];
+  movement_delta [pos="712,72!", label="quantity_delta"];
+  movement_after [pos="851,115!", label="quantity_after"];
+  movements -- {movement_id movement_type movement_delta movement_after};
+}
