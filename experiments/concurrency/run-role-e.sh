@@ -3,8 +3,14 @@ set -euo pipefail
 
 lab_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cd "$lab_dir/../.."
+if [[ ${1:-} == stock-ucs ]]; then
+  shift
+  if [[ $# -eq 0 ]]; then set -- all --save; fi
+  exec node "$lab_dir/stock-ucs/run.cjs" "$@"
+fi
+
 if [[ $# -ne 1 || ! "$1" =~ ^(mysql|mongodb|uc)$ ]]; then
-  printf 'Usage: bash %s {mysql|mongodb|uc}\n' "$0" >&2
+  printf 'Usage: bash %s {mysql|mongodb|uc|stock-ucs [all|mysql|mongodb|reference] [--save]}\n' "$0" >&2
   exit 2
 fi
 

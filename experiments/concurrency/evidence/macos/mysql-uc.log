@@ -1,0 +1,29 @@
+Role E run: 6f850d2bbedd4b33617164e5
+6f850d2bbedd4b33617164e5	READY
+
+UC10 before adjustment (expected: GPU-LAST only)
+GPU-LAST	1	2	1
+
+UC12 unchanged physical count (expected: NO_CHANGE, version 0)
+NO_CHANGE	0
+
+UC12 adjust from 1 to 3 (expected: ADJUSTED, delta 2, version 1)
+ADJUSTED	2	1
+
+UC12 submit an older count (expected: STALE_COUNT)
+STALE_COUNT	1
+
+UC09 stock history (expected: one adjustment from 1 to 3)
+2	GPU-LAST	ADJUSTMENT	NULL	1	3	2	Physical stock count	2026-11-16 15:45:00.732474
+
+UC12 confirm a count captured before a sale (expected: STALE_COUNT)
+Role E run: d13654a31a2084ae49ec3aeb
+d13654a31a2084ae49ec3aeb	READY
+A	CONFIRMED
+STALE_COUNT	1
+A	CONFIRMED
+B	DRAFT
+GPU-LAST	0	1
+A	GPU-LAST	1	0
+PASS
+PASS

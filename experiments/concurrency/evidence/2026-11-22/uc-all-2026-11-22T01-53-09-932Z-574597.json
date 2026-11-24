@@ -1,0 +1,21 @@
+{
+  "suite": "PartStock E | UC09, UC10, UC12",
+  "mode": "all",
+  "started": "2026-11-22T01:53:09.932Z",
+  "finished": "2026-11-22T01:53:11.895Z",
+  "status": "FAIL",
+  "runs": [
+    {
+      "target": "mysql",
+      "status": "NOT_RUN",
+      "error": "Install the locked backend dependencies and build backend first.",
+      "checks": []
+    },
+    {
+      "target": "mongodb",
+      "status": "FAIL",
+      "error": "mongo-lab:  > 1 | const loadNative = require(\"node:module\").createRequire(process.env.E_STOCK_MODULE); const run = loadNative(process.env.E_STOCK_MODULE); const result = await run(db); print(\"E_STOCK_RESULT \" + JSON.stringify(result)); if (result.status !== \"PASS\") quit(1);     |                                                                                                                                                         ^",
+      "checks": []
+    }
+  ]
+}

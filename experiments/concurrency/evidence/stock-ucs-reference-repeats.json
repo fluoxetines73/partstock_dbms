@@ -1,0 +1,64 @@
+{
+  "target": "reference",
+  "environment": {
+    "version": "3.54.1",
+    "engine": "SQLite",
+    "mode": "reference only",
+    "journal_mode": "WAL",
+    "node": "v24.22.3",
+    "writers": "local fixture; shared SQL for UC09/10/12; independent connection per transaction"
+  },
+  "runs": [
+    {
+      "trial": 1,
+      "started": "2026-11-21T13:32:46.353Z",
+      "finished": "2026-11-21T13:32:52.117Z",
+      "passed": 32,
+      "total": 32,
+      "lastUnitSalesByDraftOrder": [
+        1,
+        0
+      ],
+      "concurrentCountReplies": [
+        "ADJUSTED",
+        "ALREADY_CONFIRMED"
+      ],
+      "balanceAfterSaleAndCount": 7,
+      "SKUsWithLedgerMismatch": []
+    },
+    {
+      "trial": 2,
+      "started": "2026-11-21T13:33:26.576Z",
+      "finished": "2026-11-21T13:33:33.176Z",
+      "passed": 32,
+      "total": 32,
+      "lastUnitSalesByDraftOrder": [
+        0,
+        1
+      ],
+      "concurrentCountReplies": [
+        "ADJUSTED",
+        "ALREADY_CONFIRMED"
+      ],
+      "balanceAfterSaleAndCount": 7,
+      "SKUsWithLedgerMismatch": []
+    },
+    {
+      "trial": 3,
+      "started": "2026-11-21T13:33:33.276Z",
+      "finished": "2026-11-21T13:33:38.935Z",
+      "passed": 32,
+      "total": 32,
+      "lastUnitSalesByDraftOrder": [
+        1,
+        0
+      ],
+      "concurrentCountReplies": [
+        "ADJUSTED",
+        "ALREADY_CONFIRMED"
+      ],
+      "balanceAfterSaleAndCount": 7,
+      "SKUsWithLedgerMismatch": []
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+Source=ps_br_src_6A7mYHR3
+Target=ps_br_dst_6A7mYHR3
+Files=/tmp/partstock-br-mongo.6A7mYHR3
+mongodump version: 100.20.0
+git version: 7536fd7f3d67f5115de3eb2e271b327b7ce329b9
+Go version: go1.27.3
+   os: linux
+   arch: amd64
+   compiler: gc
+mongorestore version: 100.20.0
+git version: 7536fd7f3d67f5115de3eb2e271b327b7ce329b9
+Go version: go1.27.3
+   os: linux
+   arch: amd64
+   compiler: gc
+{"products":2,"confirmed_orders":1,"order_lines":2,"inventory_rows":2,"stock_total":11,"confirmed_total_vnd":1830000}
+2026-11-16T08:19:58.875+0000	writing `ps_br_src_6A7mYHR3.products` to "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:58.875+0000	writing `ps_br_src_6A7mYHR3.inventory` to "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:58.875+0000	writing `ps_br_src_6A7mYHR3.sales_orders` to "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:58.880+0000	done dumping `ps_br_src_6A7mYHR3.products` (2 documents)
+2026-11-16T08:19:58.880+0000	done dumping `ps_br_src_6A7mYHR3.inventory` (2 documents)
+2026-11-16T08:19:58.886+0000	done dumping `ps_br_src_6A7mYHR3.sales_orders` (1 document)
+elapsed_seconds=0.028
+1781
+Target is empty
+2026-11-16T08:19:59.520+0000	preparing collections to restore from
+2026-11-16T08:19:59.530+0000	reading metadata for `ps_br_dst_6A7mYHR3.inventory` from "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:59.530+0000	reading metadata for `ps_br_dst_6A7mYHR3.sales_orders` from "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:59.530+0000	reading metadata for `ps_br_dst_6A7mYHR3.products` from "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:59.540+0000	restoring `ps_br_dst_6A7mYHR3.products` from "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:59.551+0000	finished restoring `ps_br_dst_6A7mYHR3.products` (2 documents, 0 failures)
+2026-11-16T08:19:59.557+0000	restoring `ps_br_dst_6A7mYHR3.inventory` from "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:59.573+0000	finished restoring `ps_br_dst_6A7mYHR3.inventory` (2 documents, 0 failures)
+2026-11-16T08:19:59.580+0000	restoring `ps_br_dst_6A7mYHR3.sales_orders` from "archive `/tmp/partstock-br-mongo.6A7mYHR3/mongo.archive`"
+2026-11-16T08:19:59.591+0000	finished restoring `ps_br_dst_6A7mYHR3.sales_orders` (1 document, 0 failures)
+2026-11-16T08:19:59.591+0000	no indexes to restore for collection `ps_br_dst_6A7mYHR3.products`
+2026-11-16T08:19:59.591+0000	no indexes to restore for collection `ps_br_dst_6A7mYHR3.inventory`
+2026-11-16T08:19:59.591+0000	no indexes to restore for collection `ps_br_dst_6A7mYHR3.sales_orders`
+2026-11-16T08:19:59.591+0000	5 document(s) restored successfully. 0 document(s) failed to restore.
+elapsed_seconds=0.096
+{"products":2,"confirmed_orders":1,"order_lines":2,"inventory_rows":2,"stock_total":11,"confirmed_total_vnd":1830000}
+PASS: MongoDB before and after restore match.
