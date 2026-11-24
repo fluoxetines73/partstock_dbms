@@ -1,0 +1,5 @@
+!mysql.log
+!mongodb.log
+!mysql-uc.log
+!restore-mysql.log
+!restore-mongodb.log

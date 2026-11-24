@@ -1,0 +1,10 @@
+Source=ps_br_src_qdWQLM4j
+Target=ps_br_dst_qdWQLM4j
+Files=/tmp/partstock-br-mysql.qdWQLM4j
+mysqldump  Ver 8.4.13 for Linux on x86_64 (MySQL Community Server - GPL)
+2	1	2	2	11	1830000
+elapsed_seconds=0.033
+4437
+elapsed_seconds=0.077
+2	1	2	2	11	1830000
+PASS: MySQL before and after restore match.

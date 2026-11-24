@@ -1,0 +1,21 @@
+{
+  "suite": "PartStock E | UC09, UC10, UC12",
+  "mode": "all",
+  "started": "2026-11-21T13:32:46.305Z",
+  "finished": "2026-11-21T13:32:46.312Z",
+  "status": "INCOMPLETE",
+  "runs": [
+    {
+      "target": "mysql",
+      "status": "NOT_RUN",
+      "error": "Missing .env.docker for the local mysql-lab.",
+      "checks": []
+    },
+    {
+      "target": "mongodb",
+      "status": "NOT_RUN",
+      "error": "Docker Compose v2 is unavailable.",
+      "checks": []
+    }
+  ]
+}

@@ -1,0 +1,720 @@
+{
+  "suite": "PartStock E | UC09, UC10, UC12",
+  "mode": "mongodb",
+  "started": "2026-11-22T02:29:31.496Z",
+  "finished": "2026-11-22T02:29:34.484Z",
+  "status": "PASS",
+  "runs": [
+    {
+      "target": "mongodb",
+      "status": "PASS",
+      "environment": {
+        "version": "8.0.34",
+        "topology": "rs0",
+        "members": [
+          "mongo-lab:27017"
+        ],
+        "readConcern": "snapshot",
+        "writeConcern": "majority",
+        "collectionPrefix": "euc_6f10aca88177a75eb6074950_",
+        "writers": "MongoDB lab model; embedded document lines"
+      },
+      "checks": [
+        {
+          "id": "09.1 source documents",
+          "actual": [
+            0,
+            8,
+            [
+              [
+                "IMPORT",
+                8,
+                8,
+                "PN-20261101-000001"
+              ],
+              [
+                "SALE",
+                -1,
+                7,
+                "DB-20261106-000002"
+              ],
+              [
+                "SALE_CANCEL",
+                1,
+                8,
+                "DB-20261106-000002"
+              ]
+            ]
+          ],
+          "expected": [
+            0,
+            8,
+            [
+              [
+                "IMPORT",
+                8,
+                8,
+                "PN-20261101-000001"
+              ],
+              [
+                "SALE",
+                -1,
+                7,
+                "DB-20261106-000002"
+              ],
+              [
+                "SALE_CANCEL",
+                1,
+                8,
+                "DB-20261106-000002"
+              ]
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "09.2 half-open period",
+          "actual": [
+            8,
+            7,
+            [
+              "SALE"
+            ]
+          ],
+          "expected": [
+            8,
+            7,
+            [
+              "SALE"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "09.3 display filter preserves balances",
+          "actual": [
+            8,
+            7,
+            []
+          ],
+          "expected": [
+            8,
+            7,
+            []
+          ],
+          "passed": true
+        },
+        {
+          "id": "09.4 quiet period",
+          "actual": [
+            8,
+            8,
+            []
+          ],
+          "expected": [
+            8,
+            8,
+            []
+          ],
+          "passed": true
+        },
+        {
+          "id": "09 invalid date / reversed period",
+          "actual": [
+            "INVALID_PERIOD",
+            "INVALID_PERIOD"
+          ],
+          "expected": [
+            "INVALID_PERIOD",
+            "INVALID_PERIOD"
+          ],
+          "passed": true
+        },
+        {
+          "id": "10.1 below, equal, above, unconfigured",
+          "actual": [
+            [
+              8,
+              9,
+              "LOW"
+            ],
+            [
+              8,
+              8,
+              "OK"
+            ],
+            [
+              5,
+              4,
+              "OK"
+            ],
+            [
+              4,
+              null,
+              "UNCONFIGURED"
+            ]
+          ],
+          "expected": [
+            [
+              8,
+              9,
+              "LOW"
+            ],
+            [
+              8,
+              8,
+              "OK"
+            ],
+            [
+              5,
+              4,
+              "OK"
+            ],
+            [
+              4,
+              null,
+              "UNCONFIGURED"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "10.2 low-stock list",
+          "actual": [
+            [
+              "SSD-KIN-500",
+              8,
+              9,
+              1
+            ]
+          ],
+          "expected": [
+            [
+              "SSD-KIN-500",
+              8,
+              9,
+              1
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "10.3 reject negative threshold, keep current configuration",
+          "actual": [
+            "INVALID_THRESHOLD",
+            9
+          ],
+          "expected": [
+            "INVALID_THRESHOLD",
+            9
+          ],
+          "passed": true
+        },
+        {
+          "id": "10.4 clear threshold, empty warning list",
+          "actual": [
+            "UNCONFIGURED",
+            []
+          ],
+          "expected": [
+            "UNCONFIGURED",
+            []
+          ],
+          "passed": true
+        },
+        {
+          "id": "10.5 zero stock equal to zero threshold",
+          "actual": [
+            0,
+            0,
+            0,
+            "OK"
+          ],
+          "expected": [
+            0,
+            0,
+            0,
+            "OK"
+          ],
+          "passed": true
+        },
+        {
+          "id": "02+10 initial inventory",
+          "actual": [
+            0,
+            0,
+            0,
+            "LOW"
+          ],
+          "expected": [
+            0,
+            0,
+            0,
+            "LOW"
+          ],
+          "passed": true
+        },
+        {
+          "id": "04+09+10 receipt",
+          "actual": [
+            10,
+            1,
+            10,
+            "OK"
+          ],
+          "expected": [
+            10,
+            1,
+            10,
+            "OK"
+          ],
+          "passed": true
+        },
+        {
+          "id": "09+10 stable reader across committed sale",
+          "actual": [
+            [
+              10,
+              1,
+              10,
+              "OK"
+            ],
+            [
+              10,
+              1,
+              10,
+              "OK"
+            ]
+          ],
+          "expected": [
+            [
+              10,
+              1,
+              10,
+              "OK"
+            ],
+            [
+              10,
+              1,
+              10,
+              "OK"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "07+10 next reader sees committed sale",
+          "actual": [
+            8,
+            2,
+            8,
+            "LOW"
+          ],
+          "expected": [
+            8,
+            2,
+            8,
+            "LOW"
+          ],
+          "passed": true
+        },
+        {
+          "id": "07+08 live low-stock list",
+          "actual": [
+            [
+              [
+                "E-COUNT-01",
+                8,
+                9,
+                1
+              ]
+            ],
+            []
+          ],
+          "expected": [
+            [
+              [
+                "E-COUNT-01",
+                8,
+                9,
+                1
+              ]
+            ],
+            []
+          ],
+          "passed": true
+        },
+        {
+          "id": "08+10 cancel restores stock and clears alert",
+          "actual": [
+            10,
+            3,
+            10,
+            "OK"
+          ],
+          "expected": [
+            10,
+            3,
+            10,
+            "OK"
+          ],
+          "passed": true
+        },
+        {
+          "id": "09.5 linked live receipt, sale and cancellation",
+          "actual": [
+            [
+              "IMPORT",
+              10,
+              true
+            ],
+            [
+              "SALE",
+              -2,
+              true
+            ],
+            [
+              "SALE_CANCEL",
+              2,
+              true
+            ]
+          ],
+          "expected": [
+            [
+              "IMPORT",
+              10,
+              true
+            ],
+            [
+              "SALE",
+              -2,
+              true
+            ],
+            [
+              "SALE_CANCEL",
+              2,
+              true
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.1 reject invalid count / blank reason",
+          "actual": [
+            "INVALID_COUNT",
+            "INVALID_COUNT",
+            null,
+            null
+          ],
+          "expected": [
+            "INVALID_COUNT",
+            "INVALID_COUNT",
+            null,
+            null
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.2 unchanged count is recorded once",
+          "actual": [
+            "NO_CHANGE",
+            "CONFIRMED",
+            "ALREADY_CONFIRMED",
+            [
+              10,
+              3,
+              10,
+              "OK"
+            ]
+          ],
+          "expected": [
+            "NO_CHANGE",
+            "CONFIRMED",
+            "ALREADY_CONFIRMED",
+            [
+              10,
+              3,
+              10,
+              "OK"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.3 sale between capture and confirm",
+          "actual": [
+            "ADJUSTED",
+            [
+              7,
+              5,
+              7,
+              "LOW"
+            ]
+          ],
+          "expected": [
+            "ADJUSTED",
+            [
+              7,
+              5,
+              7,
+              "LOW"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "09+12 count source and reason",
+          "actual": [
+            [
+              -1,
+              7,
+              "KK-SALE",
+              "Thieu mot linh kien"
+            ]
+          ],
+          "expected": [
+            [
+              -1,
+              7,
+              "KK-SALE",
+              "Thieu mot linh kien"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "09+10+12 uncommitted adjustment invisible",
+          "actual": [
+            7,
+            5,
+            7,
+            "LOW"
+          ],
+          "expected": [
+            7,
+            5,
+            7,
+            "LOW"
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.4 overlapping confirmations change stock once",
+          "actual": [
+            "ADJUSTED",
+            "ALREADY_CONFIRMED",
+            [
+              9,
+              6,
+              9,
+              "OK"
+            ]
+          ],
+          "expected": [
+            "ADJUSTED",
+            "ALREADY_CONFIRMED",
+            [
+              9,
+              6,
+              9,
+              "OK"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.5 two different counts from same count revision",
+          "actual": [
+            "ADJUSTED",
+            "COUNT_SUPERSEDED",
+            "DRAFT",
+            [
+              10,
+              7,
+              10,
+              "OK"
+            ]
+          ],
+          "expected": [
+            "ADJUSTED",
+            "COUNT_SUPERSEDED",
+            "DRAFT",
+            [
+              10,
+              7,
+              10,
+              "OK"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.6 rollback after updating inventory",
+          "actual": [
+            "FAULT_INJECTED",
+            "DRAFT",
+            [
+              10,
+              7,
+              10,
+              "OK"
+            ]
+          ],
+          "expected": [
+            "FAULT_INJECTED",
+            "DRAFT",
+            [
+              10,
+              7,
+              10,
+              "OK"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.7 retry after rollback",
+          "actual": [
+            "ADJUSTED",
+            [
+              11,
+              8,
+              11,
+              "OK"
+            ]
+          ],
+          "expected": [
+            "ADJUSTED",
+            [
+              11,
+              8,
+              11,
+              "OK"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "12.8 reject adjustment that would make stock negative",
+          "actual": [
+            "NEGATIVE_STOCK",
+            "DRAFT",
+            [
+              8,
+              9,
+              8,
+              "LOW"
+            ]
+          ],
+          "expected": [
+            "NEGATIVE_STOCK",
+            "DRAFT",
+            [
+              8,
+              9,
+              8,
+              "LOW"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "07+09+10 last unit, one winner",
+          "actual": [
+            [
+              "CONFIRMED",
+              "INSUFFICIENT_STOCK"
+            ],
+            [
+              "CONFIRMED",
+              "DRAFT"
+            ],
+            [
+              0,
+              11,
+              0,
+              "LOW"
+            ]
+          ],
+          "expected": [
+            [
+              "CONFIRMED",
+              "INSUFFICIENT_STOCK"
+            ],
+            [
+              "CONFIRMED",
+              "DRAFT"
+            ],
+            [
+              0,
+              11,
+              0,
+              "LOW"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "09.6 winning order is the sole source for its sale",
+          "actual": [
+            1,
+            0
+          ],
+          "expected": [
+            1,
+            0
+          ],
+          "passed": true
+        },
+        {
+          "id": "07+12 concurrent sale and count preserve both changes",
+          "actual": [
+            [
+              "ADJUSTED",
+              "CONFIRMED"
+            ],
+            [
+              7,
+              14,
+              7,
+              "LOW"
+            ]
+          ],
+          "expected": [
+            [
+              "ADJUSTED",
+              "CONFIRMED"
+            ],
+            [
+              7,
+              14,
+              7,
+              "LOW"
+            ]
+          ],
+          "passed": true
+        },
+        {
+          "id": "09+12 parallel writers leave two attributable movements",
+          "actual": [
+            -1,
+            -2,
+            true
+          ],
+          "expected": [
+            -1,
+            -2,
+            true
+          ],
+          "passed": true
+        },
+        {
+          "id": "all SKUs: stock reconciles with ledger",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

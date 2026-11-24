@@ -1,0 +1,63 @@
+Role E run: 3b5ab1af1fb95baa34176481
+READY 3b5ab1af1fb95baa34176481
+
+Order A
+CONFIRMED
+{
+  orderId: 'A',
+  outcome: 'CONFIRMED',
+  attempts: 1
+}
+
+Order B
+OUT_OF_STOCK
+{
+  orderId: 'B',
+  outcome: 'OUT_OF_STOCK',
+  attempts: 22
+}
+
+Replay winning order A (expected: ALREADY_CONFIRMED)
+ALREADY_CONFIRMED
+{
+  orderId: 'A',
+  outcome: 'ALREADY_CONFIRMED',
+  attempts: 1
+}
+{
+  stock: {
+    _id: '3b5ab1af1fb95baa34176481:GPU-LAST',
+    runId: '3b5ab1af1fb95baa34176481',
+    sku: 'GPU-LAST',
+    quantity: 0,
+    stockVersion: 1
+  },
+  orders: [
+    {
+      _id: '3b5ab1af1fb95baa34176481:A',
+      runId: '3b5ab1af1fb95baa34176481',
+      orderId: 'A',
+      sku: 'GPU-LAST',
+      status: 'CONFIRMED'
+    },
+    {
+      _id: '3b5ab1af1fb95baa34176481:B',
+      runId: '3b5ab1af1fb95baa34176481',
+      orderId: 'B',
+      sku: 'GPU-LAST',
+      status: 'DRAFT'
+    }
+  ],
+  movements: [
+    {
+      _id: '3b5ab1af1fb95baa34176481:A',
+      runId: '3b5ab1af1fb95baa34176481',
+      orderId: 'A',
+      sku: 'GPU-LAST',
+      kind: 'SALE',
+      beforeQty: 1,
+      afterQty: 0
+    }
+  ]
+}
+PASS
