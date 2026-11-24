@@ -1,46 +1,37 @@
-# Dàn ý báo cáo kỹ thuật
+# Dàn ý báo cáo kỹ thuật PartStock
 
-Đề tài: **So sánh MySQL và MongoDB trong bài toán quản lý bán hàng và tồn kho linh kiện máy tính**.
+**So sánh MySQL và MongoDB trong bài toán quản lý bán hàng và tồn kho linh kiện máy tính**
 
-[Báo cáo tổng hợp bản đầu 16/11](draft-integrated.md) ghép phần đã có và chỉ rõ chương
-chưa bàn giao; chưa phải PDF/bản nộp. [Demo A](demo-mien-a.md) gồm UI UC01 và Storage.
+[Bản tổng hợp ngày 24/11](draft-integrated.md) · [Kịch bản demo tích hợp](demo-tich-hop.md)
 
 ## 1. Giới thiệu
-Bối cảnh, mục tiêu hai phần, phạm vi một cửa hàng/một kho, tiêu chí đánh giá và giới hạn.
+
+Bối cảnh một cửa hàng, một kho và hai vai trò. Trình bày mục tiêu ứng dụng MySQL, mục tiêu thực nghiệm hai hệ và tiêu chí đánh giá. [Yêu cầu và rubric](../requirements.md)
 
 ## 2. Ứng dụng và thiết kế
-12 use case và sơ đồ; ERD/model, kiến trúc, quy tắc tồn/chứng từ, API và lựa chọn công nghệ.
-Minh chứng ứng dụng MySQL, 8 dạng thao tác, hướng dẫn chạy/demo và kiểm thử.
-Kịch bản UC02–03 qua trình duyệt và HTTP cùng hướng dẫn lab của B trong [demo-mien-b.md](demo-mien-b.md).
+
+Đặc tả 12 use case, kiến trúc React/Vite → Express/TypeScript → MySQL và ERD Chen từ migration 001–003. Giải thích các bất biến chứng từ, tồn và biến động qua ca nhập, bán, hủy. Đối chiếu tám dạng thao tác theo ca kiểm thử. UC09, UC10 và UC12 có minh chứng lab E, phần UI/API ứng dụng còn mở. [ERD](../architecture/erd-integrated-review.md) · [Use case](../architecture/use-cases.md) · [Bảng thao tác](draft-integrated.md#22-bằng-chứng-tám-dạng-thao-tác)
 
 ## 3. Thực nghiệm MySQL và MongoDB
-### 3.1. Phương pháp chung
-Dữ liệu logic, mô hình riêng, phiên bản/cấu hình, quy mô/index/cache, số lần chạy, reset và giới hạn so sánh.
-### 3.2. Storage & management — A
-Đã có bản đầu, script và kết quả năm pha trên hai hệ; chờ review/tái tạo độc lập.
-[3-2-storage.md](3-2-storage.md)
-### 3.3. Indexing — B
-Bản đầu gồm phương pháp, query plan, số liệu đọc trước/sau, index size, update cost và lệnh demo.
-[3-3-indexing.md](3-3-indexing.md)
-### 3.4. Query processing — C
-Bản đầu gồm kế hoạch, volume xử lý và số đo từ cả hai hệ.
-[3-4-query-processing.md](3-4-query-processing.md)
-### 3.5. Transaction — D
-Commit/rollback, lỗi giữa chừng, bất biến. Bản đầu gồm 10 ca trên cả hai hệ, kể cả đối chứng không dùng transaction.
-[3-5-transaction.md](3-5-transaction.md)
-### 3.6. Concurrency control — E
-Nhiều phiên tranh chấp tồn cuối, lịch xen kẽ và kết quả.
-### 3.7. Backup/restore — B, E kiểm chứng
-Gồm logical backup, restore vào đích lab sạch và giới hạn của phép đo. Hải đã đối chiếu
-độc lập đạt trên hai hệ. Còn bước kiểm chứng Docker Compose trên máy thành viên thứ hai.
-[3-7-backup-restore.md](3-7-backup-restore.md)
+
+| Mục | Nội dung |
+|---|---|
+| **3.1 Phương pháp chung** | Dữ liệu tương đương về logic, mô hình riêng từng hệ, phiên bản, topology, seed, quy mô, index, cache, số mẫu và cách kiểm chứng. |
+| **3.2 Storage & management · A** | Năm pha, từ nạp đến mở rộng và xóa dữ liệu. Phân tích dung lượng cấp phát và kích thước dữ liệu logic. [Chương 3.2](3-2-storage.md) |
+| **3.3 Indexing · B** | Đọc trước/sau khi thêm index, kế hoạch và số bản ghi đã xét, dung lượng index và chi phí cập nhật. [Chương 3.3](3-3-indexing.md) |
+| **3.4 Query processing · C** | Lọc có/bỏ index, chưa từng bán và tổng hợp doanh thu. Giải thích đường truy cập, join/lookup và số bản ghi đã xử lý. [Chương 3.4](3-4-query-processing.md) |
+| **3.5 Transaction · D** | Commit, rollback, lỗi giữa chừng, bất biến và đối chứng tự commit qua 10 tình huống trên hai hệ. [Chương 3.5](3-5-transaction.md) |
+| **3.6 Concurrency control · E** | Hai đơn tranh tồn cuối, snapshot khi đọc lịch sử, cảnh báo theo ngưỡng và các phiên cùng xác nhận kiểm kê. Minh chứng 32/32 trên từng hệ. [Chương 3.6](../../experiments/concurrency/Bao_cao_concurrency.md) |
+| **3.7 Backup/restore · B, E kiểm chứng** | Logical backup và đối chiếu sau restore vào đích lab sạch. Nêu giới hạn nguồn đứng yên và phạm vi kiểm chứng Docker Compose. [Chương 3.7](3-7-backup-restore.md) |
 
 ## 4. Teamwork và quản lý
-Phân công/đóng góp A–E, sprint, review, biên bản, phụ thuộc và xử lý rủi ro; liên kết bằng chứng.
+
+Đóng góp A–E, lịch sử PR, kết quả review và bước còn mở. Dẫn review thực tế của Tuấn và Đạt. [Phân công](../ownership.md) · [Tiến độ](../plan.md) · [Review UC01/Storage](../reviews/b-uc01-storage-2026-11-23.md) · [Review gói C](https://github.com/fluoxetines73/partstock_dbms/blob/c9052a9e72e0b3a5679199475bd72a0d15211800/docs/reviews/a-review-c-query-2026-11-24.md)
 
 ## 5. Kết luận và tự đánh giá
-Kết luận có điều kiện theo nghiệp vụ, đối chiếu rubric, giới hạn và việc chưa đạt; không tuyên bố hệ thắng chung.
+
+Kết luận theo mô hình và workload đã chạy. Đối chiếu rubric với bằng chứng, giới hạn và các quyết định cần chốt trước nghiệm thu. [Sổ quyết định](../../agent/decisions.md)
 
 ## 6. Tài liệu tham khảo và phụ lục
-Nguồn chính thức theo phiên bản, trích dẫn; script, dữ liệu tái tạo, kết quả nhỏ và kịch bản demo.
-Bản nộp PDF, kèm mã nguồn/script/hướng dẫn trong ZIP; slide không bắt buộc.
+
+Dẫn nguồn kỹ thuật theo phiên bản trong mỗi bài. Mỗi phụ lục ghép script, seed, cách chạy và kết quả tương ứng. ZIP nộp gồm báo cáo PDF, mã nguồn, hướng dẫn, script và minh chứng. [Kế hoạch đóng gói](../plan.md#6-hoàn-thiện-và-nộp-bài)

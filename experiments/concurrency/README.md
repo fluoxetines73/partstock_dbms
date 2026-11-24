@@ -1,6 +1,6 @@
 # Thực nghiệm Role E · UC09, UC10, UC12 và kiểm soát đồng thời
 
-Bộ tích hợp trong `mysql/`, `mongodb/` và `stock-ucs/` chạy cùng 32 kiểm tra trên MySQL và MongoDB. Bắt đầu tại thư mục có `compose.local.yaml`. Bản ZIP mới đã chứa toàn bộ source. Nếu đang làm trên checkout của nhóm, thư mục `experiments/concurrency/` chứa cả mã mới và bộ demo cũ. Báo cáo kết quả và đầu việc của từng thành viên nằm trong [mục 3.6](../../docs/report/3-6-concurrency.md).
+Bộ tích hợp trong `mysql/`, `mongodb/` và `stock-ucs/` chạy cùng 32 kiểm tra trên MySQL và MongoDB. Bắt đầu tại thư mục có `compose.local.yaml`. Bản ZIP mới đã chứa toàn bộ source. Nếu đang làm trên checkout của nhóm, thư mục `experiments/concurrency/` chứa cả mã mới và bộ demo cũ. Báo cáo kết quả và đầu việc của từng thành viên nằm trong [báo cáo Concurrency](Bao_cao_concurrency.md).
 
 ## Mã nguồn theo hệ quản trị
 
