@@ -24,9 +24,10 @@ Yêu cầu, rubric và đầu ra nộp được theo dõi tại [requirements](.
 ## 2. Thiết kế và hiện thực ứng dụng
 
 [F02](../architecture/use-cases.md) mô tả 12 use case và hai actor Quản lý/Nhân viên.
-Hai actor đã được A duyệt; đặc tả còn chờ review owner. Bản
-[ERD tổng hợp](../architecture/erd-integrated-review.md) tách rõ bốn bảng đã có migration
-với cấu trúc chứng từ/kho mới là đề xuất của Nam và phần kiểm kê chưa có đầu vào Hải.
+Hai actor đã được A duyệt; đặc tả còn chờ review owner.
+[ERD Chen tổng hợp](../architecture/erd-integrated-review.md) mô tả 10 bảng và 11 quan hệ
+trong migration 001–003, gồm danh mục, thương hiệu, sản phẩm, nhà cung cấp, chứng từ và kho.
+Thiết kế bảng kiểm kê, khóa ngoại tới dòng kiểm kê và ngưỡng cảnh báo tồn thấp còn mở.
 
 Ứng dụng hiện đi theo React/Vite → Express/TypeScript → MySQL app. Backend dùng mysql2
 và SQL trực tiếp. UC01 đã có màn danh mục/thương hiệu, CRUD, kiểm tra tên và FK RESTRICT
