@@ -12,14 +12,15 @@ không chạy script reset lab bằng credential ứng dụng.
 ## Chạy migration
 
 Từ thư mục `backend`, chạy `npm run db:setup` để build và áp dụng migration trên MySQL app
-theo cấu hình `.env.docker`. Lệnh chỉ tạo bảng và seed được nạp riêng khi cần.
+theo cấu hình `.env.docker`. Migration 004 bổ sung ngưỡng tồn vào bảng hiện có. Seed được nạp riêng khi cần.
 
 | Trạng thái schema | Migration áp dụng |
 |---|---|
-| Chưa có bảng thuộc `001`–`003` | `001` → `002` → `003` |
-| Đã có `categories` và `brands` | `002` → `003` |
-| Đã có đủ bốn bảng UC01–03 | `003` |
-| Đã có đủ 10 bảng | Bỏ qua cả ba migration |
+| Chưa có bảng thuộc `001`–`003` | `001` → `002` → `003` → `004` |
+| Đã có `categories` và `brands` | `002` → `003` → `004` |
+| Đã có đủ bốn bảng UC01–03 | `003` → `004` |
+| Đã có đủ 10 bảng của 001–003 | [004](migrations/004_inventory_low_threshold.sql) thêm `inventory.low_threshold`, giữ nguyên tồn và chứng từ |
+| Đã áp dụng 004 | Kiểm tra kiểu cột, NULL mặc định và CHECK không âm, rồi bỏ qua |
 
 Runner nhận diện migration theo nhóm bảng. Lệnh dừng nếu phát hiện nhóm thiếu
 bảng, đối tượng là view hoặc có nhóm bảng đứng sau khi migration trước còn thiếu. MySQL DDL có thể hoàn tất một

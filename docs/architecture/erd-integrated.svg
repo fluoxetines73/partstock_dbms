@@ -17,7 +17,7 @@
 <!-- subtitle -->
 <g id="node2" class="node">
 <title>subtitle</title>
-<text xml:space="preserve" text-anchor="middle" x="625.23" y="-706.95" font-family="DejaVu Sans" font-size="14.00" fill="#475c6c">Lược đồ MySQL theo migration 001–003</text>
+<text xml:space="preserve" text-anchor="middle" x="625.23" y="-706.95" font-family="DejaVu Sans" font-size="14.00" fill="#475c6c">Lược đồ MySQL theo migration 001–004</text>
 </g>
 <!-- legend -->
 <g id="node3" class="node">
@@ -199,24 +199,24 @@
 <path fill="none" stroke="#365a71" stroke-width="1.45" d="M265.23,-95.19C265.23,-106.07 265.23,-119.05 265.23,-129.72"/>
 </g>
 <!-- supplier_id -->
-<g id="node56" class="node">
+<g id="node57" class="node">
 <title>supplier_id</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="49.23" cy="-86.62" rx="27" ry="18"/>
 <text xml:space="preserve" text-anchor="start" x="42.86" y="-82.95" font-family="DejaVu Sans" text-decoration="underline" font-size="14.00" fill="#132b3d">id</text>
 </g>
 <!-- suppliers&#45;&#45;supplier_id -->
-<g id="edge32" class="edge">
+<g id="edge33" class="edge">
 <title>suppliers&#45;&#45;supplier_id</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M190.6,-77.46C151.21,-80.02 105.26,-82.99 76.7,-84.84"/>
 </g>
 <!-- supplier_name -->
-<g id="node57" class="node">
+<g id="node58" class="node">
 <title>supplier_name</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="134.23" cy="-44.62" rx="35.4" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="134.23" y="-39.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">name</text>
 </g>
 <!-- suppliers&#45;&#45;supplier_name -->
-<g id="edge33" class="edge">
+<g id="edge34" class="edge">
 <title>suppliers&#45;&#45;supplier_name</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M190.55,-56.66C182.51,-54.94 174.65,-53.26 167.48,-51.73"/>
 </g>
@@ -261,6 +261,17 @@
 <title>inventory&#45;&#45;inventory_quantity</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M673.99,-643.26C690.16,-646.45 708.45,-650.07 725.73,-653.48"/>
 </g>
+<!-- inventory_threshold -->
+<g id="node56" class="node">
+<title>inventory_threshold</title>
+<ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="625.23" cy="-684.62" rx="73.71" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="625.23" y="-679.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">low_threshold</text>
+</g>
+<!-- inventory&#45;&#45;inventory_threshold -->
+<g id="edge32" class="edge">
+<title>inventory&#45;&#45;inventory_threshold</title>
+<path fill="none" stroke="#6d8798" stroke-width="1.1" d="M625.23,-656.44C625.23,-659.62 625.23,-662.86 625.23,-665.96"/>
+</g>
 <!-- receipts -->
 <g id="node9" class="node">
 <title>receipts</title>
@@ -280,35 +291,35 @@
 <path fill="none" stroke="#365a71" stroke-width="1.45" d="M265.23,-251.35C265.23,-266.73 265.23,-287.02 265.23,-302.65"/>
 </g>
 <!-- receipt_id -->
-<g id="node58" class="node">
+<g id="node59" class="node">
 <title>receipt_id</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="66.23" cy="-282.62" rx="27" ry="18"/>
 <text xml:space="preserve" text-anchor="start" x="59.86" y="-278.95" font-family="DejaVu Sans" text-decoration="underline" font-size="14.00" fill="#132b3d">id</text>
 </g>
 <!-- receipts&#45;&#45;receipt_id -->
-<g id="edge34" class="edge">
+<g id="edge35" class="edge">
 <title>receipts&#45;&#45;receipt_id</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M194.23,-247.89C158.51,-257.58 117.44,-268.73 91.67,-275.72"/>
 </g>
 <!-- receipt_code -->
-<g id="node59" class="node">
+<g id="node60" class="node">
 <title>receipt_code</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="58.23" cy="-228.62" rx="31.31" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="58.23" y="-223.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">code</text>
 </g>
 <!-- receipts&#45;&#45;receipt_code -->
-<g id="edge35" class="edge">
+<g id="edge36" class="edge">
 <title>receipts&#45;&#45;receipt_code</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M194.29,-228.62C158.82,-228.62 117.69,-228.62 90.01,-228.62"/>
 </g>
 <!-- receipt_status -->
-<g id="node60" class="node">
+<g id="node61" class="node">
 <title>receipt_status</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="66.23" cy="-174.62" rx="37.95" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="66.23" y="-169.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">status</text>
 </g>
 <!-- receipts&#45;&#45;receipt_status -->
-<g id="edge36" class="edge">
+<g id="edge37" class="edge">
 <title>receipts&#45;&#45;receipt_status</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M194.23,-209.36C162.09,-200.64 125.61,-190.74 99.84,-183.74"/>
 </g>
@@ -332,35 +343,35 @@
 <path fill="none" stroke="#365a71" stroke-width="1.45" d="M306.47,-397.87C337.22,-380.91 378.64,-358.06 406.99,-342.42"/>
 </g>
 <!-- receipt_line_id -->
-<g id="node61" class="node">
+<g id="node62" class="node">
 <title>receipt_line_id</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="136.23" cy="-488.63" rx="27" ry="18"/>
 <text xml:space="preserve" text-anchor="start" x="129.86" y="-484.95" font-family="DejaVu Sans" text-decoration="underline" font-size="14.00" fill="#132b3d">id</text>
 </g>
 <!-- receipt_lines&#45;&#45;receipt_line_id -->
-<g id="edge37" class="edge">
+<g id="edge38" class="edge">
 <title>receipt_lines&#45;&#45;receipt_line_id</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M221.92,-443.46C200.4,-454.8 175.34,-468.01 157.9,-477.2"/>
 </g>
 <!-- receipt_line_quantity -->
-<g id="node62" class="node">
+<g id="node63" class="node">
 <title>receipt_line_quantity</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="265.23" cy="-493.62" rx="48.17" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="265.23" y="-488.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">quantity</text>
 </g>
 <!-- receipt_lines&#45;&#45;receipt_line_quantity -->
-<g id="edge38" class="edge">
+<g id="edge39" class="edge">
 <title>receipt_lines&#45;&#45;receipt_line_quantity</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M265.23,-443.32C265.23,-453.53 265.23,-465.44 265.23,-475.1"/>
 </g>
 <!-- receipt_line_cost -->
-<g id="node63" class="node">
+<g id="node64" class="node">
 <title>receipt_line_cost</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="51.23" cy="-421.62" rx="51.23" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="51.23" y="-416.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">unit_cost</text>
 </g>
 <!-- receipt_lines&#45;&#45;receipt_line_cost -->
-<g id="edge39" class="edge">
+<g id="edge40" class="edge">
 <title>receipt_lines&#45;&#45;receipt_line_cost</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M173.24,-421.05C149.22,-421.17 124.18,-421.28 103.07,-421.38"/>
 </g>
@@ -383,35 +394,35 @@
 <path fill="none" stroke="#365a71" stroke-width="1.45" d="M985.23,-251.35C985.23,-266.73 985.23,-287.02 985.23,-302.65"/>
 </g>
 <!-- order_id -->
-<g id="node64" class="node">
+<g id="node65" class="node">
 <title>order_id</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="1184.23" cy="-282.62" rx="27" ry="18"/>
 <text xml:space="preserve" text-anchor="start" x="1177.86" y="-278.95" font-family="DejaVu Sans" text-decoration="underline" font-size="14.00" fill="#132b3d">id</text>
 </g>
 <!-- orders&#45;&#45;order_id -->
-<g id="edge40" class="edge">
+<g id="edge41" class="edge">
 <title>orders&#45;&#45;order_id</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M1037.26,-242.74C1076.3,-253.34 1128.07,-267.39 1158.6,-275.67"/>
 </g>
 <!-- order_code -->
-<g id="node65" class="node">
+<g id="node66" class="node">
 <title>order_code</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="1192.23" cy="-228.62" rx="31.31" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="1192.23" y="-223.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">code</text>
 </g>
 <!-- orders&#45;&#45;order_code -->
-<g id="edge41" class="edge">
+<g id="edge42" class="edge">
 <title>orders&#45;&#45;order_code</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M1037.2,-228.62C1075.88,-228.62 1127.46,-228.62 1160.27,-228.62"/>
 </g>
 <!-- order_status -->
-<g id="node66" class="node">
+<g id="node67" class="node">
 <title>order_status</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="1184.23" cy="-174.62" rx="37.95" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="1184.23" y="-169.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">status</text>
 </g>
 <!-- orders&#45;&#45;order_status -->
-<g id="edge42" class="edge">
+<g id="edge43" class="edge">
 <title>orders&#45;&#45;order_status</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M1037.26,-214.51C1073.07,-204.79 1119.61,-192.16 1150.62,-183.75"/>
 </g>
@@ -436,35 +447,35 @@
 <path fill="none" stroke="#365a71" stroke-width="1.45" d="M944,-397.87C916.96,-382.96 881.69,-363.5 854.3,-348.38"/>
 </g>
 <!-- order_line_id -->
-<g id="node67" class="node">
+<g id="node68" class="node">
 <title>order_line_id</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="1114.23" cy="-488.63" rx="27" ry="18"/>
 <text xml:space="preserve" text-anchor="start" x="1107.86" y="-484.95" font-family="DejaVu Sans" text-decoration="underline" font-size="14.00" fill="#132b3d">id</text>
 </g>
 <!-- order_lines&#45;&#45;order_line_id -->
-<g id="edge43" class="edge">
+<g id="edge44" class="edge">
 <title>order_lines&#45;&#45;order_line_id</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M1028.55,-443.46C1050.07,-454.8 1075.13,-468.01 1092.56,-477.2"/>
 </g>
 <!-- order_line_quantity -->
-<g id="node68" class="node">
+<g id="node69" class="node">
 <title>order_line_quantity</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="985.23" cy="-493.62" rx="48.17" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="985.23" y="-488.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">quantity</text>
 </g>
 <!-- order_lines&#45;&#45;order_line_quantity -->
-<g id="edge44" class="edge">
+<g id="edge45" class="edge">
 <title>order_lines&#45;&#45;order_line_quantity</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M985.23,-443.32C985.23,-453.53 985.23,-465.44 985.23,-475.1"/>
 </g>
 <!-- order_line_price -->
-<g id="node69" class="node">
+<g id="node70" class="node">
 <title>order_line_price</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="1199.23" cy="-421.62" rx="55.32" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="1199.23" y="-416.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">unit_price</text>
 </g>
 <!-- order_lines&#45;&#45;order_line_price -->
-<g id="edge45" class="edge">
+<g id="edge46" class="edge">
 <title>order_lines&#45;&#45;order_line_price</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M1062.49,-420.99C1089.19,-421.11 1118.57,-421.25 1143.24,-421.36"/>
 </g>
@@ -476,46 +487,46 @@
 <text xml:space="preserve" text-anchor="start" x="565.23" y="-209.28" font-family="DejaVu Sans" font-size="13.00" fill="#132b3d">stock_movements</text>
 </g>
 <!-- movement_id -->
-<g id="node70" class="node">
+<g id="node71" class="node">
 <title>movement_id</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="409.23" cy="-134.62" rx="27" ry="18"/>
 <text xml:space="preserve" text-anchor="start" x="402.86" y="-130.95" font-family="DejaVu Sans" text-decoration="underline" font-size="14.00" fill="#132b3d">id</text>
 </g>
 <!-- movements&#45;&#45;movement_id -->
-<g id="edge46" class="edge">
+<g id="edge47" class="edge">
 <title>movements&#45;&#45;movement_id</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M569.05,-199.73C524.8,-181.71 465.34,-157.48 432.86,-144.25"/>
 </g>
 <!-- movement_type -->
-<g id="node71" class="node">
+<g id="node72" class="node">
 <title>movement_type</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="500.23" cy="-91.62" rx="84.95" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="500.23" y="-86.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">movement_type</text>
 </g>
 <!-- movements&#45;&#45;movement_type -->
-<g id="edge47" class="edge">
+<g id="edge48" class="edge">
 <title>movements&#45;&#45;movement_type</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M603.46,-199.81C578.98,-174.15 539.73,-133.02 517.34,-109.56"/>
 </g>
 <!-- movement_delta -->
-<g id="node72" class="node">
+<g id="node73" class="node">
 <title>movement_delta</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="687.23" cy="-91.62" rx="76.27" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="687.23" y="-86.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">quantity_delta</text>
 </g>
 <!-- movements&#45;&#45;movement_delta -->
-<g id="edge48" class="edge">
+<g id="edge49" class="edge">
 <title>movements&#45;&#45;movement_delta</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M636.03,-199.81C648.11,-174.3 667.42,-133.49 678.56,-109.96"/>
 </g>
 <!-- movement_after -->
-<g id="node73" class="node">
+<g id="node74" class="node">
 <title>movement_after</title>
 <ellipse fill="#f6f9fb" stroke="#6d8798" stroke-width="1.45" cx="826.23" cy="-134.62" rx="74.74" ry="18"/>
 <text xml:space="preserve" text-anchor="middle" x="826.23" y="-129.95" font-family="DejaVu Sans" font-size="14.00" fill="#132b3d">quantity_after</text>
 </g>
 <!-- movements&#45;&#45;movement_after -->
-<g id="edge49" class="edge">
+<g id="edge50" class="edge">
 <title>movements&#45;&#45;movement_after</title>
 <path fill="none" stroke="#6d8798" stroke-width="1.1" d="M677.52,-199.73C712.53,-184.41 757.78,-164.6 789.12,-150.87"/>
 </g>

@@ -21,7 +21,7 @@ Xem [bàn giao A](handoffs/a-acceptance-2026-11-16.md).
 | UC07 | Tạo/xác nhận đơn bán và trừ tồn kho | D | Đã làm UI–API–MySQL, chờ review E: chốt giá lúc xác nhận, từ chối khi thiếu tồn, chống xác nhận lặp. [Bàn giao D](handoffs/d-sprint2.md) |
 | UC08 | Hủy đơn theo quy tắc và hoàn tồn kho | D | Đã làm UI–API–MySQL, chờ review E: chỉ Quản lý, bắt buộc lý do, hoàn kho đúng một lần. Quy tắc hủy là đề xuất F03 chưa được nhóm chốt. [Bàn giao D](handoffs/d-sprint2.md) |
 | UC09 | Tra cứu lịch sử nhập/xuất/tồn | E | Chưa triển khai / chưa có |
-| UC10 | Cảnh báo tồn kho dưới ngưỡng | E | Chưa triển khai / chưa có |
+| UC10 | Cảnh báo tồn kho dưới ngưỡng | E | Có migration 004, API và UI. Nhân viên/Quản lý xem, Quản lý cấu hình. Chờ review nhóm. [Hợp đồng UC10](architecture/api-contract.md#uc10--cảnh-báo-tồn-thấp) · [Test HTTP và chứng từ](../backend/tests-db/uc04-07-08.cjs) |
 | UC11 | Báo cáo doanh thu theo thời gian | C | UI/mock và API kiểm tra qua fixture lab; chờ schema D, chính sách doanh thu và review A. [Bàn giao](handoffs/c-sprint1-2.md) |
 | UC12 | Kiểm kê và điều chỉnh tồn kho có lý do | E | Chưa triển khai / chưa có |
 

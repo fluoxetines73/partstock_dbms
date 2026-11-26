@@ -299,7 +299,7 @@ Mục tiêu/kích hoạt ghi trong từng đặc tả.
 
 - **Owner:** E. **Actor:** Nhân viên hoặc Quản lý.
 - **Mục tiêu/kích hoạt:** Người dùng muốn biết sản phẩm cần bổ sung tồn.
-- **Tiền điều kiện:** Có ngưỡng hợp lệ theo quy tắc sẽ được thống nhất (Q05).
+- **Tiền điều kiện:** Mỗi linh kiện có một dòng tồn. Quản lý có thể cấu hình ngưỡng riêng cho dòng đó.
 
 **Luồng chính:**
 
@@ -310,7 +310,8 @@ Mục tiêu/kích hoạt ghi trong từng đặc tả.
 **Nhánh thay thế/ngoại lệ:**
 
 - Không có sản phẩm dưới ngưỡng: hiển thị không có cảnh báo.
-- Chưa có ngưỡng hợp lệ: thể hiện thiếu cấu hình; nguồn/mặc định ngưỡng chờ Q05.
+- Dòng tồn có ngưỡng NULL xuất hiện ở nhóm chưa cấu hình. Ngưỡng 0 hợp lệ. Khi tồn bằng ngưỡng, linh kiện đủ hàng.
+- Nhân viên và Quản lý được xem. Chỉ Quản lý được đặt, đổi hoặc bỏ ngưỡng.
 
 **Hậu điều kiện thành công:** Hiển thị cảnh báo theo dữ liệu tồn; không tự thay đổi kho.
 
@@ -384,7 +385,7 @@ Các ID Q dưới đây là mã tham chiếu trong F02. Q00 đã được A duy�
 | Q02 | UC02/04/07   | Dữ liệu nào bắt buộc, số lượng/giá hợp lệ; lúc nào chốt giá bán cho đơn nháp?                 | B/D, F03/F04/F06           |
 | Q03 | UC04/07/08   | Trạng thái và chuyển trạng thái; hủy ở đâu; phản hồi thao tác lặp; tác động kho tương ứng?    | D–E soạn F03, A điều phối  |
 | Q04 | UC05/06      | So khớp mã/tên, từ khóa rỗng và các điều kiện tồn cụ thể?                                     | C/B, F06                   |
-| Q05 | UC09/10      | Tồn đầu/cuối kỳ tính theo mốc nào; ngưỡng theo sản phẩm hay chung, ai cấu hình/mặc định?      | E/D, C góp ý               |
+| Q05 | UC09/10      | Tồn đầu/cuối kỳ tính theo mốc nào; UC10 đã chốt ngưỡng riêng theo linh kiện, Quản lý cấu hình; phần UC09 còn mở.      | E/D, C góp ý               |
 | Q06 | UC08/11      | Đơn đủ điều kiện doanh thu; mốc ngày, biên thời gian/múi giờ; trừ hủy vào kỳ nào?             | C/D/E, F03                 |
 | Q07 | UC12         | Kiểm kê chốt ở mốc nào; xử lý giao dịch đồng thời, số lượng không đổi và xác nhận lặp ra sao? | D–E, F03                   |
 

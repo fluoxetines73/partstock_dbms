@@ -2,10 +2,10 @@
 
 Sơ đồ mô tả 10 bảng MySQL của ứng dụng theo migration
 [001 — Danh mục và thương hiệu](../../database/mysql/migrations/001_catalogs.sql),
-[002 — Sản phẩm và nhà cung cấp](../../database/mysql/migrations/002_products_suppliers.sql)
-và [003 — Chứng từ và tồn kho](../../database/mysql/migrations/003_inventory_documents.sql).
+[002 — Sản phẩm và nhà cung cấp](../../database/mysql/migrations/002_products_suppliers.sql),
+[003 — Chứng từ và tồn kho](../../database/mysql/migrations/003_inventory_documents.sql) và [004 — Ngưỡng tồn theo linh kiện](../../database/mysql/migrations/004_inventory_low_threshold.sql).
 
-[![ERD Chen PartStock theo migration 001–003](erd-integrated.svg)](erd-integrated.svg)
+[![ERD Chen PartStock theo migration 001–004](erd-integrated.svg)](erd-integrated.svg)
 
 [Mở SVG để phóng to](erd-integrated.svg) · [Nguồn Graphviz có thể chỉnh sửa](erd-integrated.dot)
 
@@ -59,11 +59,12 @@ từng phiếu nhập hoặc đơn bán nhờ `UNIQUE` trên cặp (mã định 
   cộng một `SALE_CANCEL`. `SALE` giảm tồn, còn `IMPORT` và `SALE_CANCEL` tăng tồn.
   [Migration 003](../../database/mysql/migrations/003_inventory_documents.sql)
 
-## Thiết kế kiểm kê và cảnh báo còn mở
+## Ngưỡng tồn và thiết kế kiểm kê
+
+Mỗi dòng tồn có một thuộc tính tùy chọn `low_threshold`. NULL là chưa đặt ngưỡng. Khi đã cấu hình, cảnh báo xuất hiện nếu `quantity_on_hand < low_threshold`. Ngưỡng 0 hợp lệ.
 
 Migration 003 đã có loại `ADJUSTMENT`. Loại này yêu cầu `stock_count_line_id`, lý do
-và lượng điều chỉnh khác 0. Cột `stock_count_line_id` chưa có khóa ngoại. Bảng kiểm kê,
-quan hệ tới dòng kiểm kê và nơi lưu ngưỡng cảnh báo tồn thấp vẫn đang chờ thiết kế miền E.
+và lượng điều chỉnh khác 0. Cột `stock_count_line_id` chưa có khóa ngoại. Bảng kiểm kê và quan hệ tới dòng kiểm kê vẫn đang chờ thiết kế miền E.
 [F03 — Quy tắc chứng từ và kho](f03-quy-tac-chung-tu-kho.md) · [F04 — Từ điển dữ liệu miền D](f04-erd-mien-d.md)
 
 ## Kết xuất SVG

@@ -13,6 +13,27 @@ const migrations = [
   },
 ];
 
+const thresholdMigration = '004_inventory_low_threshold.sql';
+
+async function hasThresholdMigration(connection) {
+  const [[column]] = await connection.query(`
+    SELECT COLUMN_TYPE, COLUMN_DEFAULT, IS_NULLABLE
+    FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'inventory' AND COLUMN_NAME = 'low_threshold'`);
+  if (!column) return false;
+  const [[constraint]] = await connection.query(`
+    SELECT c.CHECK_CLAUSE FROM information_schema.TABLE_CONSTRAINTS t
+    JOIN information_schema.CHECK_CONSTRAINTS c USING (CONSTRAINT_SCHEMA, CONSTRAINT_NAME)
+    WHERE t.TABLE_SCHEMA = DATABASE() AND t.TABLE_NAME = 'inventory'
+      AND t.CONSTRAINT_NAME = 'chk_inventory_low_threshold' AND t.ENFORCED = 'YES'`);
+  const check = constraint?.CHECK_CLAUSE.replace(/[`\s()]/g, '').toLowerCase();
+  if (column.COLUMN_TYPE !== 'int' || column.COLUMN_DEFAULT !== null ||
+      column.IS_NULLABLE !== 'YES' || check !== 'low_threshold>=0') {
+    throw new Error(`Unexpected schema state for ${thresholdMigration}; inspect inventory.low_threshold and its CHECK constraint`);
+  }
+  return true;
+}
+
 async function applyMigrations(connection) {
   const [[{ lockName }]] = await connection.query(
     "SELECT SHA2(CONCAT('partstock:db:setup:', DATABASE()), 256) AS lockName",
@@ -42,6 +63,8 @@ async function applyMigrations(connection) {
       }
     }
 
+    if (!await hasThresholdMigration(connection)) pending.push(thresholdMigration);
+
     for (const file of pending) {
       const sql = readFileSync(resolve(__dirname, '../../database/mysql/migrations', file), 'utf8');
       const statements = sql.replace(/^--.*$/gm, '').split(';').map(statement => statement.trim()).filter(Boolean);
@@ -61,7 +84,7 @@ async function main() {
   const connection = await mysql.createConnection(loadConfig(process.env).db);
   try {
     const applied = await applyMigrations(connection);
-    console.log(applied.length ? `PASS: applied ${applied.join(', ')}` : `PASS: migrations ${migrations.map(migration => migration.file.slice(0, 3)).join(', ')} already applied`);
+    console.log(applied.length ? `PASS: applied ${applied.join(', ')}` : 'PASS: migrations 001–004 already applied');
   } finally {
     await connection.end();
   }

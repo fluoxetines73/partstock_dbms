@@ -5,11 +5,12 @@ import { catalogRequest } from './catalog-api.js';
 import { QueryPage } from './QueryPage.jsx';
 import { DocumentsPage } from './DocumentsPage.jsx';
 import { ManagedDataPage } from './ManagedDataPage.jsx';
+import { StockAlertsPage } from './StockAlertsPage.jsx';
 import './styles.css';
 
 const navigation = [
   ['catalog', 'Danh mục'], ['products', 'Linh kiện'], ['suppliers', 'Nhà cung cấp'],
-  ['search', 'Tra cứu'], ['purchases', 'Nhập kho'], ['sales', 'Bán hàng'], ['revenue', 'Doanh thu'],
+  ['search', 'Tra cứu'], ['purchases', 'Nhập kho'], ['sales', 'Bán hàng'], ['alerts', 'Cảnh báo tồn kho'], ['revenue', 'Doanh thu'],
 ];
 const managementTitles = { catalog: 'Danh mục & thương hiệu', products: 'Linh kiện', suppliers: 'Nhà cung cấp' };
 
@@ -42,6 +43,7 @@ function App() {
         <button key={id} type="button" aria-current={page === id ? 'page' : undefined} onClick={() => setPage(id)}>{label}</button>)}
     </nav></div>
     {page === 'purchases' || page === 'sales' ? <DocumentsPage key={page} kind={page === 'purchases' ? 'purchase' : 'sales'} managerToken={token} />
+      : page === 'alerts' ? <StockAlertsPage managerToken={token} />
       : !managementTitle ? <QueryPage key={page} managerToken={token} revenue={page === 'revenue'} />
       : token ? (page === 'catalog' ? <CatalogPage token={token} onDisconnect={disconnect} />
         : <ManagedDataPage key={page} resource={page} token={token} onDisconnect={disconnect} onOpenCatalog={() => setPage('catalog')} />)

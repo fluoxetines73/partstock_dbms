@@ -1,6 +1,5 @@
 -- Only applied in the newly created partstock_e_* lab database, after the project's 003 seed.
 ALTER TABLE inventory
-  ADD COLUMN low_threshold INT NULL DEFAULT NULL CHECK (low_threshold >= 0),
   ADD COLUMN count_revision INT UNSIGNED NOT NULL DEFAULT 0;
 
 CREATE TABLE e_counts (

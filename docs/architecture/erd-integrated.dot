@@ -6,7 +6,7 @@ graph PartStockChen {
 
   title [shape=plain, pos="650,731!", fontsize=30, label=<<B>PartStock · ERD Chen</B>>];
   subtitle [shape=plain, pos="650,692!", fontsize=14, fontcolor="#475C6C",
-    label="Lược đồ MySQL theo migration 001–003"];
+    label="Lược đồ MySQL theo migration 001–004"];
   legend [shape=plain, pos="650,-11!", fontsize=14, fontcolor="#475C6C",
     label="Hình chữ nhật: thực thể   ·   Hình thoi: quan hệ   ·   Elip: thuộc tính   ·   Gạch chân: khóa chính   ·   (min,max): số lần tham gia"];
 
@@ -93,7 +93,8 @@ graph PartStockChen {
 
   inventory_product_id [pos="495,647!", label=<<U>product_id</U> (PK, FK)>];
   inventory_quantity [pos="817,647!", label="quantity_on_hand"];
-  inventory -- {inventory_product_id inventory_quantity};
+  inventory_threshold [pos="650,665!", label="low_threshold"];
+  inventory -- {inventory_product_id inventory_quantity inventory_threshold};
 
   supplier_id [pos="74,67!", label=<<U>id</U>>];
   supplier_name [pos="159,25!", label="name"];

@@ -1,7 +1,7 @@
 # Kiến trúc dự kiến
 
 [Hợp đồng API](api-contract.md) ghi các route theo từng miền.
-[ERD Chen tổng hợp](erd-integrated-review.md) mô tả lược đồ MySQL theo migration 001–003.
+[ERD Chen tổng hợp](erd-integrated-review.md) mô tả lược đồ MySQL theo migration 001–004.
 
 Đã có [bản nháp F02: 12 use case](use-cases.md), [sơ đồ](use-case-diagram.svg)
 và [nguồn Graphviz](use-case-diagram.dot), ngày 10/11/2026; chờ C review và owner góp ý.
@@ -46,7 +46,7 @@ Bản nháp thiết kế đang chờ review (chưa chốt). Từ 17/11/2026 đã
 ## ERD Chen tổng hợp
 
 [Sơ đồ SVG](erd-integrated.svg) và [nguồn Graphviz](erd-integrated.dot) thể hiện 10 thực thể
-và 11 quan hệ có khóa ngoại trong migration 001–003. [Hướng dẫn đọc sơ đồ](erd-integrated-review.md)
+và 11 quan hệ có khóa ngoại trong migration 001–004. [Hướng dẫn đọc sơ đồ](erd-integrated-review.md)
 ghi lực lượng, các quy tắc do API thực thi và tình trạng thiết kế kiểm kê/cảnh báo.
 [Bàn giao nghiệm thu ngày 16/11/2026](../handoffs/a-acceptance-2026-11-16.md) lưu bối cảnh
 bản ghép trước và đầu vào review tại thời điểm đó.
