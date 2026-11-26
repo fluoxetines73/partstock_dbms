@@ -47,7 +47,7 @@ Restore vào đích lab sạch đạt trên **MySQL 8.4.13/InnoDB** và **MongoD
 Nguồn và đích khớp đủ sáu giá trị trong bảng. `mongorestore` ghi nhận **5 document, 0 lỗi**.
 Hải chạy trong môi trường cô lập từ image đã ghim của PartStock. Bước chạy lại Docker Compose
 trên máy thành viên thứ hai còn chờ kiểm chứng. Báo cáo của Hải ghi kết quả đối chiếu nghiệp vụ.
-[Kết quả Role E](../../experiments/concurrency/README-Role-E-Progress.md) · [Theo dõi môi trường](../../KIEM-TRA.md)
+[Log restore MySQL](../../experiments/concurrency/evidence/restore-mysql.log) · [Log restore MongoDB](../../experiments/concurrency/evidence/restore-mongodb.log) · [Theo dõi môi trường](../../KIEM-TRA.md)
 
 ## 3.7.3. Kết luận và giới hạn
 

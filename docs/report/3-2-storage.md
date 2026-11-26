@@ -49,7 +49,7 @@ xóa; không suy diễn rằng mọi lần xóa đều trả dung lượng ngay 
 Metadata hai hệ khác nghĩa và model khác cách tổ chức. Payload lặp có khả năng nén cao;
 các số này không đại diện phân bố dữ liệu thực, không chứng minh hệ nào tiết kiệm hơn nói chung.
 Không chạy compact/OPTIMIZE, không đo volume đầy đủ, journal, fragmentation toàn hệ hoặc tốc độ.
-Kết quả có một lượt chính thức trên một máy; chưa được B review hoặc người khác tái tạo.
+Tuấn đã [chạy lại năm pha và review Storage](../reviews/b-uc01-storage-2026-11-23.md) trên cả hai hệ. [PR #10](https://github.com/fluoxetines73/partstock_dbms/pull/10) đã sửa phép đối chiếu SKU và tên sản phẩm trên MySQL theo góp ý của Tuấn.
 
 Từ gốc repo, bật hai dịch vụ lab rồi chạy `node experiments/storage/run.cjs`.
 Khi demo: giải thích hai model → chỉ pha 1.000/5.000 → giải thích mở rộng mô tả →
