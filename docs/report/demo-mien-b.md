@@ -98,7 +98,7 @@ Get-Content -Raw ./experiments/backup-restore/mongodb.sh | docker @compose exec 
 
 Chỉ ra kết quả độc lập của Hải ngày 16/11. Cả hai hệ **PASS** khi đối chiếu đích lab sạch.
 Lượt đó dùng môi trường cô lập từ image đã ghim. Kiểm chứng Docker Compose trên máy thành viên
-thứ hai vẫn đang chờ. [Mục 3.7](3-7-backup-restore.md) · [Kết quả Role E](../../experiments/concurrency/README-Role-E-Progress.md)
+thứ hai vẫn đang chờ. [Mục 3.7](3-7-backup-restore.md) · [Log restore MySQL](../../experiments/concurrency/evidence/restore-mysql.log) · [Log restore MongoDB](../../experiments/concurrency/evidence/restore-mongodb.log)
 
 ## Tổng duyệt local ngày 23/11/2026
 
