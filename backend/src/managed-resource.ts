@@ -41,6 +41,7 @@ export function managedResourceRouter<Create, Patch, Item>(
   parseCreate: (body: unknown) => Create | undefined,
   parsePatch: (body: unknown) => Patch | undefined,
   conflictCode?: string,
+  additionalRoutes?: Router,
 ) {
   const router = Router();
   router.use(requireManager(managerToken));
@@ -82,6 +83,7 @@ export function managedResourceRouter<Create, Patch, Item>(
     }
     response.json(item);
   });
+  if (additionalRoutes) router.use(additionalRoutes);
   const onError: ErrorRequestHandler = (error, _request, response, _next) => {
     if (error?.code === 'ER_DUP_ENTRY' && conflictCode) {
       response.status(409).json({ error: { code: conflictCode } });

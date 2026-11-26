@@ -89,12 +89,12 @@ async function main() {
     await admin.query(`CREATE DATABASE ${schema}`);
     created = true;
     await admin.query(`USE ${schema}`);
-    assert.deepEqual(await applyMigrations(admin), ['001_catalogs.sql', '002_products_suppliers.sql', '003_inventory_documents.sql']);
+    assert.deepEqual(await applyMigrations(admin), ['001_catalogs.sql', '002_products_suppliers.sql', '003_inventory_documents.sql', '004_inventory_low_threshold.sql']);
     for (const file of ['001_catalogs.sql', '002_products_suppliers.sql']) {
       await admin.query(readFileSync(resolve(__dirname, '../../database/seed', file), 'utf8'));
     }
     assert.deepEqual(await applyMigrations(admin), []);
-    console.log('PASS: setup applied 001–003 on a fresh lab schema and skipped all three on rerun.');
+    console.log('PASS: setup applied 001–004 on a fresh lab schema and skipped all four on rerun.');
 
     database = createDatabase({ ...options, database: schema });
     const token = randomBytes(24).toString('hex');
@@ -132,13 +132,15 @@ async function main() {
     };
     const product = await request('/products', 201, 'POST', productInput);
     assert.match(product.id, /^[1-9]\d*$/);
-    assert.deepEqual(product, { id: product.id, status: 'ACTIVE', ...productInput });
+    assert.deepEqual(product, { id: product.id, status: 'ACTIVE', low_threshold: null, ...productInput });
     const [inventory] = await admin.execute('SELECT quantity_on_hand FROM inventory WHERE product_id = ?', [product.id]);
     assert.deepEqual(inventory, [{ quantity_on_hand: 0 }]);
     console.log('PASS: POST /api/products creates exactly one inventory row with quantity 0.');
     const productPath = '/products/' + product.id;
+    assert.deepEqual(await request(productPath + '/low-threshold', 200, 'PUT', { low_threshold: 9 }),
+      { product_id: product.id, low_threshold: 9 });
     const updatedProduct = await request(productPath, 200, 'PATCH', { selling_price: 470000 });
-    assert.deepEqual(updatedProduct, { ...product, selling_price: 470000 });
+    assert.deepEqual(updatedProduct, { ...product, selling_price: 470000, low_threshold: 9 });
     assert.deepEqual(await request(productPath, 200, 'PATCH', { selling_price: 470000 }), updatedProduct);
     assert.deepEqual(
       await request(productPath, 200, 'PATCH', { specifications: null }),

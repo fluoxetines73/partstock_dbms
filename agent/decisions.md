@@ -337,3 +337,7 @@ trạng thái và liên kết biên bản/PR. Không biến đề xuất thành 
   để ghi hiện trạng, giữ nguyên tiêu chí nghiệm thu trong plan.
 - Nhóm thử một lượt cập nhật theo gói trong Sprint 3 rồi chốt có dùng bảng cho các đợt sau.
   Trạng thái hiện tại là đề xuất đang thử. Xem [cách cập nhật](../CONTRIBUTING.md#pilot-bảng-tiến-độ).
+
+## UC10 · Ngưỡng tồn theo linh kiện
+
+Đạt xác nhận đã thống nhất với nhóm. Dùng `inventory.low_threshold`, số nguyên không âm, mặc định NULL cho cả dòng tồn đã có và dòng mới. NULL biểu thị chưa cấu hình. 0 là ngưỡng hợp lệ. Cảnh báo khi tồn nhỏ hơn ngưỡng. Nhân viên và Quản lý được xem. Chỉ Quản lý được đặt, đổi hoặc bỏ ngưỡng. Chỉnh ngưỡng giữ nguyên số lượng tồn và sổ biến động. Quyết định này chốt phần UC10 của Q05.

@@ -17,6 +17,18 @@ function date(value: unknown): value is string {
 
 export function createQueryStore(pool: Pool) {
   return {
+    async stockAlerts() {
+      const [rows] = await pool.execute<RowDataPacket[]>(`
+        SELECT CAST(i.product_id AS CHAR) AS product_id, p.sku, p.name,
+               i.quantity_on_hand, i.low_threshold
+        FROM inventory i JOIN products p ON p.id = i.product_id
+        WHERE i.quantity_on_hand < i.low_threshold OR i.low_threshold IS NULL
+        ORDER BY i.product_id`);
+      return {
+        alerts: rows.filter(row => row.low_threshold !== null),
+        unconfigured: rows.filter(row => row.low_threshold === null),
+      };
+    },
     async facets() {
       const [categories] = await pool.execute<RowDataPacket[]>('SELECT CAST(id AS CHAR) AS id, name FROM categories ORDER BY name');
       const [brands] = await pool.execute<RowDataPacket[]>('SELECT CAST(id AS CHAR) AS id, name FROM brands ORDER BY name');
@@ -99,6 +111,9 @@ export function createQueryStore(pool: Pool) {
 export function queryRouter(store: ReturnType<typeof createQueryStore>, managerToken?: string, staffToken?: string) {
   const router = Router();
   const requireSearchAccess = requireAccess(managerToken, staffToken);
+  router.get('/stock-alerts', requireSearchAccess, async (_req, res) => {
+    res.json(await store.stockAlerts());
+  });
   router.get('/product-search/facets', requireSearchAccess, async (_req, res) => {
     res.json(await store.facets());
   });

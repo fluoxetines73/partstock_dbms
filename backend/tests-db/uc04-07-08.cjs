@@ -59,10 +59,18 @@ async function main() {
     await admin.query(`CREATE DATABASE ${schema}`);
     created = true;
     await admin.query(`USE ${schema}`);
-    await applyMigrations(admin);
-    for (const file of ['001_catalogs.sql', '002_products_suppliers.sql', '003_inventory_documents.sql']) {
-      await admin.query(readFileSync(resolve(__dirname, '../../database/seed', file), 'utf8'));
+    // Upgrade a populated 003 schema, including the existing document/ledger history.
+    const initialFiles = ['001_catalogs.sql', '002_products_suppliers.sql', '003_inventory_documents.sql'];
+    for (const directory of ['mysql/migrations', 'seed']) {
+      for (const file of initialFiles) {
+        await admin.query(readFileSync(resolve(__dirname, '../../database', directory, file), 'utf8'));
+      }
     }
+    assert.deepEqual(await applyMigrations(admin), ['004_inventory_low_threshold.sql']);
+    const [[initialStock]] = await admin.query('SELECT COUNT(*) AS rows_total, COUNT(low_threshold) AS configured FROM inventory');
+    assert.ok(Number(initialStock.rows_total) > 0);
+    assert.equal(Number(initialStock.configured), 0);
+    await assert.rejects(admin.query('UPDATE inventory SET low_threshold = -1'), { code: 'ER_CHECK_CONSTRAINT_VIOLATED' });
     database = createDatabase({ ...options, database: schema, multipleStatements: false, connectionLimit: 10 });
     const staff = randomBytes(24).toString('hex');
     const manager = randomBytes(24).toString('hex');
@@ -353,6 +361,57 @@ async function main() {
     assert.equal(revenue.revenue_vnd, expected.revenue);
     assert.ok(Number(revenue.revenue_vnd) > 0, 'orders confirmed today are counted; the cancelled one is not');
     console.log('PASS: UC06 stock and UC11 revenue read the real tables written by UC04/07/08.');
+
+    // UC10: the same real documents must drive alerts, independently of threshold writes.
+    const item = await ok('POST', '/products', manager, {
+      sku: 'RAM-UC10', name: 'Threshold acceptance', category_id: String(parent.category_id),
+      brand_id: String(parent.brand_id), selling_price: 100,
+    }, 201);
+    const setting = `/products/${item.id}/low-threshold`;
+    const list = token => ok('GET', '/stock-alerts', token, undefined, 200);
+    const forItem = rows => rows.find(row => row.product_id === item.id);
+    const movements = () => count('stock_movements', `product_id = ${item.id}`);
+    await call('GET', '/stock-alerts', undefined, undefined, 401);
+    const initial = await list(staff);
+    assert.equal(forItem(initial.unconfigured).low_threshold, null);
+    assert.equal(forItem(initial.alerts), undefined);
+    await call('PUT', setting, staff, { low_threshold: 9 }, 403);
+    await call('PUT', setting, undefined, { low_threshold: 9 }, 401);
+    await call('PUT', '/products/999999/low-threshold', manager, { low_threshold: 9 }, 404);
+    for (const value of [0, 0, 2147483647, 9]) {
+      const updated = await ok('PUT', setting, manager, { low_threshold: value }, 200);
+      assert.deepEqual(updated, { product_id: item.id, low_threshold: value });
+      if (value === 0) {
+        const result = await list(manager);
+        assert.equal(forItem(result.unconfigured), undefined);
+        assert.equal(forItem(result.alerts), undefined);
+      }
+    }
+    for (const payload of [{}, { low_threshold: 1, extra: true }, ...[-1, 0.5, '9', false, 2147483648].map(value => ({ low_threshold: value }))]) {
+      await call('PUT', setting, manager, payload, 400);
+    }
+    assert.equal(await movements(), 0);
+    assert.deepEqual(await applyMigrations(admin), []);
+    assert.equal(forItem((await list(staff)).alerts).low_threshold, 9);
+    const uc10Receipt = await ok('POST', '/purchase-receipts', staff, {
+      supplier_id: supplierA, lines: [{ product_id: item.id, quantity: 9, unit_cost: 1 }],
+    }, 201);
+    await call('POST', `/purchase-receipts/${uc10Receipt.id}/confirm`, staff, undefined, 200);
+    assert.equal(await stockOf(item.sku), 9);
+    assert.equal(forItem((await list(staff)).alerts), undefined);
+    const uc10Sale = await ok('POST', '/sales-orders', staff, { lines: [{ product_id: item.id, quantity: 1 }] }, 201);
+    await call('POST', `/sales-orders/${uc10Sale.id}/confirm`, staff, undefined, 200);
+    const low = forItem((await list(staff)).alerts);
+    assert.deepEqual([low.sku, low.quantity_on_hand, low.low_threshold], [item.sku, 8, 9]);
+    await call('POST', `/sales-orders/${uc10Sale.id}/cancel`, manager, { reason: 'Hoan hang' }, 200);
+    await call('POST', `/sales-orders/${uc10Sale.id}/cancel`, manager, { reason: 'Gui lai' }, 409);
+    assert.equal(forItem((await list(manager)).alerts), undefined);
+    await call('PUT', setting, manager, { low_threshold: null }, 200);
+    assert.equal(forItem((await list(staff)).unconfigured).quantity_on_hand, 9);
+    assert.equal(await movements(), 3);
+    await checkInvariants('after UC10');
+    console.log('PASS: UC10 migrated populated inventory, enforced threshold and roles, preserved ledger, followed stock 9 → 8 → 9.');
+
   } finally {
     if (server) await new Promise(resolveClose => server.close(resolveClose));
     if (database) await database.close();

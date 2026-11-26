@@ -100,3 +100,8 @@ và xóa nháp, bán rồi Nhân viên bị từ chối khi hủy và Quản lý
 Server test (`backend/tests-db/ui-server.cjs`) giờ nạp thêm migration/seed 003 và mở các route của D, nên test tra cứu của C đọc tồn thật
 thay vì fixture. 17/11/2026: **12/12 test trình duyệt đạt** (5 UC01, 4 D, 3 C) và build Vite đạt, trên Windows với Chromium qua
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. Chưa kiểm tra ảnh responsive riêng cho hai trang mới.
+
+
+## UC10 · Cảnh báo tồn kho
+
+Áp migration 004 theo [hướng dẫn database](../database/mysql/README.md#chạy-migration). Nhân viên mở **Cảnh báo tồn kho** và kết nối bằng mã nhân viên để xem linh kiện dưới ngưỡng và linh kiện chưa cấu hình. Quản lý kết nối từ **Danh mục**, chuyển sang **Cảnh báo tồn kho**, chọn SKU, nhập ngưỡng rồi lưu. Để trống để bỏ ngưỡng. Sau khi bán hoặc hủy đơn ở phiên khác, bấm **Tải lại** để đọc tồn mới.

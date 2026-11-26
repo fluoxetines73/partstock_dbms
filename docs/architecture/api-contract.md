@@ -12,10 +12,11 @@ chuỗi số dương. Chi tiết A/B xem [backend README](../../backend/README.m
 | UC07 | `GET/POST /api/sales-orders`, `GET/PUT/DELETE /api/sales-orders/:id`, `POST /api/sales-orders/:id/confirm`. | Nhân viên, Quản lý |
 | UC08 | `POST /api/sales-orders/:id/cancel` với `{reason}`. | Quản lý |
 | UC05–06 | `GET /api/product-search`, `GET /api/product-search/facets`. | Nhân viên, Quản lý |
+| UC10 | `GET /api/stock-alerts` · `PUT /api/products/:id/low-threshold` | Nhân viên và Quản lý xem; Quản lý ghi |
 | UC11 | `GET /api/revenue?from=2026-11-01&to=2026-12-01`. | Quản lý |
 
 UC04/07/08 theo [F03/F04](f03-quy-tac-chung-tu-kho.md), chi tiết ở mục dưới.
-UC09/10/12 có [kịch bản lab E](../../experiments/concurrency/README.md); hợp đồng
+UC09/12 có [kịch bản lab E](../../experiments/concurrency/README.md); hợp đồng
 HTTP chờ E bàn giao. A và các miền cần thống nhất phiên dùng chung.
 
 ## UC02 · Ngừng kinh doanh linh kiện
@@ -66,7 +67,7 @@ Lỗi trả `{error:{code,message}}`. 400 nếu tham số sai, 401 thiếu mã t
 hình. Thiếu bảng/cột phụ thuộc trả 503 `QUERY_SCHEMA_UNAVAILABLE` và lỗi truy
 vấn khác trả 500 `QUERY_FAILED`. Phản hồi không chứa lỗi SQL.
 
-`APP_STAFF_TOKEN` chỉ mở UC05–06. Quản lý dùng `APP_MANAGER_TOKEN` hiện tại.
+Trong nhóm API truy vấn, `APP_STAFF_TOKEN` mở UC05–06 và xem cảnh báo UC10. Quản lý dùng `APP_MANAGER_TOKEN` hiện tại.
 Đặt hai giá trị khác nhau trong `.env.docker` local, rồi khởi động lại backend.
 
 ## UC04 · UC07 · UC08 · Phiếu nhập, đơn bán, hủy
@@ -115,3 +116,9 @@ Danh sách nhận `status`, `limit` (mặc định 50, tối đa 200) và `offse
 
 `POST /api/products` (UC02) tạo thêm dòng tồn bằng 0 trong cùng transaction. Mốc `confirmed_at`, `cancelled_at` và
 `occurred_at` của biến động lưu theo giờ Việt Nam (+07:00) không phụ thuộc múi giờ máy chủ MySQL. Tiền và tổng là chuỗi số nguyên VND.
+
+## UC10 · Cảnh báo tồn thấp
+
+`GET /api/stock-alerts` dành cho Nhân viên và Quản lý. Phản hồi gồm hai mảng `alerts` (tồn nhỏ hơn ngưỡng) và `unconfigured` (ngưỡng NULL). Mỗi dòng gồm `product_id` dạng chuỗi, `sku`, `name`, `quantity_on_hand` và `low_threshold`. Khi tồn bằng ngưỡng, sản phẩm không xuất hiện trong danh sách cảnh báo.
+
+Quản lý gửi `PUT /api/products/:id/low-threshold` với JSON `{"low_threshold":9}` để đặt ngưỡng hoặc `{"low_threshold":null}` để bỏ ngưỡng. Giá trị hợp lệ từ 0 đến 2147483647. Khi thành công, API trả 200 cùng `product_id` và `low_threshold`. Nhân viên gửi PUT nhận 403.

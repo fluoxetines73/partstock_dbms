@@ -1,4 +1,5 @@
-import type { Pool, RowDataPacket } from 'mysql2/promise';
+import { Router } from 'express';
+import type { Pool, PoolConnection, RowDataPacket } from 'mysql2/promise';
 import { isId } from './management.js';
 import { isObject, managedResourceRouter, requiredText, writeAndRead } from './managed-resource.js';
 
@@ -24,14 +25,29 @@ interface ProductRow extends RowDataPacket {
   brand_id: string;
   specifications: Record<string, unknown> | null;
   selling_price: string;
+  low_threshold: number | null;
   status: 'ACTIVE' | 'DISCONTINUED';
 }
 
-const selectProducts = `
-  SELECT CAST(p.id AS CHAR) AS id, p.sku, p.name,
+const productColumns = `CAST(p.id AS CHAR) AS id, p.sku, p.name,
          CAST(p.category_id AS CHAR) AS category_id, CAST(p.brand_id AS CHAR) AS brand_id,
-         p.specifications, p.selling_price, p.status
-  FROM products AS p`;
+         p.specifications, p.selling_price, p.status`;
+
+async function readProducts(db: Pool | PoolConnection, clause: string, values: string[] = []) {
+  try {
+    const [rows] = await db.execute<ProductRow[]>(`
+      SELECT ${productColumns}, i.low_threshold FROM products p
+      LEFT JOIN inventory i ON i.product_id = p.id ${clause}`, values);
+    return rows;
+  } catch (error) {
+    // Support catalog reads before migrations 003 (inventory) and 004 (thresholds).
+    const code = (error as { code?: string }).code;
+    if (code !== 'ER_NO_SUCH_TABLE' && code !== 'ER_BAD_FIELD_ERROR') throw error;
+    const [rows] = await db.execute<ProductRow[]>(`
+      SELECT ${productColumns}, NULL AS low_threshold FROM products p ${clause}`, values);
+    return rows;
+  }
+}
 
 function toProduct(row: ProductRow) {
   return { ...row, selling_price: Number(row.selling_price) };
@@ -89,7 +105,7 @@ function productValue(input: ProductPatch, field: ProductField) {
 export function createProductStore(pool: Pool) {
   return {
     async list() {
-      const [rows] = await pool.execute<ProductRow[]>(`${selectProducts} ORDER BY p.id`);
+      const rows = await readProducts(pool, 'ORDER BY p.id');
       return rows.map(toProduct);
     },
     async create(input: ProductInput) {
@@ -100,8 +116,17 @@ export function createProductStore(pool: Pool) {
         );
         // F03 Q6: every product has exactly one stock row from the start, so stock updates never need an upsert.
         await connection.execute('INSERT INTO inventory (product_id, quantity_on_hand) VALUES (LAST_INSERT_ID(), 0)');
-        const [[row]] = await connection.execute<ProductRow[]>(`${selectProducts} WHERE p.id = LAST_INSERT_ID()`);
+        const [row] = await readProducts(connection, 'WHERE p.id = LAST_INSERT_ID()');
         return toProduct(row!);
+      });
+    },
+    async setLowThreshold(id: string, lowThreshold: number | null) {
+      return writeAndRead(pool, async connection => {
+        await connection.execute('UPDATE inventory SET low_threshold = ? WHERE product_id = ?', [lowThreshold, id]);
+        const [[row]] = await connection.execute<RowDataPacket[]>(
+          'SELECT CAST(product_id AS CHAR) AS product_id, low_threshold FROM inventory WHERE product_id = ?', [id],
+        );
+        return row ?? null;
       });
     },
     async update(id: string, input: ProductPatch) {
@@ -111,7 +136,7 @@ export function createProductStore(pool: Pool) {
           `UPDATE products SET ${fields.map(field => `${field} = ?`).join(', ')} WHERE id = ?`,
           [...fields.map(field => productValue(input, field)), id],
         );
-        const [[row]] = await connection.execute<ProductRow[]>(`${selectProducts} WHERE p.id = ?`, [id]);
+        const [row] = await readProducts(connection, 'WHERE p.id = ?', [id]);
         return row ? toProduct(row) : null;
       });
     },
@@ -119,5 +144,29 @@ export function createProductStore(pool: Pool) {
 }
 
 export function productRouter(store: ReturnType<typeof createProductStore>, managerToken?: string) {
-  return managedResourceRouter(store, managerToken, parseProductCreate, parseProductPatch, 'SKU_CONFLICT');
+  const routes = Router();
+  routes.put('/:id/low-threshold', async (request, response) => {
+    const id = request.params.id;
+    if (!request.is('application/json')) {
+      response.status(415).json({ error: { code: 'UNSUPPORTED_MEDIA_TYPE' } });
+      return;
+    }
+    const body: unknown = request.body;
+    if (!isId(id) || !isObject(body) || Object.keys(body).length !== 1 || !Object.hasOwn(body, 'low_threshold')) {
+      response.status(400).json({ error: { code: 'VALIDATION_ERROR' } });
+      return;
+    }
+    const threshold = body.low_threshold;
+    if (threshold !== null && (typeof threshold !== 'number' || !Number.isInteger(threshold) || threshold < 0 || threshold > 2_147_483_647)) {
+      response.status(400).json({ error: { code: 'VALIDATION_ERROR' } });
+      return;
+    }
+    const result = await store.setLowThreshold(id, threshold);
+    if (!result) {
+      response.status(404).json({ error: { code: 'NOT_FOUND' } });
+      return;
+    }
+    response.json(result);
+  });
+  return managedResourceRouter(store, managerToken, parseProductCreate, parseProductPatch, 'SKU_CONFLICT', routes);
 }

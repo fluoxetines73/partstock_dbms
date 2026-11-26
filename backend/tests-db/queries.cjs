@@ -67,7 +67,7 @@ async function main() {
     await get('revenue?from=2026-02-30&to=2026-12-01', manager, 400);
 
     // Migration 003 backfills a zero stock row for the already-seeded products.
-    assert.deepEqual(await applyMigrations(admin), ['003_inventory_documents.sql']);
+    assert.deepEqual(await applyMigrations(admin), ['003_inventory_documents.sql', '004_inventory_low_threshold.sql']);
     assert.equal((await get('product-search?q=ram-kin-08', staff)).items[0].quantity_on_hand, 0);
     assert.deepEqual(await get(period, manager), { from: '2026-11-01', to: '2026-12-01', revenue_vnd: '0', order_count: '0' });
     // Read fixtures written straight into D's real tables, scoped to this disposable lab schema.
