@@ -1,8 +1,8 @@
 partstockStatus.C = {
-  stage: "fix",
-  updated: "2026-11-25",
-  summary: "UC05–06–11 và lab Query đã có trên main. Đạt review ngày 24/11: UC11 không hiện kỳ đang xem nên số tiền có thể lệch kỳ sau khi đổi ngày; hợp đồng API ghi thiếu quyền nhập/bán của Nhân viên.",
-  next: "Hiện kỳ từ response.from/to, thêm ca Playwright đổi kỳ, sửa hợp đồng API và gửi chương 3.4 để ghép PDF.",
+  stage: "review",
+  updated: "2026-11-28",
+  summary: "Đã hiển thị kỳ UC11 từ phản hồi, thêm ca browser và cập nhật hợp đồng API cùng bằng chứng tám thao tác. Lab Query khớp baseline trên MySQL và MongoDB.",
+  next: "Đạt kiểm lại bản sửa. A/C/D chốt doanh thu khi hủy khác kỳ. Ghép chương 3.4 vào PDF.",
   links: [
     { label: "Bàn giao C", path: "../handoffs/c-sprint1-2.md" },
     { label: "Kết quả Query", path: "../report/3-4-query-processing.md" },

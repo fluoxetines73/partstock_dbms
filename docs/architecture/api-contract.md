@@ -1,6 +1,6 @@
 # API PartStock — hợp nhất để review
 
-C cập nhật 16/11/2026, A review. API dùng JSON, Bearer token local và ID là
+C cập nhật 28/11/2026, gửi A kiểm lại. API dùng JSON, Bearer token local và ID là
 chuỗi số dương. Chi tiết A/B xem [backend README](../../backend/README.md).
 
 | UC | Endpoint hiện có | Quyền local |
@@ -9,9 +9,9 @@ chuỗi số dương. Chi tiết A/B xem [backend README](../../backend/README.m
 | UC02 | `GET/POST /api/products`, `PATCH /api/products/:id`. Trường SKU, tên, ID danh mục/thương hiệu, thông số và giá nguyên VND. | Quản lý |
 | UC03 | `GET/POST /api/suppliers`, `PATCH /api/suppliers/:id`. Trường tên, điện thoại, email. | Quản lý |
 | UC04 | `GET/POST /api/purchase-receipts`, `GET/PUT/DELETE /api/purchase-receipts/:id`, `POST /api/purchase-receipts/:id/confirm`, `GET /api/purchase-receipts/suppliers`. | Nhân viên, Quản lý |
+| UC05–06 | `GET /api/product-search`, `GET /api/product-search/facets`. | Nhân viên, Quản lý |
 | UC07 | `GET/POST /api/sales-orders`, `GET/PUT/DELETE /api/sales-orders/:id`, `POST /api/sales-orders/:id/confirm`. | Nhân viên, Quản lý |
 | UC08 | `POST /api/sales-orders/:id/cancel` với `{reason}`. | Quản lý |
-| UC05–06 | `GET /api/product-search`, `GET /api/product-search/facets`. | Nhân viên, Quản lý |
 | UC10 | `GET /api/stock-alerts` · `PUT /api/products/:id/low-threshold` | Nhân viên và Quản lý xem; Quản lý ghi |
 | UC11 | `GET /api/revenue?from=2026-11-01&to=2026-12-01`. | Quản lý |
 
@@ -28,6 +28,13 @@ bản ghi đã cập nhật, kể cả khi gửi lặp. `POST /api/products` dù
 Linh kiện vẫn có trong `GET /api/products` và chứng từ cũ. Thao tác giữ nguyên tồn kho và
 sổ biến động. UC04/07 từ chối thêm hoặc xác nhận nháp chứa linh kiện này. UC08 vẫn cho
 hủy đơn đã xác nhận và hoàn tồn theo luồng hiện có.
+
+## UC03 · Nhà cung cấp
+
+`POST /api/suppliers` yêu cầu `name` và nhận `phone`, `email` tùy chọn. `PATCH`
+chỉ cập nhật trường được gửi. Gửi `null` để xóa giá trị điện thoại hoặc email.
+`GET /api/purchase-receipts/suppliers` cho Nhân viên và Quản lý lấy danh sách
+chọn khi nhập kho. Quy tắc xóa/ngừng sử dụng còn theo [Q01](../../agent/decisions.md#q01-nha-cung-cap).
 
 ## UC05–06 · Tra cứu
 
@@ -52,8 +59,9 @@ thiếu dòng tồn của một sản phẩm, tồn của sản phẩm đó là 
 
 ## UC11 · Doanh thu
 
-`from` và `to` là ngày lịch `YYYY-MM-DD` với `from < to`. Đề xuất ghi
-`confirmed_at` theo giờ Việt Nam như F03 và truy vấn biên `[from, to)`.
+`from` và `to` là ngày lịch `YYYY-MM-DD` với `from < to`. Migration 003 và
+API chứng từ dùng `confirmed_at` theo giờ Việt Nam (+07:00). Truy vấn dùng biên
+`[from, to)`, và UI hiển thị kỳ từ hai trường trong phản hồi.
 Triển khai thử dùng phương án A của F03: cộng `quantity × unit_price` của đơn
 đang CONFIRMED, nên hủy làm thay đổi doanh thu kỳ gốc. A/C/D cần xác nhận
 trước nghiệm thu. Tổng tiền và đếm đơn là chuỗi. Kỳ rỗng trả `"0"` cho cả hai.
@@ -67,8 +75,10 @@ Lỗi trả `{error:{code,message}}`. 400 nếu tham số sai, 401 thiếu mã t
 hình. Thiếu bảng/cột phụ thuộc trả 503 `QUERY_SCHEMA_UNAVAILABLE` và lỗi truy
 vấn khác trả 500 `QUERY_FAILED`. Phản hồi không chứa lỗi SQL.
 
-Trong nhóm API truy vấn, `APP_STAFF_TOKEN` mở UC05–06 và xem cảnh báo UC10. Quản lý dùng `APP_MANAGER_TOKEN` hiện tại.
-Đặt hai giá trị khác nhau trong `.env.docker` local, rồi khởi động lại backend.
+Trong nhóm API truy vấn, `APP_STAFF_TOKEN` cho phép tra cứu/lọc UC05–06 và đọc cảnh báo UC10.
+Mã này cũng mở các endpoint nhập và bán UC04/07 trong bảng quyền. Dùng `APP_MANAGER_TOKEN` cho
+UC01–03, hủy đơn UC08, cập nhật ngưỡng UC10 và báo cáo UC11. Đặt hai giá trị khác nhau
+trong `.env.docker` local, rồi khởi động lại backend.
 
 ## UC04 · UC07 · UC08 · Phiếu nhập, đơn bán, hủy
 

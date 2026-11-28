@@ -4,6 +4,10 @@ import { queryRequest } from './query-api.js';
 const money = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
 const emptyFilters = { q: '', category_id: '', brand_id: '', min_price: '', max_price: '', stock: '' };
 
+function formatDate(value) {
+  return value.split('-').reverse().join('/');
+}
+
 export function QueryPage({ managerToken, revenue }) {
   const [mock, setMock] = useState(false);
   const [staffToken, setStaffToken] = useState('');
@@ -111,8 +115,9 @@ export function QueryPage({ managerToken, revenue }) {
     {busy && <p role="status">Đang tải…</p>}
     {(error || facetError) && <p className="error" role="alert">{error || facetError}</p>}
     {response && revenue && <section aria-label="Kết quả doanh thu">
+      <p>Kỳ báo cáo từ <time dateTime={response.from}>{formatDate(response.from)}</time> đến trước <time dateTime={response.to}>{formatDate(response.to)}</time>.</p>
       <h2>{money.format(BigInt(response.revenue_vnd))}</h2>
-      <p>{response.order_count} đơn đã xác nhận trong khoảng đã chọn.</p>
+      <p>{response.order_count} đơn đã xác nhận trong kỳ này.</p>
     </section>}
     {response && !revenue && <>
       {!response.stock_available && <p>Chưa có dữ liệu tồn kho.</p>}

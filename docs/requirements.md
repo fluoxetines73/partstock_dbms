@@ -16,13 +16,13 @@ Xem [bàn giao A](handoffs/a-acceptance-2026-11-16.md).
 | UC02 | Quản lý linh kiện, thông số, giá bán | B | Có UI/API xem, thêm, sửa, ngừng kinh doanh. Khi thêm, API tạo dòng tồn bằng `0` cùng giao dịch. Chờ review — [demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) |
 | UC03 | Quản lý nhà cung cấp | B | Có UI/API xem, thêm, sửa. Còn quy tắc xóa/ngừng sử dụng và review — [demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) |
 | UC04 | Tạo/xác nhận phiếu nhập và tăng tồn kho | D | Đã làm UI–API–MySQL, chờ review E: tạo/sửa/xóa nháp, xác nhận cộng tồn đúng một lần. [Bàn giao D](handoffs/d-sprint2.md) · [test](../backend/tests-db/uc04-07-08.cjs) |
-| UC05 | Tra cứu sản phẩm theo mã/tên | C | UI/mock và API đã kiểm tra với migration A/B; chờ review A. [Bàn giao](handoffs/c-sprint1-2.md) |
-| UC06 | Lọc sản phẩm theo loại, hãng, giá, tồn kho | C | UI/mock và API đã kiểm tra; phần tồn dùng fixture lab, chờ D/E. [Bàn giao](handoffs/c-sprint1-2.md) |
+| UC05 | Tra cứu sản phẩm theo mã/tên | C | A đã chạy lại UI/API trên main ngày 24/11. [Bàn giao C](handoffs/c-sprint1-2.md) |
+| UC06 | Lọc sản phẩm theo loại, hãng, giá, tồn kho | C | Có UI/API và test với tồn từ chứng từ D. [Bàn giao C](handoffs/c-sprint1-2.md) |
 | UC07 | Tạo/xác nhận đơn bán và trừ tồn kho | D | Đã làm UI–API–MySQL, chờ review E: chốt giá lúc xác nhận, từ chối khi thiếu tồn, chống xác nhận lặp. [Bàn giao D](handoffs/d-sprint2.md) |
 | UC08 | Hủy đơn theo quy tắc và hoàn tồn kho | D | Đã làm UI–API–MySQL, chờ review E: chỉ Quản lý, bắt buộc lý do, hoàn kho đúng một lần. Quy tắc hủy là đề xuất F03 chưa được nhóm chốt. [Bàn giao D](handoffs/d-sprint2.md) |
 | UC09 | Tra cứu lịch sử nhập/xuất/tồn | E | Chưa triển khai / chưa có |
 | UC10 | Cảnh báo tồn kho dưới ngưỡng | E | Có migration 004, API và UI. Nhân viên/Quản lý xem, Quản lý cấu hình. Chờ review nhóm. [Hợp đồng UC10](architecture/api-contract.md#uc10--cảnh-báo-tồn-thấp) · [Test HTTP và chứng từ](../backend/tests-db/uc04-07-08.cjs) |
-| UC11 | Báo cáo doanh thu theo thời gian | C | UI/mock và API kiểm tra qua fixture lab; chờ schema D, chính sách doanh thu và review A. [Bàn giao](handoffs/c-sprint1-2.md) |
+| UC11 | Báo cáo doanh thu theo thời gian | C | UI hiển thị kỳ từ API. Có ca đổi kỳ và ca UI chạy qua MySQL; có đối chiếu với đơn xác nhận qua API D. Chờ A kiểm lại và nhóm chốt cách tính sau hủy. [Bàn giao C](handoffs/c-sprint1-2.md) |
 | UC12 | Kiểm kê và điều chỉnh tồn kho có lý do | E | Chưa triển khai / chưa có |
 
 ## Quy tắc nghiệp vụ
@@ -42,14 +42,14 @@ bổ sung đường dẫn code, script/query, dữ liệu đầu vào, kết qu�
 
 | Dạng | Kịch bản dự kiến | Owner | Code/script/demo | Trạng thái |
 |---|---|---|---|---|
-| insert | Thêm sản phẩm/nhà cung cấp | B | `POST /api/products` tạo `RAM-TEST-01` giá 450.000 VND, `POST /api/suppliers` tạo nhà cung cấp mẫu. Cả hai trả `201` và xuất hiện trong GET cuối. [Integration test](../backend/tests-db/uc02-03.cjs#L75) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
+| insert | Thêm sản phẩm/nhà cung cấp | B | `POST /api/products` tạo `RAM-TEST-01` giá 450.000 VND, `POST /api/suppliers` tạo nhà cung cấp mẫu. Cả hai trả `201` và xuất hiện trong GET cuối. [Integration test](../backend/tests-db/uc02-03.cjs#L130) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
 | delete | Xóa chứng từ nháp chưa ảnh hưởng kho | D | `DELETE /api/sales-orders/:id` và `DELETE /api/purchase-receipts/:id` chỉ xóa nháp (204); chứng từ đã xác nhận trả `409`. Tồn và biến động giữ nguyên. [Integration test](../backend/tests-db/uc04-07-08.cjs) · [Playwright](../frontend/tests/documents.spec.js). Xóa danh mục/thương hiệu: [test UC01](../frontend/tests/catalog.spec.js). | Đã kiểm chứng qua HTTP → MySQL lab, chờ review E |
-| update | Đổi giá/thông số sản phẩm | B | `PATCH /api/products/:id` trả `200` khi đổi giá từ 450.000 lên 470.000 VND và khi xóa thông số bằng `null`. GET cuối đọc lại đúng hai giá trị. [Integration test](../backend/tests-db/uc02-03.cjs#L82) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
-| Điều kiện đơn | Tra cứu mã sản phẩm | C | `GET /api/product-search?q=RAM-KIN-08` trong [test](../backend/tests-db/queries.cjs) | HTTP → MySQL lab với migration A/B |
-| Điều kiện kết hợp | Loại + hãng + giá + tồn | C | `GET /api/product-search` với đủ bốn điều kiện trong [test](../backend/tests-db/queries.cjs) | HTTP → MySQL lab, tồn dùng fixture |
+| update | Đổi giá/thông số sản phẩm | B | `PATCH /api/products/:id` trả `200` khi đổi giá từ 450.000 lên 470.000 VND và khi xóa thông số bằng `null`. GET cuối đọc lại đúng hai giá trị. [Integration test](../backend/tests-db/uc02-03.cjs#L142) · [Demo](report/demo-mien-b.md#1-uc0203-qua-http-trên-mysql-lab) | Đã kiểm chứng qua HTTP → MySQL lab |
+| Điều kiện đơn | Lọc phiếu nhập theo trạng thái | D / C | `GET /api/purchase-receipts?status=CONFIRMED` dùng `WHERE r.status = ?`. Với hai phiếu đã xác nhận và một phiếu nháp, test chỉ trả về hai phiếu đã xác nhận. [SQL](../backend/src/purchases.ts#L64) · [Test](../backend/tests-db/uc04-07-08.cjs#L254) | HTTP → MySQL lab với migration 003 |
+| Điều kiện kết hợp | Loại + hãng + giá + tồn | C | `GET /api/product-search` với đủ bốn điều kiện trả đúng `RAM-KIN-08`, tồn 3. Suite D đối chiếu thêm tồn trả về sau giao dịch. [Test C](../backend/tests-db/queries.cjs) · [Test D](../backend/tests-db/uc04-07-08.cjs) | Fixture trên migration 003 và tồn qua chứng từ thật trong MySQL lab |
 | join | Đơn bán, dòng bán và sản phẩm | D / C | Chi tiết đơn join dòng–sản phẩm, chi tiết phiếu join nhà cung cấp ([sales.ts](../backend/src/sales.ts), [purchases.ts](../backend/src/purchases.ts)); doanh thu join đầu đơn/dòng ([queries.ts](../backend/src/queries.ts)) đọc dữ liệu thật của D. | Đã kiểm chứng trên bảng thật; test C chạy trên migration 003 |
-| subquery | Sản phẩm chưa từng bán | C | `GET /api/product-search?never_sold=true` và `NOT EXISTS` trong [lab](../experiments/query-processing/README.md) | HTTP → fixture MySQL và đối chiếu hai hệ |
-| aggregate | Doanh thu theo thời gian | C | `GET /api/revenue` trả 1.630.000 VND trên [fixture app](../backend/tests-db/queries.cjs) | HTTP → fixture MySQL, chờ dữ liệu D |
+| subquery | Sản phẩm chưa từng bán | C | `GET /api/product-search?never_sold=true` trả đúng `SSD-SAM-1000` chỉ có dòng đơn nháp. Lab trả 600 sản phẩm trên cả hai DBMS. [Test C](../backend/tests-db/queries.cjs) · [Lab](../experiments/query-processing/README.md) | HTTP → fixture trên migration 003 và đối chiếu hai hệ |
+| aggregate | Doanh thu theo thời gian | C | Fixture đa dòng trả 1.630.000 VND, 1 đơn cho tháng 11. Suite D tạo, xác nhận và hủy qua HTTP rồi đối chiếu tổng UC11 với chứng từ trong MySQL. [Test C](../backend/tests-db/queries.cjs) · [Test D](../backend/tests-db/uc04-07-08.cjs#L351) | Kiểm chứng với migration 003 trên MySQL lab. Chờ chốt quy tắc hủy khác kỳ. |
 
 ## Rubric và đầu ra
 

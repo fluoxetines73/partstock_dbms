@@ -6,7 +6,8 @@ Từ gốc repo, chạy `npm ci --prefix frontend` rồi `npm run dev --prefix f
 Mở Vite, chọn **Tra cứu** hoặc **Doanh thu**, rồi bật **Dùng dữ liệu mẫu** để review
 UI độc lập. Chế độ thật gọi các endpoint trong [API contract](../docs/architecture/api-contract.md).
 Nhân viên nhập mã tra cứu local. Quản lý kết nối từ **Danh mục**, sau đó chuyển màn hình.
-Ngày kết thúc báo cáo là biên loại trừ.
+Ngày kết thúc báo cáo là biên loại trừ. Khi chỉnh ô ngày, kết quả đang xem vẫn
+hiển thị kỳ của phản hồi trước đó cho đến khi gửi yêu cầu mới.
 
 Giao diện dùng React/Vite và CSS thuần. A phụ trách UI UC01, C phụ trách phần
 Tra cứu/Doanh thu và điều hướng chung. Phiên bản dependency được cố định
@@ -66,7 +67,7 @@ npm test
 Nếu đã có Chromium tương thích, đặt `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` tới executable
 thay bước tải trình duyệt. Cần OS có các thư viện chạy Chromium. Test tự mở localhost
 3101/5174 (phải đang rảnh), không dùng lại server sẵn có. Tạo schema lab ngẫu nhiên
-`partstock_uc01_ui_*`, nạp migration/seed 001–003 thật, dùng token test ngẫu nhiên và dọn
+`partstock_uc01_ui_*`, áp migration 001–004, nạp seed 001–003, dùng token test ngẫu nhiên và dọn
 schema khi kết thúc. Không ghi/xóa dữ liệu MySQL app hoặc reset lab chung. Hard kill hoặc
 dừng ngay khi fixture còn đang khởi tạo (trước khi server lắng nghe) có thể
 để sót schema của lượt lỗi; chỉ dọn đúng schema đó sau khi kiểm tra.

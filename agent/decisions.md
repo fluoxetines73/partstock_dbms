@@ -1,5 +1,12 @@
 # Sổ quyết định
 
+## UC11 sau hủy khác kỳ · 28/11/2026
+
+- Khánh đối chiếu đề xuất A ở F03 với truy vấn và dữ liệu từ migration 003 của Nam. Cách đang chạy cộng giá chốt của các dòng thuộc đơn hiện còn `CONFIRMED` vào kỳ có ngày xác nhận, theo giờ Việt Nam (+07:00).
+- Ví dụ trong [test HTTP](../backend/tests-db/queries.cjs): một đơn trị giá 999.999 VND xác nhận ngày 15/11 rồi hủy ngày 02/12 bị loại khi xem lại tháng 11. Tháng 12 không ghi khoản âm cho lần hủy đó. Một đơn khác xác nhận đúng 01/12 được tính vào tháng 12.
+- [Review của Đạt ngày 24/11](https://github.com/fluoxetines73/partstock_dbms/blob/c9052a9e72e0b3a5679199475bd72a0d15211800/docs/reviews/a-review-c-query-2026-11-24.md) yêu cầu gắn kỳ vào kết quả. UI lấy ngày bắt đầu và ngày kết thúc loại trừ từ phản hồi API.
+- Trạng thái: đã đối chiếu hành vi triển khai, chờ A/C/D xác nhận phương án doanh thu khi hủy khác kỳ. Câu hỏi về quyền và thời hạn hủy vẫn theo [F03](../docs/architecture/f03-quy-tac-chung-tu-kho.md).
+
 ## Hợp đồng ngừng kinh doanh linh kiện UC02 — 23/11/2026
 
 - Tuấn triển khai thao tác Quản lý qua `PATCH /api/products/:id` với `status: DISCONTINUED`,

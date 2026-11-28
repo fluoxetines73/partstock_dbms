@@ -42,3 +42,41 @@ test('C revenue mock excludes cancelled orders and rejects a reversed date range
   await page.getByRole('button', { name: 'Xem báo cáo' }).click();
   await expect(page.getByRole('alert')).toContainText('Ngày bắt đầu phải trước ngày kết thúc');
 });
+
+test('C revenue result keeps its queried period until a new period is submitted', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Doanh thu', exact: true }).click();
+  await page.getByRole('checkbox', { name: 'Dùng dữ liệu mẫu' }).check();
+  const submit = page.getByRole('button', { name: 'Xem báo cáo' });
+  const result = page.getByRole('region', { name: 'Kết quả doanh thu' });
+
+  await submit.click();
+  await expect(result).toContainText('Kỳ báo cáo từ 01/11/2026 đến trước 01/12/2026.');
+  await expect(result.getByRole('heading')).toHaveText(/2\.550\.000/);
+
+  await page.getByLabel('Từ ngày').fill('2026-12-01');
+  await page.getByLabel('Đến trước ngày').fill('2027-01-01');
+  await expect(result).toContainText('Kỳ báo cáo từ 01/11/2026 đến trước 01/12/2026.');
+  await expect(result.getByRole('heading')).toHaveText(/2\.550\.000/);
+
+  await submit.click();
+  await expect(result).toContainText('Kỳ báo cáo từ 01/12/2026 đến trước 01/01/2027.');
+  await expect(result.getByRole('heading')).toHaveText(/^0\s+₫$/);
+  await expect(result).toContainText('0 đơn đã xác nhận');
+});
+
+test('C live revenue displays the confirmed order and period from the MySQL seed', async ({ page }) => {
+  await page.goto('/');
+  await page.getByLabel('Mã truy cập quản lý').fill(process.env.E2E_MANAGER_TOKEN);
+  await page.getByRole('button', { name: 'Kết nối', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Ngắt kết nối' })).toBeVisible();
+  await page.getByRole('button', { name: 'Doanh thu', exact: true }).click();
+  await page.getByLabel('Từ ngày').fill('2026-11-05');
+  await page.getByLabel('Đến trước ngày').fill('2026-11-06');
+  await page.getByRole('button', { name: 'Xem báo cáo' }).click();
+
+  const result = page.getByRole('region', { name: 'Kết quả doanh thu' });
+  await expect(result).toContainText('Kỳ báo cáo từ 05/11/2026 đến trước 06/11/2026.');
+  await expect(result.getByRole('heading')).toHaveText(/840\.000/);
+  await expect(result).toContainText('1 đơn đã xác nhận');
+});

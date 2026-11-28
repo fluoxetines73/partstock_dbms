@@ -10,7 +10,7 @@ Bối cảnh một cửa hàng, một kho và hai vai trò. Trình bày mục ti
 
 ## 2. Ứng dụng và thiết kế
 
-Đặc tả 12 use case, kiến trúc React/Vite → Express/TypeScript → MySQL và ERD Chen từ migration 001–003. Giải thích các bất biến chứng từ, tồn và biến động qua ca nhập, bán, hủy. Đối chiếu tám dạng thao tác theo ca kiểm thử. UC09, UC10 và UC12 có minh chứng lab E, phần UI/API ứng dụng còn mở. [ERD](../architecture/erd-integrated-review.md) · [Use case](../architecture/use-cases.md) · [Bảng thao tác](draft-integrated.md#22-bằng-chứng-tám-dạng-thao-tác)
+Đặc tả 12 use case, kiến trúc React/Vite → Express/TypeScript → MySQL và ERD Chen từ migration 001–004. Giải thích các bất biến chứng từ, tồn và biến động qua ca nhập, bán, hủy. Đối chiếu tám dạng thao tác theo ca kiểm thử. UC10 có UI/API và minh chứng lab E. UC09 và UC12 hiện có minh chứng lab. [ERD](../architecture/erd-integrated-review.md) · [Use case](../architecture/use-cases.md) · [Bảng thao tác](../requirements.md#theo-dõi-8-dạng-thao-tác)
 
 ## 3. Thực nghiệm MySQL và MongoDB
 

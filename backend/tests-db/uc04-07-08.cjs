@@ -252,6 +252,9 @@ async function main() {
     const pendingReceipt = await ok('POST', '/purchase-receipts', staff, { supplier_id: supplierA, lines: [purchaseLine] }, 201);
     const willStop = await ok('POST', '/sales-orders', staff, { lines: [{ product_id: ssd1t, quantity: 1 }] }, 201);
     const receipts = await ok('GET', '/purchase-receipts?status=CONFIRMED', staff, undefined, 200);
+    assert.deepEqual(receipts.map(receipt => receipt.status), ['CONFIRMED', 'CONFIRMED']);
+    assert.ok(receipts.some(receipt => receipt.id === draft.id));
+    assert.ok(receipts.every(receipt => receipt.id !== pendingReceipt.id));
     const openingReceiptPath = `/purchase-receipts/${receipts.find(receipt => receipt.code === 'PN-20261101-000001').id}`;
     const openingReceipt = await ok('GET', openingReceiptPath, staff, undefined, 200);
     const stockBeforeStop = await stockOf('SSD-SAM-1000');

@@ -79,9 +79,10 @@ kết nối **Danh mục** bằng `APP_MANAGER_TOKEN`, để ô **Dùng dữ li�
 | **E — Hải · UC09, UC10, UC12** | Chuyển sang runner ở phần 3. Tìm theo mã chứng từ trong lịch sử kho, cho thấy cách bật/tắt cảnh báo khi tồn thay đổi và kiểm kê có lý do trong ca tranh chấp. Ba UC này có bằng chứng trên hai lab và chưa có màn hình hay route tương ứng trong app ở commit này. |
 
 Đối chiếu tám dạng thao tác qua các bước trên và test lab. Thêm linh kiện/nhà cung
-cấp, xóa nháp, đổi giá, tìm SKU và bộ lọc kết hợp thể hiện trực tiếp trong UI.
-Chi tiết chứng từ thể hiện join. `never_sold=true` qua HTTP kiểm tra truy vấn con trong
-`queries.cjs`. Doanh thu theo khoảng thời gian thể hiện aggregate. Có thể xem các
+cấp, xóa nháp, đổi giá và lọc linh kiện thể hiện trực tiếp trong UI. Mở **Nhập kho**
+và lọc **Đã xác nhận** để demo điều kiện đơn `WHERE r.status = ?`. Chi tiết chứng từ
+thể hiện join. Demo truy vấn con với `never_sold=true` qua HTTP theo [bàn giao C](../handoffs/c-sprint1-2.md#demo-phần-c).
+Doanh thu theo khoảng thời gian thể hiện aggregate. Có thể xem các
 kịch bản và kết quả từng miền ở [demo A](demo-mien-a.md), [demo B](demo-mien-b.md),
 [bàn giao C](../handoffs/c-sprint1-2.md) và [bàn giao D](../handoffs/d-sprint2.md).
 

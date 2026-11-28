@@ -29,3 +29,20 @@ và ước tính từng stage trong pipeline. Hai loại thời gian khác phạ
 phân tích dựa trên operator và lượng dữ liệu đã xử lý.
 [MySQL 8.4 EXPLAIN](https://dev.mysql.com/doc/refman/8.4/en/explain.html) ·
 [MongoDB 8.0 Explain Results](https://www.mongodb.com/docs/v8.0/reference/explain-results/).
+
+Lượt kiểm tra 28/11 trên MySQL 8.4.13 và MongoDB 8.0.34 rs0 khớp baseline và
+SHA-256 của bốn biến thể trong kết quả lưu. Các số đo thời gian ở trên thuộc
+lượt 16/11. Kịch bản trình bày và cách kiểm tra ứng dụng đi kèm nằm trong
+[bàn giao C](../handoffs/c-sprint1-2.md#demo-phần-c).
+
+## Kết luận cho PartStock
+
+MySQL phù hợp với phần báo cáo của PartStock vì dữ liệu ứng dụng đã lưu đầu
+đơn và dòng bán riêng. Truy vấn doanh thu lọc đơn theo trạng thái và ngày xác
+nhận trước, rồi dùng khóa để đọc dòng bán và cộng theo giá chốt trên chứng từ.
+Trong mô hình MongoDB của lab, doanh thu dùng dòng bán đã nhúng nên bỏ được
+bước nối này. Khi tìm linh kiện chưa từng bán từ danh sách sản phẩm, MongoDB
+vẫn cần tra đơn bằng `$lookup`. Với bộ lọc danh mục, hãng, giá và tồn, cả hai
+hệ xét 40 thay vì 2.400 bản ghi khi dùng chỉ mục đã thử. Mỗi đơn trong lab có
+một dòng và các lượt đo dùng cache đã làm nóng. Kết luận áp dụng cho mô hình
+và các truy vấn đã thử của PartStock.

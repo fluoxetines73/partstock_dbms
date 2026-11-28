@@ -75,7 +75,7 @@ async function main() {
       UPDATE inventory SET quantity_on_hand = 3 WHERE product_id = (SELECT id FROM products WHERE sku = 'RAM-KIN-08');
       INSERT INTO sales_orders (id, code, status, confirmed_at, cancelled_at, cancel_reason) VALUES
         (1, 'DB-T-1', 'CONFIRMED', '2026-11-01', NULL, NULL),
-        (2, 'DB-T-2', 'CANCELLED', '2026-11-15', '2026-11-16', 'Khach doi y'),
+        (2, 'DB-T-2', 'CANCELLED', '2026-11-15', '2026-12-02', 'Khach doi y'),
         (3, 'DB-T-3', 'CONFIRMED', '2026-12-01', NULL, NULL),
         (4, 'DB-T-4', 'DRAFT', NULL, NULL, NULL);
       INSERT INTO sales_order_lines (order_id, product_id, quantity, unit_price)
@@ -95,8 +95,11 @@ async function main() {
     assert.deepEqual(await get(period, manager), {
       from: '2026-11-01', to: '2026-12-01', revenue_vnd: '1630000', order_count: '1',
     });
+    assert.deepEqual(await get('revenue?from=2026-12-01&to=2027-01-01', manager), {
+      from: '2026-12-01', to: '2027-01-01', revenue_vnd: '999999', order_count: '1',
+    });
     assert.equal((await get('revenue?from=2027-01-01&to=2027-02-01', manager)).revenue_vnd, '0');
-    console.log('PASS: UC05/06/11 HTTP, role checks, schema unavailable, backfilled stock, combined stock filter and revenue boundaries.');
+    console.log('PASS: UC05/06/11 HTTP, role checks, schema unavailable, backfilled stock, combined filters, revenue boundaries and cross-period cancellation.');
   } finally {
     if (server) await new Promise(resolveClose => server.close(resolveClose));
     if (database) await database.close();
